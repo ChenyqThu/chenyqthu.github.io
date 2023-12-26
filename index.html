@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>居中按钮和调整iframe间距</title>
+    <title>跟踪仪表盘</title>
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -15,6 +15,14 @@
 			left: 50%;
 			transform: translateX(-50%); /* 水平居中 */
 			z-index: 2; /* 确保在iframe之上 */
+			display: none;
+			opacity: 0;
+			transition: opacity 1s ease;
+		}
+		
+		/* 当按钮容器添加了 'visible' 类时，改变透明度 */
+		.button-container.visible {
+			opacity: 1;
 		}
 
         .iframe-container {
@@ -66,6 +74,20 @@
             document.getElementById(iframeId).style.display = 'block';
             document.querySelector(`[data-target='${iframeId}']`).classList.add('active');
         }
+		
+		document.addEventListener('DOMContentLoaded', function() {
+			var buttonContainer = document.querySelector('.button-container');
+
+			var iframe = document.getElementById('iframe1');
+			iframe.onload = function() {
+				// 显示按钮容器并添加淡入效果
+				buttonContainer.style.display = 'block';
+				setTimeout(function() {
+					buttonContainer.classList.add('visible');
+				}, 150); // 延迟100毫秒
+			};
+		});
+
     </script>
 </head>
 <body>
@@ -73,7 +95,7 @@
 		<button class="button active" data-target="iframe1" onclick="switchIframe('iframe1')">工作</button><button class="button" data-target="iframe2" onclick="switchIframe('iframe2')">读书</button><button class="button" data-target="iframe3" onclick="switchIframe('iframe3')">英语</button>
 	</div>
     <div class="iframe-container">
-        <iframe id="iframe1" class="iframe" style="display: block;" src="https://lifeofdiscipline.com/notion/habit/clcgg8pg90002jk0f1ml8k3up?darkTheme=0"></iframe>
+        <iframe id="iframe1" onload="iframeLoaded()" class="iframe" style="display: block;" src="https://lifeofdiscipline.com/notion/habit/clcgg8pg90002jk0f1ml8k3up?darkTheme=0"></iframe>
         <iframe id="iframe2" class="iframe" style="display: none;" src="https://www.lifeofdiscipline.com/notion/habit/clqkqxipa0000ju0flbgnqv42?darkTheme=0"></iframe>
 		<iframe id="iframe3" class="iframe" style="display: none;" src="https://www.lifeofdiscipline.com/notion/habit/clqm4nngd0001le0fp2ritt9r?darkTheme=0"></iframe>
 	</div>
