@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Socials</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+  
+      body {
+        display: grid;
+        place-items: center;
+      }
+  
+      .wrapper {
+        padding-top: 10px;
+        display: inline-flex;
+  
+      }
+  
+      .social {
+        background-color: #eae9e9;
+        width: 55px;
+        height: 55px;
+        border-radius: 50%;
+        display: grid;
+        place-items: center;
+      }
+  
+      .icon {
+        font-size: 1.2em;
+      }
+  
+      .github:hover {
+        background-color: #3a3f42;
+      }
+  
+      .blog:hover {
+        background: rgb(241, 102, 217);
+        background: radial-gradient(circle, rgba(241, 102, 217, 1) 10%, rgba(252, 176, 69, 1) 76%, rgba(253, 29, 29, 1) 100%);
+      }
+  
+      .weibo:hover {
+        background-color: #26a7de;
+      }
+  
+      .wangyiyun:hover {
+        background-color: #ff4500;
+      }
+  
+      .zhihu:hover {
+        background-color: #4267B2;
+      }
+  
+      .youtube:hover {
+        background-color: #FF0000;
+      }
+  
+      .jike:hover {
+        background-color: #ffbd2f;
+      }
+  
+      .social {
+        position: relative;
+        margin: 10px;
+        cursor: pointer;
+      }
+  
+      .social:hover {
+        color: #fff;
+      }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+    <script>
+      function navigate(id) {
+        //if you want the URL to open in the same window use '_parent'  instead of '_blank'
+        if (id === "blog")
+          window.open("https://chenge.ink", '_blank').focus(); //Add the url to your blog
+        else if (id === "github") {
+          window.open("https://github.com/chenyqthu", '_blank').focus(); //Add the url to your facebook page or account
+        }
+        else if (id === "zhihu") {
+          window.open("https://www.zhihu.com/people/tian-xin-93-6", '_blank').focus(); //Add the url to your facebook page or account
+        }
+        else if (id === "wangyiyun") {
+          window.open("https://music.163.com/#/user/home?id=114250493", '_blank').focus(); //Add the url to your instagram account
+        }
+        else if (id === "weibo") {
+          window.open("https://weibo.com/u/1826215111", '_blank').focus(); //Add the url to your pinterest account
+        }
+        else if (id === "twitter") {
+          window.open("https://twitter.com/", '_blank').focus(); //Add the url to your pinterest account
+        }
+        else if (id === "jike") {
+          window.open("https://okjk.co/m6aYOh", '_blank').focus(); //Add the url to your reddit account
+        }
+        else if (id === "tiktok") {
+          window.open("https://www.tiktok.com/", '_blank').focus(); //Add the url to your tiktok account
+        }
+        else if (id === "youtube") {
+          window.open("https://www.youtube.com/channel/UCfgjciFOz5Q3r_vUNmm1szA", '_blank').focus(); //Add the url to your youtube account
+        }
+        else if (id === "pinterest") {
+          window.open("https://www.pinterest.com/", '_blank').focus(); //Add the url to your pinterest account
+        }
+      }
+    </script>
+</head>
+<body>
+  <div class="wrapper">
+    <div id="blog" onclick="navigate(this.id)" class="social blog">
+      <span class="icon"><i class="fa-solid fa-blog"></i></span>
+    </div>
+
+    <div id="github" onclick="navigate(this.id)" class="social github">
+      <span class="icon"><i class="fab fa-github"></i></span>
+    </div>
+    
+    <div id="wangyiyun" onclick="navigate(this.id)" class="social wangyiyun">
+      <span class="icon"><i class="fab fa-spotify"></i></span>
+    </div>
+
+    <div id="jike" onclick="navigate(this.id)" class="social jike">
+      <span class="icon"><i class="fab fa-tiktok"></i></span>
+    </div>
+
+    <div id="zhihu" onclick="navigate(this.id)" class="social zhihu">
+      <span class="icon"><i class="fab fa-zhihu"></i></span>
+    </div>
+
+    <div id="weibo" onclick="navigate(this.id)" class="social weibo">
+      <span class="icon"><i class="fab fa-weibo"></i></span>
+    </div>
+
+
+    <div id="youtube" onclick="navigate(this.id)" class="social youtube">
+      <span class="icon"><i class="fab fa-youtube"></i></span>
+    </div>
+    </div>
+  </div>
+</body></html>
