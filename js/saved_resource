@@ -1,1 +1,0 @@
-(function hitokoto(){var hitokoto="永远不要活在过去的回忆里；昨天的太阳，晒不干今天的衣裳！";var dom=document.querySelector('#hitokoto');Array.isArray(dom)?dom[0].innerText=hitokoto:dom.innerText=hitokoto;})()
