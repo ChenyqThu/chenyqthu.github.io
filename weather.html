@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>weather</title>
+    <style>
+      body{
+        display:block;
+        margin:0px;
+      }
+      /* div{
+        background : linear-gradient(-45deg,coral ,crimson,cyan,cornflowerblue,fuchsia);
+        background-size: 1000% 1000%;
+        animation: gradient 5s ease infinite;
+        padding: 10px 10px;
+        border-radius: 10px;
+      } */
+    </style>
+
+</head>
+<body>
+  <div>
+    <a class="weatherwidget-io" href="https://forecast7.com/zh/22d54114d06/shenzhen/" data-label_1="深圳" data-label_2="天气" data-font="微软雅黑 (Microsoft Yahei)" data-days="3" data-theme="mountains" >深圳 天气</a>
+    <script>
+    !function(d,s,id){
+      var js,fjs=d.getElementsByTagName(s)[0];
+      if(!d.getElementById(id)){
+        js=d.createElement(s);
+        js.id=id;
+        js.src='https://weatherwidget.io/js/widget.min.js';
+        fjs.parentNode.insertBefore(js,fjs);}
+      }(document,'script','weatherwidget-io-js');
+    </script>
+  </div>
+</body></html>
