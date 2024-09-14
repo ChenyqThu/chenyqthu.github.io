@@ -1,0 +1,260 @@
+<!--
+	此示例下载自 https://echarts.apache.org/examples/zh/editor.html?c=graph-circular-layout&code=LYTwwgFghgTgLgOgM4QPYHcAyqoBMCWAdgOYAUAlANwBQhquApkgAQC8zA5ANoDeARISjAGfAFx8AigFd8AYwDWzAMoM4UgA58ANHyQhgAI1QAbJfgBeI0QGYADDtlQ4DYqhggx9vgA8xAWgAmAFZbBAAOADYARgiQsKDrMOsAFgiAdh0PGyjkhFsg5KiigE4g2OKw22SdYygDBmMxfjoYYChG0X4UDDE4GCkGAF9hrWahKz5AbzdAVX1tXX0jUwsrOwcnFzcsqJ1fUUDk4oQy_KjbazS0sIDbUsyxZLsECLCDqtKLtKikmrqGpoE3G0Ol00Ohev0hiMxsIxHwACJQFBGWC4OZ6QwmMyWMSrPiOZyudxiAI7MRRazWBApCIHKLFCIUm5BEl8LLWCKHWxpLnWAIBL7Fc4pH71YEA1rtf7dMGiPoDYaDUYCcawpRwJz4JBwORINELTHLHFefEbImiFm7AJhQ4BB5hS6JdlBArVVliDm5VLWYrFAIcpIckV_TrioFS0Hg-VQ5Uw8QAWSgmh06MWWJWxvWhKyFvdlKtzwSyQKX1S2zdolLRxplXe1hiiSDYpaYZD0sjkMV0ImcIYADc5Ew9RiltibBmCZtiaTRHSgghbQlrs6AhSchE7hWwmEENy-Wd7UliuTXbVRf9m5LWxHZRCFUrBLG-GBjPgGIQ4Lrk_qR-m1hOzTm5rWHOdZpBEth-hUzwUq6WRBGBTyvLyUQJEE9JlqewbNICl4gj0N5Rp2MYTAAkoQSD4MQEBwEOqaGmOf6mtm07kocpS-nYARpA8wFnBuQT2juxYhBUdL2uufCYU2OFim2BEdveKriNgxCfvMw5pkajFZlOPjEvkCB0gcSRFOBiTFLB7ovDukTFGkxS2BE4EocUjbnjJ4b4XKCldqq-DOLRBqjriJo6TY07MqEEFbnEFIBPSEnZnW4SnLaHIVMkFxuSGF6yde3l3r54gAOr4DADC4MwAByqjoG48iBT-Wl4pmk7hXpNgVCl6RRMEmW2GE5JBBuvJzhyFyOVy8HJCevzSRKeVebe0YPhMpXlcYTAsDVcB1TADVfhp9Eha1ZrWBFthRdc9p2QJsQZOWcXzvSAkzb6VRDdl2ELZ5MoFStSl8AAYmVDDoO0xgAPoAIJgJgjWaQxLX_myEXgTuqQxWciRpOd5bJMEVK9bEmW8pBs1njlHlXkthGKY-ABqAAKVUI8d45MTi07RHOjkFCuBxpK9iU4mhRzJPEDI0lx5xhF9oa4bo-XLURq2wtDUhwBAb7avi-CoIQbPBRzYV47s6TblyvVoTFR7PBuDy5NxaTXJdlT3QU8u5b97aFcRqoMDA_ayIOh10cb2ltWbuZpOEzIRNc6SC3L5Yy0c7LnJ8BMHnjUnuT9NN_Sr9MTGABt9CYm0wEbv7I5z7W7JnO7vPzjnJLYKEbnyERUmB8SvYKA0PXnVMF3hRd00VfAJkQziCIQIc181oVR9OQtRAgEsS1czIJOyLJsvyeSnJlDLAYnLIj99Lbj77AOPgA4us4MgIAZ9GAKMGgCuGUvSMr2arqNwEjuF2HwKSxByHjOCjk8gXBmgJK4Fx4i5zmvnG-StaY-X9uIJQ6B_KyAgB_b-Ycgq1z_lkAB9wVxHC5GcXqVRPgH3uDcBAdsXYiSFgyMCXtqa33kn7NW4gACi0MmaEJ_idFG9xpxvSpJUNCEsGRHiuA7SI4QGHxDOEEXqURh4oNHmguS_1VaA2fK-d8YjiFNV_qdch04rSxyKFyQUAl2Tt0gTiH04QaSXUuqkUoDZJJ6OvorQxxcp4AAlUAfnUFE5gCZBDEEDuIk2bVhodRdhvYCjJnJ0ggu40QWie7MgFO3Li8V4LcLHugiemCBF8EAHR6gBKpUAIRWgB1dWSZHM0Eldj0hYTbeyFR-R8ksuaKh5N7IHEdnkypBjlaTywXwaGuBgBECQIAMljADsRoAZXlADfPh0uuYUHq7ECMyI4MRLhC1cTkK0_FeSb0SCuC48EjzIMpsExaNT-GAzMM4QAP9qACog_ZZDdLHNCBUMC8UhlWimuSEavoWFIJxhyYCsQZkhLmR2AAuhwGgL5CDyBYOwbgXRUBSBgIvcQ0g5CKBUGoJMfB1QwESTRcQMw-BESQKS8lEw2U6EZcy2ECIkQ4BgKiDlXKKVTFmHy2AArxBNLaeypUnKyWSqFRAZEoq5j8tULCdaFVqq1XqnMRgSBZAwHwOoFlfAyLOBgIQVQzAgZQHwI0cVqruyIg1SK1EMqmW6vEE_ZwL8xHuu5erZZqzNm7O1bKgNUqlUko9YKvsA41I6utUGsGUA35f0TboCV3ZU0h3TXG61OC8EELzWGtVxbQ4MrLbCYRojq3KsLbCUxOtS3-utZ28xrak3hvEGRCiVEaJ-rlU-F8OtQ1tuTeIHswd60ZthAmelprzWWutc25gxhUAmkAPlKgBfgPzSqodT5y4wErkkid8afkiB0Bui1VrV0uuMMwJAgdexJJrRMe9sae0ByDmmk1TBN0vuwf5BggBB-MAN-efh72_MAF-Kp722QYCre8tX6QOPrA8-8tUG4MIag8h1D87Fma21u-OQGoDYAcnZE6JsT4lQESdXXDZr8OwiZm4dUxhAAl0YAQeiyPno1lrHWNHtR0cw7CRjSAYlwDiVABJN6-BPq3dx3j7QhMiclSpbtk6s0hrzRx8D1rAAfboAZ0U93EEAIbmgA7t0AH8pgBS410xMfT9G724LgPgixam8MafEFZmzDmXNudhB5mTQiRF-fUxBvgwXUB2ac6539EWksGfjX2uAsWAvxcS8lsLaXsHqm1FqHUnnM3PxzbOwdkq1QanK7ITL5bvO-YHQW8jDWyu6xa02mLHWz31dK5qXrlWO3TvfEgWrnXz36s2kgbaRr9rjewdhktoHOOBb4AAJTwPgKQLAmZXoAGaupEMVvgkWG2AfECDcq4NjBQ1hvDS7-rKo7T2gdG7k77vZqezDOG4WSqgwW0t3axqovA1Bo957QO3ugw-8t77K7xDM1ZpdxDgKofo-B3wLHq38dQbx0slZ5Fo17KhwTy7Cr2lQ7Lu-K9T2f1zvPbTwn1PWeSvZ1T4nNOWl05-_G97hqIcrf54qqH82tqi6-3jnnQvrV_dh4D17XOJgK9RxR8T1G9Z0Yl4LrXuPLsz3fG-ZTi96eXuvdXS7YmqO61o4bKn63Bx28jeT7ZlPFd-QCu7sn6yveE5F5941_uo1B6l6DmXofxfq4jQHinhPlcQ1VyTj3geY045ZunxPkeffiHtxJvXhtw-e6zwX_HrvdRl8z97rXDOK7M9t_HwvGek9Q9N3PC3F3W-LPb_nrXRmauDbQ_3vPFetcVp81W7-teO-V-bTNobExScR8n428Q2Xl9j-u1rtf5e9mDGxTQAAJAgZlAApJQAB5KqpAds35vwAFUhkzaGz_wnMAANScAAPS4BOBQB_6IifpwAAFAF_4LZ-ArKfowB1ALYIAABWnKhAHAWgzAJ2UgC8UmhAzApAxA8B6gEA5AzAPA1AzAzAoAkAsAiAEA-AjA2A-2JAFANAlBhBiYEACAdApqCAJ2bggiUA-CpAWBOB-seBpAPBDApB5BlBlBUhCAUkbAZBFBchlB0oogzAChKYJCzAAAfMwHYKoZQYMGwcwIMFQKoagFauIcobIXIdqHAJtJofYWoc4N4HAJoRwJgEwHEpqIHAgUwOgcYXIUgFIAYO4Z4ZwGAGVLIFILUDALujmqSnAMEWoZQXANYV4UYHAJkcAGkekZtCdlERwBamOhwCEYqCEZkSYNqOoC4VUWoZtIkoQLgJoVwCEZQa4ekYAeqJoRwcQQgH_K-EgAgG0OoCIdgbILgfgVADIZ0ekeVGoPaswFANweMGYekeYeQAsYMCEZiloCEcpvgG0LgXCGSk7gAKrqC9EMCaEoSXSHFqHHGnHiGCEUQkDXG3FeEACOMguuZEN-msBR6hgcIx7RCx3Rahq0XhPhLAcY_h8BBgC2IJ6RcAIA6gdxnAAxEAqJTRyRmsXhsgsR8RsAeJchxJ5KpJMALhCxahV6pWDAmAc0mh3kdJ5hTxWxzAvRUAmhUhSAnJWxeKBKmhwpAp7JwxTAmhkp4pXJzAV6QgrJEIgphRLJKhcplBMSFEuBXhZR1E5Jah_BEouRgcXhPABggwFRcpjRXJeKDAaoIAzh6pGpsgJgbgXhK-BpFJZK36Dqi2mhoQ1g7JexWxIZchmKqhphqh1B0A8AyAqgN-NhBspA1huBlhFhlAQAA
+	⚠ 请注意，该图表不是 Apache ECharts 官方示例，而是由用户代码生成的。请注意鉴别其内容。
+-->
+<!DOCTYPE html>
+<html lang="en" style="height: 100%">
+<head>
+  <meta charset="utf-8">
+</head>
+<body style="height: 100%; margin: 0">
+  <div id="container" style="height: 100%"></div>
+
+  <script type="text/javascript" src="https://registry.npmmirror.com/jquery/3.7.1/files/dist/jquery.min.js"></script>
+  <script type="text/javascript" src="https://registry.npmmirror.com/echarts/5.5.1/files/dist/echarts.min.js"></script>
+  
+  <!-- Uncomment this line if you want to dataTool extension
+  <script type="text/javascript" src="https://registry.npmmirror.com/echarts/5.5.1/files/dist/extension/dataTool.min.js"></script>
+  -->
+  <!-- Uncomment this line if you want to use gl extension
+  <script type="text/javascript" src="https://registry.npmmirror.com/echarts-gl/2/files/dist/echarts-gl.min.js"></script>
+  -->
+  <!-- Uncomment this line if you want to echarts-stat extension
+  <script type="text/javascript" src="https://registry.npmmirror.com/echarts-stat/latest/files/dist/ecStat.min.js"></script>
+  -->
+  <!-- Uncomment this line if you want to echarts-graph-modularity extension
+  <script type="text/javascript" src="https://registry.npmmirror.com/echarts-graph-modularity/2/files/dist/echarts-graph-modularity.min.js"></script>
+  -->
+  <!-- Uncomment this line if you want to use map
+  <script type="text/javascript" src="https://registry.npmmirror.com/echarts/4.9.0/files/map/js/world.js"></script>
+  -->
+  <!-- Uncomment these two lines if you want to use bmap extension
+  <script type="text/javascript" src="https://api.map.baidu.com/api?v=3.0&ak=YOUR_API_KEY"></script>
+  <script type="text/javascript" src="https://registry.npmmirror.com/echarts/5.5.1/files/dist/extension/bmap.min.js"></script>
+  -->
+
+  <script type="text/javascript">
+    var dom = document.getElementById('container');
+    var myChart = echarts.init(dom, null, {
+      renderer: 'canvas',
+      useDirtyRect: false
+    });
+    var app = {};
+    var option;
+
+    myChart.showLoading();
+    graph = {
+      "nodes": [
+        {
+          "id": "0",
+          "name": "Omada Cloud Portal",
+          "symbolSize": 29.12381,
+          "x": -266.82776,
+          "y": 299.6904,
+          "value": 10,
+          "category": 0
+        },
+        {
+          "id": "1",
+          "name": "Omada Controller",
+          "symbolSize": 52.66666666666667,
+          "x": -418.08344,
+          "y": 446.8853,
+          "value": 4,
+          "category": 1
+        },
+        {
+          "id": "2",
+          "name": "Omada APP",
+          "symbolSize": 36.32380933333333,
+          "x": -212.76357,
+          "y": 245.29176,
+          "value": 3,
+          "category": 2
+        },
+        {
+          "id": "3",
+          "name": "Design Center",
+          "symbolSize": 16.32380933333333,
+          "x": -242.82404,
+          "y": 235.26283,
+          "value": 4,
+          "category": 3
+        },
+        {
+          "id": "4",
+          "name": "Navi APP",
+          "symbolSize": 22.66666666666667,
+          "x": -379.30386,
+          "y": 429.06424,
+          "value": 4,
+          "category": 2
+        },
+        {
+          "id": "5",
+          "name": "Partner APP",
+          "symbolSize": 12.66666666666667,
+          "x": -417.26337,
+          "y": 406.03506,
+          "value": 4,
+          "category": 3
+        },
+        {
+          "id": "6",
+          "name": "Partner Program",
+          "symbolSize": 12.66666666666667,
+          "x": -332.6012,
+          "y": 485.16974,
+          "value": 4,
+          "category": 3
+        },
+        {
+          "id": "7",
+          "name": "Support Portal",
+          "symbolSize": 18.66666666666667,
+          "x": -382.69568,
+          "y": 475.09113,
+          "value": 4,
+          "category": 3
+        },
+        {
+          "id": "8",
+          "name": "VIGI APP",
+          "symbolSize": 22.66666666666667,
+          "x": -320.384,
+          "y": 387.17325,
+          "value": 4,
+          "category": 4
+        },
+        {
+          "id": "9",
+          "name": "VMS",
+          "symbolSize": 32.66666666666667,
+          "x": -344.39832,
+          "y": 451.16772,
+          "value": 4,
+          "category": 4
+        },
+        {
+          "id": "10",
+          "name": "Unified ID",
+          "symbolSize": 32.66666666666667,
+          "x": -344.39832,
+          "y": 451.16772,
+          "value": 4,
+          "category": 3
+        }
+      ],
+      "links": [
+        {"source": "0","target": "1"},
+        {"source": "0","target": "2"},
+        {"source": "1","target": "2"},
+        {"source": "2","target": "4"},
+        {"source": "4","target": "2"},
+        {"source": "3","target": "4"},
+        {"source": "3","target": "5"},
+        {"source": "5","target": "6"},
+        {"source": "6","target": "5"},
+        {"source": "7","target": "0"},
+        {"source": "2","target": "8"},
+        {"source": "8","target": "2"},
+        {"source": "8","target": "9"},
+        {"source": "10","target": "0"},
+        {"source": "10","target": "1"},
+        {"source": "10","target": "2"},
+        {"source": "10","target": "3"},
+        {"source": "10","target": "4"},
+        {"source": "10","target": "5"},
+        {"source": "10","target": "6"},
+        {"source": "10","target": "7"},
+        {"source": "10","target": "8"},
+        {"source": "10","target": "9"},
+      ],
+      "categories": [
+        {
+          "name": "Portal"
+        },
+        {
+          "name": "Controller"
+        },
+        {
+          "name": "APP"
+        },
+        {
+          "name": "Tools"
+        },
+        {
+          "name": "VIGI"
+        }
+      ]
+    }
+    myChart.hideLoading();
+    graph.nodes.forEach(function (node) {
+      node.label = {
+        show: node.symbolSize > 10
+      };
+    });
+    option = {
+      title: {
+        text: 'SDN Modules',
+        subtext: 'Circular layout',
+        top: 'bottom',
+        left: 'right'
+      },
+      tooltip: {},
+      legend: [
+        {
+          data: graph.categories.map(function (a) {
+            return a.name;
+          })
+        }
+      ],
+      animationDurationUpdate: 1500,
+      animationEasingUpdate: 'quinticInOut',
+      series: [
+        {
+          name: 'ENBU SaaS',
+          type: 'graph',
+          layout: 'circular',
+          circular: {
+            rotateLabel: true
+          },
+          data: graph.nodes,
+          links: graph.links,
+          categories: graph.categories,
+          focusNodeAdjacency: true,
+          edgeSymbol: ['circle', 'arrow'],  //标记边两端的类型,此处target端为箭头arrow
+          edgeSymbolSize: [1, 10],    //箭头的大小
+          roam: true,
+          label: {
+            position: 'right',
+            formatter: '{b}'
+          },
+          lineStyle: {
+            color: 'source',
+            curveness: 0.3
+          }
+          // tooltip: {
+          //   //position:'bottom',//悬浮时显示的位置
+          //   backgroundColor:'rgba(50,50,50,0.7)',
+          //   textStyle:{fontSize:16,},
+
+          //   formatter:function(params){//悬浮提示框显示的内容
+          //     if (params.data.islink) {
+          //     return params.data.name;}
+          //     else { return params.data.name;}
+          //   }
+          // },//悬浮时的提示框,不设置时是随鼠标移动
+        }
+      ]
+    }
+    myChart.setOption(option);
+
+    if (option && typeof option === 'object') {
+      myChart.setOption(option);
+    }
+
+    window.addEventListener('resize', myChart.resize);
+  </script>
+</body>
+</html>
