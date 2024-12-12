@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en" style="height: 100%">
+<head>
+  <meta charset="utf-8">
+  <style>
+    .switch-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 5%;
+      background-color: #f0f0f0;
+      padding: 5px;
+      border-radius: 20px;
+    }
+    .switch-button {
+      padding: 8px 16px;
+      border: none;
+      background-color: transparent;
+      cursor: pointer;
+      transition: background-color 0.3s, color 0.3s;
+      border-radius: 15px;
+      font-weight: bold;
+    }
+    .switch-button.active {
+      background-color: #1890ff;
+      color: white;
+    }
+  </style>
+</head>
+<body style="height: 100%; margin: 0">
+  <div id="container" style="height: 95%"></div>
+  <div class="switch-container">
+    <button id="circularBtn" class="switch-button">Circular</button>
+    <button id="mapBtn" class="switch-button active">Map</button>
+  </div>
+
+  <script type="text/javascript" src="https://registry.npmmirror.com/echarts/5.5.1/files/dist/echarts.min.js"></script>
+  
+  <script type="text/javascript">
+    var dom = document.getElementById('container');
+    var myChart = echarts.init(dom, null, {
+      renderer: 'canvas',
+      useDirtyRect: false
+    });
+    var option;
+
+    // 重构的数据
+    var graph = {
+      "nodes": [
+        {"id": "0", "name": "Shenzhen", "symbolSize": 50, "category": 0},
+        {"id": "1", "name": "Beijing", "symbolSize": 30, "category": 0},
+        {"id": "2", "name": "Shanghai", "symbolSize": 30, "category": 0},
+        {"id": "3", "name": "Guangzhou", "symbolSize": 25, "category": 0},
+        {"id": "4", "name": "Hong Kong", "symbolSize": 25, "category": 1},
+        {"id": "5", "name": "New York", "symbolSize": 35, "category": 2},
+        {"id": "6", "name": "Los Angeles", "symbolSize": 30, "category": 2},
+        {"id": "7", "name": "Chicago", "symbolSize": 25, "category": 2},
+        {"id": "8", "name": "London", "symbolSize": 35, "category": 3},
+        {"id": "9", "name": "Paris", "symbolSize": 30, "category": 4},
+        {"id": "10", "name": "Berlin", "symbolSize": 25, "category": 5},
+        {"id": "11", "name": "Tokyo", "symbolSize": 35, "category": 6},
+        {"id": "12", "name": "Seoul", "symbolSize": 30, "category": 7},
+        {"id": "13", "name": "Singapore", "symbolSize": 30, "category": 8},
+        {"id": "14", "name": "Sydney", "symbolSize": 25, "category": 9},
+        {"id": "15", "name": "Mumbai", "symbolSize": 25, "category": 10}
+      ],
+      "links": [
+        {"source": "0", "target": "1", "value": 1500, "quality": "good"},
+        {"source": "0", "target": "2", "value": 1200, "quality": "good"},
+        {"source": "0", "target": "3", "value": 100, "quality": "excellent"},
+        {"source": "0", "target": "4", "value": 50, "quality": "excellent"},
+        {"source": "0", "target": "5", "value": 12000, "quality": "fair"},
+        {"source": "0", "target": "6", "value": 11500, "quality": "fair"},
+        {"source": "0", "target": "7", "value": 11800, "quality": "poor"},
+        {"source": "0", "target": "8", "value": 9000, "quality": "good"},
+        {"source": "0", "target": "9", "value": 9200, "quality": "good"},
+        {"source": "0", "target": "10", "value": 9000, "quality": "fair"},
+        {"source": "0", "target": "11", "value": 2900, "quality": "good"},
+        {"source": "0", "target": "12", "value": 2100, "quality": "good"},
+        {"source": "0", "target": "13", "value": 2500, "quality": "excellent"},
+        {"source": "0", "target": "14", "value": 7500, "quality": "fair"},
+        {"source": "0", "target": "15", "value": 4000, "quality": "poor"},
+        {"source": "1", "target": "2", "value": 1100, "quality": "excellent"},
+        {"source": "1", "target": "3", "value": 1800, "quality": "good"},
+        {"source": "2", "target": "3", "value": 1200, "quality": "excellent"},
+        {"source": "4", "target": "13", "value": 2500, "quality": "good"},
+        {"source": "5", "target": "6", "value": 3900, "quality": "good"},
+        {"source": "5", "target": "7", "value": 1200, "quality": "fair"},
+        {"source": "6", "target": "7", "value": 2800, "quality": "fair"},
+        {"source": "8", "target": "9", "value": 340, "quality": "excellent"},
+        {"source": "8", "target": "10", "value": 930, "quality": "good"},
+        {"source": "9", "target": "10", "value": 880, "quality": "good"},
+        {"source": "11", "target": "12", "value": 1160, "quality": "excellent"},
+        {"source": "13", "target": "14", "value": 6300, "quality": "fair"},
+        {"source": "14", "target": "15", "value": 10500, "quality": "poor"}
+      ],
+      "categories": [
+        {"name": "China"},
+        {"name": "Hong Kong"},
+        {"name": "USA"},
+        {"name": "UK"},
+        {"name": "France"},
+        {"name": "Germany"},
+        {"name": "Japan"},
+        {"name": "South Korea"},
+        {"name": "Singapore"},
+        {"name": "Australia"},
+        {"name": "India"}
+      ]
+    };
+
+    // 设定最长距离（赤道长度约40,075公里）
+    var MAX_DISTANCE = 40075;
+
+    // 更新链接的value值
+    graph.links.forEach(function(link) {
+      link.originalValue = link.value;  // 保存原始距离
+      link.value = MAX_DISTANCE / link.value;  // 更新value为反比值
+    });
+
+    // 定义链接质量到颜色的映射
+    var qualityColorMap = {
+      'excellent': '#52c41a',  // 绿色
+      'good': '#1890ff',       // 蓝色
+      'fair': '#faad14',       // 黄色
+      'poor': '#f5222d'        // 红色
+    };
+
+    // 为每个链接设置颜色
+    graph.links.forEach(function(link) {
+      link.lineStyle = {
+        color: qualityColorMap[link.quality]
+      };
+    });
+
+    // 创建一个节点ID到节点名称的映射
+    var idToName = {};
+    graph.nodes.forEach(function(node) {
+      idToName[node.id] = node.name;
+    });
+
+    // 计算每个节点的连接数
+    var nodeConnections = {};
+    graph.links.forEach(function(link) {
+      nodeConnections[link.source] = (nodeConnections[link.source] || 0) + 1;
+      nodeConnections[link.target] = (nodeConnections[link.target] || 0) + 1;
+    });
+
+    // 将连接数添加到节点数据中
+    graph.nodes.forEach(function(node) {
+      node.connections = nodeConnections[node.id] || 0;
+    });
+
+    option = {
+      tooltip: {
+        formatter: function(params) {
+          if (params.dataType === 'edge') {
+            var sourceName = idToName[params.data.source];
+            var targetName = idToName[params.data.target];
+            var distance = Math.round(MAX_DISTANCE / params.data.value);  // 计算原始距离
+            return sourceName + ' <-> ' + targetName + '<br/>' +
+                   'Quality: ' + params.data.quality + '<br/>' +
+                   'Distance (latency): ' + distance + 'km';
+          } else if (params.dataType === 'node') {
+            return params.data.name + '<br/>' +
+                   'Connections: ' + params.data.connections;
+          }
+          return params.name;
+        }
+      },
+      legend: [
+        {
+          data: graph.categories.map(function (a) {
+            return a.name;
+          })
+        }
+      ],
+      series: [
+        {
+          name: 'SD-WAN Topology',
+          type: 'graph',
+          layout: 'force',
+          data: graph.nodes,
+          links: graph.links,
+          categories: graph.categories,
+          roam: true,
+          label: {
+            show: true,
+            position: 'right',
+            formatter: '{b}'
+          },
+          force: {
+            repulsion: 1000,
+            edgeLength: [50, 200],
+            gravity: 0.1
+          },
+          draggable: true,
+          labelLayout: {
+            hideOverlap: true
+          },
+          scaleLimit: {
+            min: 0.4,
+            max: 2
+          },
+          lineStyle: {
+            curveness: 0.3
+          },
+          emphasis: {
+            focus: 'adjacency',
+            lineStyle: {
+              width: 10
+            }
+          }
+        }
+      ]
+    };
+
+    myChart.setOption(option);
+
+    // 更新按钮点击事件处理
+    var circularBtn = document.getElementById('circularBtn');
+    var mapBtn = document.getElementById('mapBtn');
+
+    function setActiveButton(activeBtn, inactiveBtn) {
+      activeBtn.classList.add('active');
+      inactiveBtn.classList.remove('active');
+    }
+
+    circularBtn.addEventListener('click', function() {
+      if (!this.classList.contains('active')) {
+        option.series[0].layout = 'circular';
+        myChart.setOption(option);
+        setActiveButton(circularBtn, mapBtn);
+      }
+    });
+
+    mapBtn.addEventListener('click', function() {
+      if (!this.classList.contains('active')) {
+        option.series[0].layout = 'force';
+        myChart.setOption(option);
+        setActiveButton(mapBtn, circularBtn);
+      }
+    });
+
+    window.addEventListener('resize', myChart.resize);
+  </script>
+</body>
+</html>
