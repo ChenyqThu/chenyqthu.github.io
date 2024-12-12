@@ -1,0 +1,205 @@
+<!--
+	此示例下载自 https://echarts.apache.org/examples/zh/editor.html?c=radar-multiple
+-->
+<!DOCTYPE html>
+<html lang="en" style="height: 100%">
+<head>
+  <meta charset="utf-8">
+</head>
+<body style="height: 100%; margin: 0">
+  <div id="container" style="height: 100%"></div>
+
+  
+  <script type="text/javascript" src="https://registry.npmmirror.com/echarts/5.5.1/files/dist/echarts.min.js"></script>
+  
+  <!-- Uncomment this line if you want to dataTool extension
+  <script type="text/javascript" src="https://registry.npmmirror.com/echarts/5.5.1/files/dist/extension/dataTool.min.js"></script>
+  -->
+  <!-- Uncomment this line if you want to use gl extension
+  <script type="text/javascript" src="https://registry.npmmirror.com/echarts-gl/2/files/dist/echarts-gl.min.js"></script>
+  -->
+  <!-- Uncomment this line if you want to echarts-stat extension
+  <script type="text/javascript" src="https://registry.npmmirror.com/echarts-stat/latest/files/dist/ecStat.min.js"></script>
+  -->
+  <!-- Uncomment this line if you want to echarts-graph-modularity extension
+  <script type="text/javascript" src="https://registry.npmmirror.com/echarts-graph-modularity/2/files/dist/echarts-graph-modularity.min.js"></script>
+  -->
+  <!-- Uncomment this line if you want to use map
+  <script type="text/javascript" src="https://registry.npmmirror.com/echarts/4.9.0/files/map/js/world.js"></script>
+  -->
+  <!-- Uncomment these two lines if you want to use bmap extension
+  <script type="text/javascript" src="https://api.map.baidu.com/api?v=3.0&ak=YOUR_API_KEY"></script>
+  <script type="text/javascript" src="https://registry.npmmirror.com/echarts/5.5.1/files/dist/extension/bmap.min.js"></script>
+  -->
+
+  <script type="text/javascript">
+    var dom = document.getElementById('container');
+    var myChart = echarts.init(dom, null, {
+      renderer: 'canvas',
+      useDirtyRect: false
+    });
+    var app = {};
+    
+    var option;
+
+    option = {
+  title: [
+    {
+      text: 'SMB网络市场主要竞品评分对比',
+      left: 'center',
+      top: '0'
+    },
+    {
+      text: '市场竞争力',
+      left: '25%',
+      top: '60%',
+      textAlign: 'center'
+    },
+    {
+      text: '产品技术力',
+      left: '50%',
+      top: '60%',
+      textAlign: 'center'
+    },
+    {
+      text: '商业能力',
+      left: '75%',
+      top: '60%',
+      textAlign: 'center'
+    }
+  ],
+  tooltip: {
+    trigger: 'axis'
+  },
+  legend: {
+    left: 'center',
+    top: '5%',
+    data: ['Ubiquiti', 'Reyee', 'Omada']
+  },
+  radar: [
+    {
+      indicator: [
+        { text: '全球营收规模', max: 5 },
+        { text: '市场份额', max: 5 },
+        { text: '全球化布局', max: 5 },
+        { text: '品牌影响力', max: 5 },
+        { text: '用户口碑', max: 5 }
+      ],
+      center: ['25%', '45%'],
+      radius: 80
+    },
+    {
+      indicator: [
+        { text: '研发投入', max: 5 },
+        { text: '专利技术', max: 5 },
+        { text: '功能丰富度', max: 5 },
+        { text: '产品完整度', max: 5 },
+        { text: '易用性', max: 5 }
+      ],
+      center: ['50%', '45%'],
+      radius: 80
+    },
+    {
+      indicator: [
+        { text: '性价比', max: 5 },
+        { text: '渠道覆盖', max: 5 },
+        { text: '本地化服务', max: 5 },
+        { text: '服务响应速度', max: 5 },
+        { text: '生态完整性', max: 5 }
+      ],
+      center: ['75%', '45%'],
+      radius: 80
+    }
+  ],
+  series: [
+    {
+      type: 'radar',
+      tooltip: {
+        trigger: 'item'
+      },
+      data: [
+        {
+          value: [5, 5, 4, 4, 5],
+          name: 'Ubiquiti',
+          itemStyle: { color: '#5470c6' },
+          areaStyle: { opacity: 0.3 }
+        },
+        {
+          value: [3, 3, 2, 2, 4],
+          name: 'Reyee',
+          itemStyle: { color: '#91cc75' },
+          areaStyle: { opacity: 0.3 }
+        },
+        {
+          value: [4, 4, 5, 3, 4],
+          name: 'Omada',
+          itemStyle: { color: '#fac858' },
+          areaStyle: { opacity: 0.3 }
+        }
+      ]
+    },
+    {
+      type: 'radar',
+      radarIndex: 1,
+      tooltip: {
+        trigger: 'item'
+      },
+      data: [
+        {
+          value: [4, 3, 4, 3, 4],
+          name: 'Ubiquiti',
+          itemStyle: { color: '#5470c6' },
+          areaStyle: { opacity: 0.3 }
+        },
+        {
+          value: [4, 4, 4, 3, 5],
+          name: 'Reyee',
+          itemStyle: { color: '#91cc75' },
+          areaStyle: { opacity: 0.3 }
+        },
+        {
+          value: [3, 3, 3, 4, 3],
+          name: 'Omada',
+          itemStyle: { color: '#fac858' },
+          areaStyle: { opacity: 0.3 }
+        }
+      ]
+    },
+    {
+      type: 'radar',
+      radarIndex: 2,
+      tooltip: {
+        trigger: 'item'
+      },
+      data: [
+        {
+          value: [3, 3, 2, 2, 5],
+          name: 'Ubiquiti',
+          itemStyle: { color: '#5470c6' },
+          areaStyle: { opacity: 0.3 }
+        },
+        {
+          value: [4, 3, 4, 4, 3],
+          name: 'Reyee',
+          itemStyle: { color: '#91cc75' },
+          areaStyle: { opacity: 0.3 }
+        },
+        {
+          value: [5, 5, 5, 3, 4],
+          name: 'Omada',
+          itemStyle: { color: '#fac858' },
+          areaStyle: { opacity: 0.3 }
+        }
+      ]
+    }
+  ]
+};
+
+    if (option && typeof option === 'object') {
+      myChart.setOption(option);
+    }
+
+    window.addEventListener('resize', myChart.resize);
+  </script>
+</body>
+</html>
