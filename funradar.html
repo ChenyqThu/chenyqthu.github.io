@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en" style="height: 100%">
+<head>
+  <meta charset="utf-8">
+</head>
+<body style="height: 100%; margin: 0">
+  <div id="container" style="height: 100%"></div>
+
+  <script type="text/javascript" src="https://registry.npmmirror.com/echarts/5.5.1/files/dist/echarts.min.js"></script>
+
+  <script type="text/javascript">
+    var dom = document.getElementById('container');
+    var myChart = echarts.init(dom, null, {
+      renderer: 'canvas',
+      useDirtyRect: false
+    });
+    var option;
+
+    option = {
+      title: [
+        {
+          text: 'Controller差异对比',
+          left: 'center',
+          top: 20,
+          textStyle: {
+            fontSize: 20
+          }
+        },
+        {
+          text: '功能体验评估',
+          left: '20%',
+          top: '80%',
+          textStyle: {
+            fontSize: 16
+          }
+        },
+        {
+          text: '平台能力评估',
+          left: '70%',
+          top: '80%',
+          textStyle: {
+            fontSize: 16
+          }
+        }
+      ],
+      tooltip: {
+        trigger: 'item',
+        formatter: function(params) {
+          const isFirstRadar = params.seriesIndex < 3;
+          const dimensionNames = isFirstRadar ? 
+            [
+              { text: '整体体验', desc: 'UI美观度、操作流畅度、功能引导等' },
+              { text: '项目管理', desc: '多站点管理、MSP功能、项目模板等' },
+              { text: '开局配置', desc: '配置向导、模板管理、批量配置等' },
+              { text: '网络配置', desc: '各类网络功能配置的完整性和易用性' },
+              { text: '日常运维', desc: '监控工具、运维效率、可视化程度' },
+              { text: '告警排障', desc: '告警机制、排障工具、问题定位能力' }
+            ] : 
+            [
+              { text: '生态联动', desc: '网规工具/APP/排障工具/其他应用服务的联动能力' },
+              { text: '开放能力', desc: 'API完整度、SDK支持、二次开发友好度' },
+              { text: '部署灵活性', desc: '本地部署、云部署、混合部署支持' },
+              { text: '场景适应性', desc: '不同行业、规模、应用场景的适配能力' },
+              { text: '商业模式', desc: '许可证模式、增值服务、商业化能力' }
+            ];
+
+          let result = params.seriesName + ' ';
+          const values = params.value;
+          
+          // 计算平均分
+          const average = values.reduce((a, b) => a + b, 0) / values.length;
+          result += '<span style="color:#666;font-weight:bold">平均分：' + average.toFixed(1) + '</span><br/>';
+          
+          for (let i = 0; i < values.length; i++) {
+            result += dimensionNames[i].text + ': ' + values[i] + '<br/>';
+            result += '<span style="color:#999;font-size:12px;padding-left:10px">' + 
+                      dimensionNames[i].desc + '</span><br/>';
+          }
+          return result;
+        }
+      },
+      legend: {
+        top: 'bottom',
+        data: ['Unifi', 'Reyee', 'Omada'],
+        textStyle: {
+          fontSize: 14
+        },
+        itemWidth: 15,
+        itemHeight: 15
+      },
+      radar: [
+        {
+          indicator: [
+            { text: '整体体验', max: 5},
+            { text: '项目管理', max: 5},
+            { text: '开局配置', max: 5},
+            { text: '网络配置', max: 5},
+            { text: '日常运维', max: 5},
+            { text: '告警排障', max: 5}
+          ],
+          center: ['25%', '45%'],
+          radius: '45%',
+          name: {
+            textStyle: {
+              color: '#666',
+              fontSize: 14
+            }
+          }
+        },
+        {
+          indicator: [
+            { text: '生态联动', max: 5},
+            { text: '开放能力', max: 5},
+            { text: '部署灵活性', max: 5},
+            { text: '场景适应性', max: 5},
+            { text: '商业模式', max: 5}
+          ],
+          center: ['75%', '45%'],
+          radius: '45%',
+          name: {
+            textStyle: {
+              color: '#666',
+              fontSize: 14
+            }
+          }
+        }
+      ],
+      series: [
+        {
+          name: 'Unifi',
+          type: 'radar',
+          radarIndex: 0,
+          data: [{
+            value: [5, 4, 4, 4, 5, 4],
+            name: 'Unifi'
+          }],
+          itemStyle: { color: '#5470c6' },
+          areaStyle: { color: '#5470c6', opacity: 0.3 },
+          lineStyle: { color: '#5470c6' }
+        },
+        {
+          name: 'Reyee',
+          type: 'radar',
+          radarIndex: 0,
+          data: [{
+            value: [4, 3, 4.5, 4, 4, 4.5],
+            name: 'Reyee'
+          }],
+          itemStyle: { color: '#91cc75' },
+          areaStyle: { color: '#91cc75', opacity: 0.3 },
+          lineStyle: { color: '#91cc75' }
+        },
+        {
+          name: 'Omada',
+          type: 'radar',
+          radarIndex: 0,
+          data: [{
+            value: [3.5, 4.5, 3, 3, 3.5, 3.5],
+            name: 'Omada'
+          }],
+          itemStyle: { color: '#fac858' },
+          areaStyle: { color: '#fac858', opacity: 0.3 },
+          lineStyle: { color: '#fac858' }
+        },
+        {
+          name: 'Unifi',
+          type: 'radar',
+          radarIndex: 1,
+          data: [{
+            value: [5, 3.5, 4, 3.5, 3.5],
+            name: 'Unifi'
+          }],
+          itemStyle: { color: '#5470c6' },
+          areaStyle: { color: '#5470c6', opacity: 0.3 },
+          lineStyle: { color: '#5470c6' }
+        },
+        {
+          name: 'Reyee',
+          type: 'radar',
+          radarIndex: 1,
+          data: [{
+            value: [3, 3, 2, 4.5, 3],
+            name: 'Reyee'
+          }],
+          itemStyle: { color: '#91cc75' },
+          areaStyle: { color: '#91cc75', opacity: 0.3 },
+          lineStyle: { color: '#91cc75' }
+        },
+        {
+          name: 'Omada',
+          type: 'radar',
+          radarIndex: 1,
+          data: [{
+            value: [4, 4, 4.5, 3, 4],
+            name: 'Omada'
+          }],
+          itemStyle: { color: '#fac858' },
+          areaStyle: { color: '#fac858', opacity: 0.3 },
+          lineStyle: { color: '#fac858' }
+        }
+      ]
+    };
+
+    if (option && typeof option === 'object') {
+      myChart.setOption(option);
+    }
+
+    window.addEventListener('resize', myChart.resize);
+  </script>
+</body>
+</html>
