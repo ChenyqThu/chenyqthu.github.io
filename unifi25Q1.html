@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ubiquiti Q3 FY2025 财报分析 | Earnings Analysis</title>
+    <script src="https://cdn.tailwindcss.com/3.4.3"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <style>
+        body {
+            background-color: #000000;
+            color: #FFFFFF;
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            overscroll-behavior: none;
+        }
+        .unifi-blue {
+            color: #006FFF;
+        }
+        .bg-unifi-blue {
+            background-color: #006FFF;
+        }
+        .highlight-text {
+            font-size: 4rem; /* Default, adjust with Tailwind per element */
+            font-weight: bold;
+            line-height: 1;
+        }
+        .chinese-main {
+            font-size: 1.75rem; /* 28px */
+            font-weight: bold;
+            line-height: 1.3;
+        }
+        .chinese-title-large {
+            font-size: 3rem; /* 48px */
+            font-weight: bold;
+            line-height: 1.2;
+        }
+        .english-sub {
+            font-size: 0.875rem; /* 14px */
+            color: #A0A0A0;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .bento-box {
+            background-color: #1A1A1A; /* Slightly lighter than pure black */
+            border-radius: 1.5rem; /* 24px */
+            padding: 2rem; /* 32px */
+            overflow: hidden;
+            position: relative;
+        }
+        .gradient-highlight {
+            background: linear-gradient(90deg, rgba(0,111,255,0.8) 0%, rgba(0,111,255,0.3) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-fill-color: transparent;
+        }
+        .gradient-bg-highlight {
+            position: absolute;
+            content: "";
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            opacity: 0.1;
+            z-index: 0;
+            background: radial-gradient(circle at top left, rgba(0,111,255,0.5) 0%, rgba(0,111,255,0) 50%);
+        }
+        .icon-large {
+            font-size: 3rem; /* 48px */
+            margin-bottom: 1rem; /* 16px */
+        }
+
+        /* For scroll animations, each animated element will have this class */
+        .motion-element {
+            opacity: 0; /* Start hidden for animation */
+            transform: translateY(50px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+        
+        .motion-element.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body class="bg-black text-white">
+
+    <div id="app" class="container mx-auto px-4 py-8 md:py-16">
+
+        <section class="text-center mb-16 md:mb-24 motion-element">
+            <h1 class="chinese-title-large mb-2">Ubiquiti 业绩<span class="unifi-blue">新高度</span></h1>
+            <p class="english-sub">Q3 FY2025 Earnings Analysis &amp; Insights</p>
+            <div class="mt-8">
+                <svg viewBox="0 0 200 50" xmlns="http://www.w3.org/2000/svg" class="w-full max-w-lg mx-auto h-auto">
+                    <defs>
+                        <linearGradient id="lineGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                            <stop offset="0%" style="stop-color:#006FFF;stop-opacity:0.2"/>
+                            <stop offset="50%" style="stop-color:#006FFF;stop-opacity:1"/>
+                            <stop offset="100%" style="stop-color:#006FFF;stop-opacity:0.2"/>
+                        </linearGradient>
+                    </defs>
+                    <path d="M 10 40 Q 50 10 90 30 T 150 20 Q 180 45 190 35" stroke="url(#lineGradient)" stroke-width="3" fill="transparent" stroke-linecap="round"/>
+                    <circle cx="90" cy="30" r="3" fill="#006FFF"/>
+                    <circle cx="150" cy="20" r="3" fill="#006FFF"/>
+                </svg>
+            </div>
+        </section>
+
+        <section class="mb-12 md:mb-20">
+            <h2 class="chinese-main text-center mb-8 md:mb-12 motion-element">关键财务<span class="unifi-blue">摘要</span> <span class="block english-sub mt-1">Key Financial Highlights</span></h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
+                <div class="bento-box motion-element">
+                    <div class="gradient-bg-highlight"></div>
+                    <i class="fas fa-dollar-sign icon-large unifi-blue"></i>
+                    <p class="english-sub mb-2">Q1 Revenues / 营收</p>
+                    <p class="highlight-text text-5xl md:text-6xl">$664.2<span class="text-2xl align-baseline">M</span></p>
+                    <p class="text-green-400 text-lg font-semibold mt-1">+35% <span class="text-sm text-gray-400">YoY</span></p>
+                </div>
+                <div class="bento-box motion-element">
+                    <div class="gradient-bg-highlight"></div>
+                    <i class="fas fa-wallet icon-large unifi-blue"></i>
+                    <p class="english-sub mb-2">Q1 Net Income / 净利润</p>
+                    <p class="highlight-text text-5xl md:text-6xl">$180.4<span class="text-2xl align-baseline">M</span></p>
+                    <p class="text-green-400 text-lg font-semibold mt-1">+136% <span class="text-sm text-gray-400">YoY (Approx.)</span></p>
+                </div>
+                <div class="bento-box motion-element">
+                     <div class="gradient-bg-highlight"></div>
+                    <i class="fas fa-chart-line icon-large unifi-blue"></i>
+                    <p class="english-sub mb-2">Q1 Gross Margin / 毛利率</p>
+                    <p class="highlight-text text-5xl md:text-6xl">45<span class="text-2xl align-baseline">%</span></p>
+                    <p class="text-green-400 text-lg font-semibold mt-1">vs 35% <span class="text-sm text-gray-400">Q3 FY24</span></p>
+                </div>
+                <div class="bento-box motion-element">
+                    <div class="gradient-bg-highlight"></div>
+                    <i class="fas fa-file-invoice-dollar icon-large unifi-blue"></i>
+                    <p class="english-sub mb-2">Q1 Diluted EPS / 每股收益</p>
+                    <p class="highlight-text text-5xl md:text-6xl">$2.98</p>
+                    <p class="text-green-400 text-lg font-semibold mt-1">vs $1.26 <span class="text-sm text-gray-400">Q3 FY24</span></p>
+                </div>
+                 <div class="bento-box md:col-span-2 motion-element">
+                    <div class="gradient-bg-highlight"></div>
+                    <i class="fas fa-calendar-alt icon-large unifi-blue"></i>
+                    <p class="english-sub mb-2">9-Month Revenues / 前九个月营收</p>
+                    <p class="highlight-text text-5xl md:text-6xl">$1.81<span class="text-2xl align-baseline">B</span></p>
+                    <p class="text-green-400 text-lg font-semibold mt-1">+28% <span class="text-sm text-gray-400">YoY</span></p>
+                </div>
+                <div class="bento-box md:col-span-2 motion-element">
+                    <div class="gradient-bg-highlight"></div>
+                    <i class="fas fa-money-bill-trend-up icon-large unifi-blue"></i>
+                    <p class="english-sub mb-2">9-Month Net Income / 前九个月净利润</p>
+                    <p class="highlight-text text-5xl md:text-6xl">$445.2<span class="text-2xl align-baseline">M</span></p>
+                    <p class="text-green-400 text-lg font-semibold mt-1">+81% <span class="text-sm text-gray-400">YoY (Approx.)</span></p>
+                </div>
+            </div>
+        </section>
+
+        <section class="mb-12 md:mb-20">
+            <h2 class="chinese-main text-center mb-8 md:mb-12 motion-element">营收构成<span class="unifi-blue">深度解析</span> <span class="block english-sub mt-1">Revenue Composition Deep Dive</span></h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
+                <div class="bento-box motion-element">
+                    <div class="gradient-bg-highlight"></div>
+                    <p class="chinese-main mb-1">产品表现</p>
+                    <p class="english-sub mb-4">Performance by Product Type (Q3 FY25)</p>
+                    <div>
+                        <p class="text-lg font-semibold mb-1">企业技术 (Enterprise Tech): <span class="unifi-blue text-2xl font-bold">$585.7M</span> <span class="text-sm text-green-400">(+41% YoY)</span></p>
+                        <div class="w-full bg-gray-700 rounded-full h-2.5 mb-2">
+                            <div class="bg-unifi-blue h-2.5 rounded-full" style="width: 88%"></div>
+                        </div>
+                        <p class="text-sm text-gray-300">占总营收 (Share of Total Revenue): 88%</p>
+                    </div>
+                    <div class="mt-4">
+                        <p class="text-lg font-semibold mb-1">服务商技术 (Service Provider Tech): <span class="unifi-blue text-2xl font-bold">$78.4M</span> <span class="text-sm text-red-400">(-0.3% YoY)</span></p>
+                        <div class="w-full bg-gray-700 rounded-full h-2.5 mb-2">
+                            <div class="bg-unifi-blue h-2.5 rounded-full" style="width: 12%"></div>
+                        </div>
+                        <p class="text-sm text-gray-300">占总营收 (Share of Total Revenue): 12%</p>
+                    </div>
+                    <p class="mt-6 text-gray-400 text-sm">企业技术平台持续强劲增长，是营收的主要驱动力。</p>
+                    <p class="mt-1 text-gray-400 text-sm english-sub">Enterprise technology platforms continue strong growth, being the main revenue driver.</p>
+
+                </div>
+                <div class="bento-box motion-element">
+                    <div class="gradient-bg-highlight"></div>
+                    <p class="chinese-main mb-1">区域分布</p>
+                    <p class="english-sub mb-4">Revenue by Geography (Q3 FY25)</p>
+                    <div class="space-y-3">
+                        <p><span class="font-semibold">北美 (N. America):</span> <span class="unifi-blue text-xl font-bold">$322.7M</span> (49%, <span class="text-green-400">+33% YoY</span>)</p>
+                        <p><span class="font-semibold">EMEA:</span> <span class="unifi-blue text-xl font-bold">$282.1M</span> (42%, <span class="text-green-400">+41% YoY</span>)</p>
+                        <p><span class="font-semibold">亚太 (APAC):</span> <span class="unifi-blue text-xl font-bold">$37.5M</span> (6%, <span class="text-green-400">+42% YoY</span>)</p>
+                        <p><span class="font-semibold">南美 (S. America):</span> <span class="unifi-blue text-xl font-bold">$21.8M</span> (3%, <span class="text-red-400">-6% YoY</span>)</p>
+                    </div>
+                    <svg viewBox="0 0 100 50" class="w-full h-auto mt-6 opacity-30" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M10 40 C20 15, 30 15, 40 30 S50 50, 60 40 C70 25, 80 25, 90 40" stroke="#006FFF" stroke-width="1" fill="none"/>
+                        <path d="M15 20 L35 10 L55 25 L75 15" stroke="#006FFF" stroke-width="0.5" fill="none" stroke-dasharray="2 2"/>
+                    </svg>
+                    <p class="mt-6 text-gray-400 text-sm">北美和EMEA地区贡献主要营收，亚太地区增速亮眼。</p>
+                    <p class="mt-1 text-gray-400 text-sm english-sub">North America and EMEA are main contributors, APAC shows impressive growth.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="mb-12 md:mb-20">
+            <h2 class="chinese-main text-center mb-8 md:mb-12 motion-element">盈利能力<span class="unifi-blue">显著提升</span> <span class="block english-sub mt-1">Significant Profitability Improvement</span></h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
+                <div class="bento-box motion-element">
+                    <div class="gradient-bg-highlight"></div>
+                    <p class="chinese-main mb-1">毛利率跃升</p>
+                    <p class="english-sub mb-3">Gross Margin Leap (Q3 FY25)</p>
+                    <p class="highlight-text text-6xl md:text-7xl">45<span class="text-3xl align-baseline">%</span></p>
+                    <p class="mt-2 text-lg">前九个月毛利率 (9-Month Gross Margin): <span class="unifi-blue font-bold text-2xl">43%</span></p>
+                    <p class="mt-4 text-gray-400 text-sm">主要驱动因素：过时库存费用降低、有利的产品组合、关税降低。</p>
+                    <p class="mt-1 text-gray-400 text-sm english-sub">Key Drivers: Lower obsolete inventory charges, favorable product mix, lower tariffs.</p>
+                </div>
+                <div class="bento-box motion-element">
+                    <div class="gradient-bg-highlight"></div>
+                    <p class="chinese-main mb-1">运营与净利润</p>
+                    <p class="english-sub mb-3">Operating & Net Profit (Q3 FY25)</p>
+                    <p class="text-lg mb-1">运营利润率 (Operating Margin): <span class="unifi-blue font-bold text-4xl">34%</span> (vs 22% YoY)</p>
+                    <p class="text-lg">净利率 (Net Margin): <span class="unifi-blue font-bold text-4xl">27%</span> (vs 15% YoY)</p>
+                    <p class="mt-4 text-gray-400 text-sm">营收增长、毛利率改善及利息支出减少共同推动利润增长。</p>
+                    <p class="mt-1 text-gray-400 text-sm english-sub">Revenue growth, improved gross margin, and reduced interest expense fueled profit increase.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="mb-12 md:mb-20">
+            <h2 class="chinese-main text-center mb-8 md:mb-12 motion-element">战略调整与<span class="unifi-blue">重大变动</span> <span class="block english-sub mt-1">Strategic Shifts & Major Changes</span></h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
+                <div class="bento-box motion-element">
+                    <div class="gradient-bg-highlight"></div>
+                    <i class="fas fa-cogs icon-large unifi-blue"></i>
+                    <p class="chinese-main mb-1">产品与市场</p>
+                    <p class="english-sub mb-3">Product & Market Focus</p>
+                    <p class="text-gray-300">企业技术平台 (Enterprise Technology) 表现强劲，成为增长核心。分销与直销渠道并行，分别占营收55%和45% (前九个月)。</p>
+                    <p class="mt-2 text-gray-400 text-sm english-sub">Strong performance in Enterprise Technology, core growth driver. Balanced channel strategy: 55% distributor, 45% direct sales (9-months).</p>
+                </div>
+                <div class="bento-box motion-element">
+                    <div class="gradient-bg-highlight"></div>
+                     <i class="fas fa-boxes-stacked icon-large unifi-blue"></i>
+                    <p class="chinese-main mb-1">供应链与库存</p>
+                    <p class="english-sub mb-3">Supply Chain & Inventory</p>
+                    <p class="text-gray-300">曾面临严重供应限制。采取措施增加库存、支付更高成本以保供应。库存和供应商存款曾增加，相关风险仍存。前九个月存货增加1.35亿美元，供应商预付款减少。</p>
+                    <p class="mt-2 text-gray-400 text-sm english-sub">Previously faced severe constraints. Measures taken: increased inventory, higher costs for supply. Risks of obsolescence remain. 9-month inventory up $135M, vendor deposits down.</p>
+                </div>
+                <div class="bento-box motion-element">
+                     <div class="gradient-bg-highlight"></div>
+                    <i class="fas fa-globe-americas icon-large unifi-blue"></i>
+                    <p class="chinese-main mb-1">外部风险</p>
+                    <p class="english-sub mb-3">External Risks</p>
+                    <p class="text-gray-300">关税和贸易紧张局势持续影响利润率。地缘政治风险 (俄乌冲突, 台海局势) 对供应链和经济环境构成不确定性。</p>
+                     <p class="mt-2 text-gray-400 text-sm english-sub">Tariffs and trade tensions continue to impact margins. Geopolitical risks (Russia-Ukraine, China-Taiwan) create uncertainty for supply chain and economy.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="mb-12 md:mb-20">
+            <h2 class="chinese-main text-center mb-8 md:mb-12 motion-element">财年表现与<span class="unifi-blue">未来展望</span> <span class="block english-sub mt-1">Fiscal Year Performance & Outlook</span></h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+                <div class="bento-box lg:col-span-3 motion-element">
+                    <div class="gradient-bg-highlight"></div>
+                    <i class="fas fa-tachometer-alt icon-large unifi-blue"></i>
+                    <p class="chinese-main mb-1">整体表现强劲</p>
+                    <p class="english-sub mb-3">Strong Overall Performance (First 9 Months FY25)</p>
+                    <p class="text-gray-300">截至2025财年前九个月，Ubiquiti展现了强劲的增长势头和显著的盈利能力改善。营收和利润均实现稳健增长。</p>
+                    <p class="mt-2 text-gray-400 text-sm english-sub">Robust growth momentum and significant profitability improvement. Solid growth in both revenue and profit.</p>
+                </div>
+
+                <div class="bento-box motion-element">
+                     <div class="gradient-bg-highlight"></div>
+                    <i class="fas fa-arrow-trend-up icon-large text-green-400"></i>
+                    <p class="chinese-main mb-1">积极方面</p>
+                    <p class="english-sub mb-3">Positive Aspects</p>
+                    <ul class="list-disc list-inside text-gray-300 space-y-1">
+                        <li>营收稳健增长 (+28% YoY)</li>
+                        <li>盈利能力大幅提升 (毛利率达43%)</li>
+                        <li>企业业务驱动力强劲</li>
+                        <li>财务状况健康，持续派息</li>
+                    </ul>
+                     <p class="mt-2 text-gray-400 text-sm english-sub">Revenue growth (+28% YoY), Profitability leap (GM 43%), Strong Enterprise drive, Healthy financials & dividends.</p>
+                </div>
+
+                <div class="bento-box motion-element">
+                     <div class="gradient-bg-highlight"></div>
+                    <i class="fas fa-exclamation-triangle icon-large text-yellow-400"></i>
+                    <p class="chinese-main mb-1">挑战与关注点</p>
+                    <p class="english-sub mb-3">Challenges & Focus Areas</p>
+                    <ul class="list-disc list-inside text-gray-300 space-y-1">
+                        <li>持续的外部不确定性 (关税, 地缘政治)</li>
+                        <li>服务提供商业务增长放缓</li>
+                        <li>对少数关键人员的依赖</li>
+                        <li>库存管理与潜在减值风险</li>
+                    </ul>
+                     <p class="mt-2 text-gray-400 text-sm english-sub">External uncertainties (tariffs, geopolitics), Slower SP growth, Key personnel reliance, Inventory risks.</p>
+                </div>
+
+                <div class="bento-box motion-element">
+                     <div class="gradient-bg-highlight"></div>
+                    <i class="fas fa-compass icon-large unifi-blue"></i>
+                    <p class="chinese-main mb-1">未来方向</p>
+                    <p class="english-sub mb-3">Future Direction</p>
+                    <ul class="list-disc list-inside text-gray-300 space-y-1">
+                        <li>深化企业网络市场布局</li>
+                        <li>积极应对外部风险，增强供应链韧性</li>
+                        <li>持续创新与成本优化</li>
+                        <li>探索服务提供商业务新增长点</li>
+                    </ul>
+                     <p class="mt-2 text-gray-400 text-sm english-sub">Deepen enterprise market share, Proactive risk & supply chain management, Continuous innovation & cost optimization, New growth for SP business.</p>
+                </div>
+            </div>
+        </section>
+
+        <footer class="text-center text-gray-500 text-xs mt-16 md:mt-24 motion-element">
+            <p class="mb-1">免责声明: 本报告基于Ubiquiti Inc. 截至2025年3月31日的Form 10-Q财报进行分析，仅供参考，不构成任何投资建议。</p>
+            <p>Disclaimer: This analysis is based on Ubiquiti Inc.'s Form 10-Q for the period ended March 31, 2025. For informational purposes only, not investment advice.</p>
+        </footer>
+
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const elementsToAnimate = document.querySelectorAll('.motion-element');
+            
+            // 创建 Intersection Observer 实例
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach((entry, index) => {
+                    if (entry.isIntersecting) {
+                        // 当元素进入视口时，给它添加动画效果
+                        setTimeout(() => {
+                            entry.target.classList.add('visible');
+                        }, index * 100); // 为每个元素添加延迟，创建交错效果
+                        
+                        // 元素已经显示，不需要再观察
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, {
+                root: null, // 相对于视口
+                threshold: 0.2, // 当元素20%进入视口时触发
+                rootMargin: '0px' // 无边距
+            });
+            
+            // 开始观察所有需要动画的元素
+            elementsToAnimate.forEach(element => {
+                observer.observe(element);
+            });
+        });
+    </script>
+
+</body>
+</html>
