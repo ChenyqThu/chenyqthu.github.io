@@ -1,0 +1,949 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>智能人力流动分析</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.4.3/echarts.min.js"></script>
+    <style>
+        body {
+            font-family: 'Microsoft YaHei', Arial, sans-serif;
+            margin: 20px;
+            background: #f8f9fa;
+        }
+        .container {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .title {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .subtitle {
+            text-align: center;
+            color: #7f8c8d;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+        .data-input {
+            margin-bottom: 20px;
+        }
+        .data-input textarea {
+            width: 100%;
+            height: 350px;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 10px;
+        }
+        .data-input button {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        .data-input button:hover {
+            background: #2980b9;
+        }
+        .export-button {
+            background: #27ae60;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-bottom: 10px;
+        }
+        .export-button:hover {
+            background: #219a52;
+        }
+        .chart-container {
+            width: 100%;
+            height: 800px;
+            border: 1px solid #e1e8ed;
+            border-radius: 8px;
+        }
+        .timeline-header {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 10px;
+            padding: 0 50px;
+        }
+        .timeline-point {
+            text-align: center;
+            flex: 1;
+        }
+        .timeline-date {
+            font-weight: bold;
+            color: #2c3e50;
+            font-size: 13px;
+        }
+        .timeline-event {
+            font-size: 10px;
+            color: #7f8c8d;
+            margin-top: 3px;
+        }
+        .flow-analysis {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+        .flow-analysis h3 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+        }
+        .flow-step {
+            margin-bottom: 15px;
+            padding: 12px;
+            background: white;
+            border-radius: 6px;
+            border-left: 4px solid #3498db;
+        }
+        .flow-step-title {
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 8px;
+        }
+        .flow-detail {
+            color: #34495e;
+            font-size: 13px;
+            line-height: 1.4;
+        }
+        .release-info {
+            background: #e8f5e8;
+            padding: 8px;
+            border-radius: 4px;
+            margin-top: 5px;
+            font-size: 12px;
+            color: #27ae60;
+        }
+        .allocation-info {
+            background: #e3f2fd;
+            padding: 8px;
+            border-radius: 4px;
+            margin-top: 5px;
+            font-size: 12px;
+            color: #1976d2;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="title">智能人力流动分析</h1>
+        <p class="subtitle">基于需求和预释放的智能人力分配计算</p>
+        
+        <div class="data-input">
+            <button class="export-button" onclick="exportCurrentData()">导出当前数据结构</button>
+            <h3>智能数据配置 - 包含项目需求和预释放人力</h3>
+            <textarea id="dataInput" placeholder="请粘贴包含项目需求和预释放信息的JSON数据..."></textarea>
+            <br>
+            <button onclick="updateChart()">更新图表并计算流动</button>
+        </div>
+        
+        <div class="timeline-header" id="timelineHeader">
+            <!-- 时间轴将根据数据动态生成 -->
+        </div>
+        
+        <div id="main" class="chart-container"></div>
+        
+        <div class="flow-analysis" id="flowAnalysis">
+            <!-- 流动分析将根据计算结果生成 -->
+        </div>
+    </div>
+
+    <script>
+        // 智能数据结构示例
+        var intelligentData = {
+            "metadata": {
+                "title": "研发人力智能流动分析",
+                "subtitle": "基于需求驱动的人力自动分配",
+                "totalPersons": 78
+            },
+            "teams": [
+                {"name": "功能服务1组", "description": "监控运维 + 拓扑识别 + Client/Portal", "color": "#3498db"},
+                {"name": "功能服务2组", "description": "Cloud Portal + Central + Organization配置", "color": "#e74c3c"},
+                {"name": "设备服务1组", "description": "AP设备相关功能开发", "color": "#2ecc71"},
+                {"name": "设备服务2组", "description": "Switch + OLT设备功能开发", "color": "#f39c12"},
+                {"name": "设备服务3组", "description": "Gateway设备功能开发", "color": "#9b59b6"},
+                {"name": "设备接入", "description": "深圳团队，设备接入相关", "color": "#1abc9c"},
+                {"name": "平台架构", "description": "平台架构设计与实现", "color": "#34495e"},
+                {"name": "云平台", "description": "云平台服务开发", "color": "#e67e22"}
+            ],
+            "projects": [
+                {"name": "Controller 5.15.24", "color": "#bdc3c7"},
+                {"name": "Controller 6.0", "color": "#3498db"},
+                {"name": "Controller 6.1", "color": "#e74c3c"},
+                {"name": "Controller 6.2", "color": "#f39c12"},
+                {"name": "Controller 6.3", "color": "#9b59b6"},
+                {"name": "Controller 6.4", "color": "#1abc9c"},
+                {"name": "AIO-Network", "color": "#2ecc71"},
+                {"name": "Cloud Portal", "color": "#34495e"},
+                {"name": "ODC", "color": "#e67e22"},
+                {"name": "Bridge AP", "color": "#95a5a6"},
+                {"name": "其他工作", "color": "#7f8c8d"},
+                {"name": "新项目规划", "color": "#ff6b6b"}
+            ],
+            "timePointSnapshots": [
+                {
+                    "id": "teams",
+                    "name": "开发组",
+                    "description": "基础人力配置",
+                    "isTeamSnapshot": true,
+                    "teamTotals": [
+                        {"team": "功能服务1组", "totalPersons": 10.0},
+                        {"team": "功能服务2组", "totalPersons": 11.0},
+                        {"team": "设备服务1组", "totalPersons": 7.0},
+                        {"team": "设备服务2组", "totalPersons": 9.0},
+                        {"team": "设备服务3组", "totalPersons": 13.0},
+                        {"team": "设备接入", "totalPersons": 5.0},
+                        {"team": "平台架构", "totalPersons": 17.0},
+                        {"team": "云平台", "totalPersons": 6.0}
+                    ]
+                },
+                {
+                    "id": "july",
+                    "name": "7月",
+                    "description": "当前状态\\n5.15.24发布",
+                    "projectRequirements": [
+                        {
+                            "project": "Controller 5.15.24",
+                            "teamNeeds": [
+                                {"team": "设备服务1组", "persons": 1.5},
+                                {"team": "设备接入", "persons": 1.0},
+                                {"team": "云平台", "persons": 1.5}
+                            ]
+                        },
+                        {
+                            "project": "Controller 6.0",
+                            "teamNeeds": [
+                                {"team": "功能服务1组", "persons": 7.5},
+                                {"team": "功能服务2组", "persons": 0.5},
+                                {"team": "设备服务1组", "persons": 1.5},
+                                {"team": "设备服务2组", "persons": 4.0},
+                                {"team": "设备服务3组", "persons": 5.0},
+                                {"team": "设备接入", "persons": 1.0},
+                                {"team": "平台架构", "persons": 6.0},
+                                {"team": "云平台", "persons": 1.0}
+                            ]
+                        },
+                        {
+                            "project": "Controller 6.1",
+                            "teamNeeds": [
+                                {"team": "功能服务1组", "persons": 2.5},
+                                {"team": "功能服务2组", "persons": 0.5},
+                                {"team": "设备服务1组", "persons": 3.0},
+                                {"team": "设备服务2组", "persons": 4.0},
+                                {"team": "设备接入", "persons": 2.0},
+                                {"team": "平台架构", "persons": 2.5}
+                            ]
+                        },
+                        {
+                            "project": "Controller 6.2",
+                            "teamNeeds": [
+                                {"team": "设备服务3组", "persons": 5.0}
+                            ]
+                        },
+                        {
+                            "project": "Controller 6.3",
+                            "teamNeeds": [
+                                {"team": "平台架构", "persons": 1.0},
+                                {"team": "云平台", "persons": 1.0}
+                            ]
+                        },
+                        {
+                            "project": "AIO-Network",
+                            "teamNeeds": [
+                                {"team": "功能服务2组", "persons": 3.5},
+                                {"team": "设备接入", "persons": 1.0},
+                                {"team": "平台架构", "persons": 1.5},
+                                {"team": "云平台", "persons": 2.0}
+                            ]
+                        },
+                        {
+                            "project": "Cloud Portal",
+                            "teamNeeds": [
+                                {"team": "功能服务2组", "persons": 5.0},
+                                {"team": "云平台", "persons": 2.0}
+                            ]
+                        },
+                        {
+                            "project": "ODC",
+                            "teamNeeds": [
+                                {"team": "设备服务3组", "persons": 2.0},
+                                {"team": "平台架构", "persons": 4.0}
+                            ]
+                        },
+                        {
+                            "project": "Bridge AP",
+                            "teamNeeds": [
+                                {"team": "设备服务1组", "persons": 0.5}
+                            ]
+                        },
+                        {
+                            "project": "其他工作",
+                            "teamNeeds": [
+                                {"team": "功能服务2组", "persons": 1.5},
+                                {"team": "设备服务1组", "persons": 0.5},
+                                {"team": "设备服务2组", "persons": 1.0},
+                                {"team": "设备服务3组", "persons": 1.0},
+                                {"team": "平台架构", "persons": 2.0}
+                            ]
+                        }
+                    ],
+                    "preRelease": [
+                        {"project": "Controller 5.15.24", "releasePersons": 4.0, "note": "7月中发布"}
+                    ]
+                },
+                {
+                    "id": "september",
+                    "name": "9月",
+                    "description": "6.0发布\\n人力重新分配",
+                    "projectRequirements": [
+                        {
+                            "project": "Controller 6.1",
+                            "teamNeeds": [
+                                {"team": "功能服务1组", "persons": 4.5},
+                                {"team": "功能服务2组", "persons": 0.5},
+                                {"team": "设备服务1组", "persons": 3.0},
+                                {"team": "设备服务2组", "persons": 4.0},
+                                {"team": "设备接入", "persons": 2.0},
+                                {"team": "平台架构", "persons": 2.5}
+                            ]
+                        },
+                        {
+                            "project": "Controller 6.2",
+                            "teamNeeds": [
+                                {"team": "设备服务3组", "persons": 8.0},
+                                {"team": "平台架构", "persons": 4.0},
+                                {"team": "云平台", "persons": 3.0}
+                            ]
+                        },
+                        {
+                            "project": "Controller 6.3",
+                            "teamNeeds": [
+                                {"team": "功能服务1组", "persons": 3.0},
+                                {"team": "设备服务2组", "persons": 2.0},
+                                {"team": "平台架构", "persons": 3.0},
+                                {"team": "云平台", "persons": 2.0}
+                            ]
+                        },
+                        {
+                            "project": "Controller 6.4",
+                            "teamNeeds": [
+                                {"team": "功能服务1组", "persons": 2.5},
+                                {"team": "设备服务1组", "persons": 1.5},
+                                {"team": "设备服务2组", "persons": 2.0},
+                                {"team": "设备服务3组", "persons": 2.0}
+                            ]
+                        },
+                        {
+                            "project": "AIO-Network",
+                            "teamNeeds": [
+                                {"team": "功能服务2组", "persons": 3.5},
+                                {"team": "设备接入", "persons": 1.0},
+                                {"team": "平台架构", "persons": 1.5},
+                                {"team": "云平台", "persons": 2.0}
+                            ]
+                        },
+                        {
+                            "project": "Cloud Portal",
+                            "teamNeeds": [
+                                {"team": "功能服务2组", "persons": 5.0},
+                                {"team": "云平台", "persons": 2.0}
+                            ]
+                        },
+                        {
+                            "project": "ODC",
+                            "teamNeeds": [
+                                {"team": "设备服务3组", "persons": 2.0},
+                                {"team": "平台架构", "persons": 4.0}
+                            ]
+                        },
+                        {
+                            "project": "Bridge AP",
+                            "teamNeeds": [
+                                {"team": "设备服务1组", "persons": 0.5}
+                            ]
+                        },
+                        {
+                            "project": "其他工作",
+                            "teamNeeds": [
+                                {"team": "功能服务2组", "persons": 1.5},
+                                {"team": "设备服务1组", "persons": 0.5},
+                                {"team": "设备服务2组", "persons": 1.0},
+                                {"team": "设备服务3组", "persons": 1.0},
+                                {"team": "平台架构", "persons": 1.0}
+                            ]
+                        }
+                    ],
+                    "preRelease": [
+                        {"project": "Controller 6.0", "releasePersons": 26.5, "note": "9月下发布"}
+                    ]
+                },
+                {
+                    "id": "november",
+                    "name": "11月",
+                    "description": "6.1发布\\n进入6.3/6.4",
+                    "projectRequirements": [
+                        {
+                            "project": "Controller 6.2",
+                            "teamNeeds": [
+                                {"team": "设备服务3组", "persons": 8.0},
+                                {"team": "平台架构", "persons": 4.0},
+                                {"team": "云平台", "persons": 3.0}
+                            ]
+                        },
+                        {
+                            "project": "Controller 6.3",
+                            "teamNeeds": [
+                                {"team": "功能服务1组", "persons": 6.0},
+                                {"team": "设备服务1组", "persons": 2.0},
+                                {"team": "设备服务2组", "persons": 6.0},
+                                {"team": "平台架构", "persons": 3.0},
+                                {"team": "云平台", "persons": 2.0}
+                            ]
+                        },
+                        {
+                            "project": "Controller 6.4",
+                            "teamNeeds": [
+                                {"team": "功能服务1组", "persons": 4.0},
+                                {"team": "设备服务1组", "persons": 2.0},
+                                {"team": "设备服务2组", "persons": 3.0},
+                                {"team": "设备服务3组", "persons": 3.0},
+                                {"team": "设备接入", "persons": 2.0},
+                                {"team": "平台架构", "persons": 3.0}
+                            ]
+                        },
+                        {
+                            "project": "AIO-Network",
+                            "teamNeeds": [
+                                {"team": "功能服务2组", "persons": 3.5},
+                                {"team": "设备接入", "persons": 1.0},
+                                {"team": "平台架构", "persons": 1.5},
+                                {"team": "云平台", "persons": 2.0}
+                            ]
+                        },
+                        {
+                            "project": "Cloud Portal",
+                            "teamNeeds": [
+                                {"team": "功能服务2组", "persons": 5.0},
+                                {"team": "云平台", "persons": 2.0}
+                            ]
+                        },
+                        {
+                            "project": "ODC",
+                            "teamNeeds": [
+                                {"team": "设备服务3组", "persons": 2.0},
+                                {"team": "平台架构", "persons": 4.0}
+                            ]
+                        },
+                        {
+                            "project": "Bridge AP",
+                            "teamNeeds": [
+                                {"team": "设备服务1组", "persons": 0.5}
+                            ]
+                        },
+                        {
+                            "project": "其他工作",
+                            "teamNeeds": [
+                                {"team": "功能服务2组", "persons": 1.5},
+                                {"team": "设备服务1组", "persons": 0.5},
+                                {"team": "设备服务3组", "persons": 1.0},
+                                {"team": "设备接入", "persons": 2.0},
+                                {"team": "平台架构", "persons": 1.5}
+                            ]
+                        }
+                    ],
+                    "preRelease": [
+                        {"project": "Controller 6.1", "releasePersons": 16.5, "note": "11月发布"}
+                    ]
+                },
+                {
+                    "id": "december",
+                    "name": "12月",
+                    "description": "6.2发布\\n新项目启动",
+                    "projectRequirements": [
+                        {
+                            "project": "Controller 6.3",
+                            "teamNeeds": [
+                                {"team": "功能服务1组", "persons": 6.0},
+                                {"team": "设备服务1组", "persons": 2.0},
+                                {"team": "设备服务2组", "persons": 6.0},
+                                {"team": "平台架构", "persons": 3.0},
+                                {"team": "云平台", "persons": 2.0}
+                            ]
+                        },
+                        {
+                            "project": "Controller 6.4",
+                            "teamNeeds": [
+                                {"team": "功能服务1组", "persons": 4.0},
+                                {"team": "设备服务1组", "persons": 2.0},
+                                {"team": "设备服务2组", "persons": 3.0},
+                                {"team": "设备服务3组", "persons": 8.0},
+                                {"team": "设备接入", "persons": 2.0},
+                                {"team": "平台架构", "persons": 6.0},
+                                {"team": "云平台", "persons": 3.0}
+                            ]
+                        },
+                        {
+                            "project": "新项目规划",
+                            "teamNeeds": [
+                                {"team": "平台架构", "persons": 3.0},
+                                {"team": "云平台", "persons": 1.0},
+                                {"team": "功能服务2组", "persons": 3.0},
+                                {"team": "设备接入", "persons": 1.0}
+                            ]
+                        },
+                        {
+                            "project": "AIO-Network",
+                            "teamNeeds": [
+                                {"team": "功能服务2组", "persons": 3.5},
+                                {"team": "平台架构", "persons": 1.5},
+                                {"team": "云平台", "persons": 2.0}
+                            ]
+                        },
+                        {
+                            "project": "Cloud Portal",
+                            "teamNeeds": [
+                                {"team": "功能服务2组", "persons": 4.5},
+                                {"team": "云平台", "persons": 2.0}
+                            ]
+                        },
+                        {
+                            "project": "ODC",
+                            "teamNeeds": [
+                                {"team": "设备服务3组", "persons": 2.0},
+                                {"team": "平台架构", "persons": 3.0}
+                            ]
+                        },
+                        {
+                            "project": "Bridge AP",
+                            "teamNeeds": [
+                                {"team": "设备服务1组", "persons": 0.5}
+                            ]
+                        },
+                        {
+                            "project": "其他工作",
+                            "teamNeeds": [
+                                {"team": "设备服务1组", "persons": 0.5}
+                            ]
+                        }
+                    ],
+                    "preRelease": [
+                        {"project": "Controller 6.2", "releasePersons": 15.0, "note": "12月底发布"}
+                    ]
+                }
+            ]
+        };
+
+        // 全局变量
+        var myChart;
+        var currentData = intelligentData;
+        var calculatedFlowData = null;
+
+        // 初始化
+        function init() {
+            var chartDom = document.getElementById('main');
+            myChart = echarts.init(chartDom);
+            
+            // 加载默认数据到输入框
+            document.getElementById('dataInput').value = JSON.stringify(intelligentData, null, 2);
+            
+            // 计算流动并渲染图表
+            updateChart();
+            
+            // 响应式处理
+            window.addEventListener('resize', function() {
+                myChart.resize();
+            });
+        }
+
+        // 导出当前数据结构
+        function exportCurrentData() {
+            var dataStr = JSON.stringify(currentData, null, 2);
+            var blob = new Blob([dataStr], {type: 'application/json'});
+            var url = URL.createObjectURL(blob);
+            var a = document.createElement('a');
+            a.href = url;
+            a.download = 'intelligent_resource_data.json';
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        // 更新图表
+        function updateChart() {
+            try {
+                var inputData = document.getElementById('dataInput').value;
+                var newData = JSON.parse(inputData);
+                currentData = newData;
+                
+                // 计算智能人力流动
+                calculatedFlowData = calculateIntelligentFlow(newData);
+                
+                // 渲染图表
+                renderChart(calculatedFlowData);
+                
+                // 显示流动分析
+                displayFlowAnalysis(calculatedFlowData.flowAnalysis);
+                
+                alert('图表更新成功！已自动计算人力流动关系。');
+            } catch (error) {
+                alert('JSON格式错误：' + error.message);
+            }
+        }
+
+        // 智能计算人力流动
+        function calculateIntelligentFlow(data) {
+            var nodes = [];
+            var links = [];
+            var flowAnalysis = [];
+            var availablePool = {}; // 可用人力池
+            
+            // 添加团队节点
+            var teamSnapshot = data.timePointSnapshots.find(t => t.isTeamSnapshot);
+            if (teamSnapshot) {
+                teamSnapshot.teamTotals.forEach(function(team) {
+                    var teamConfig = data.teams.find(t => t.name === team.team);
+                    nodes.push({
+                        name: team.team,
+                        value: team.totalPersons,
+                        itemStyle: {color: teamConfig ? teamConfig.color : '#95a5a6'}
+                    });
+                });
+            }
+            
+            // 处理每个时间点
+            var projectSnapshots = data.timePointSnapshots.filter(t => !t.isTeamSnapshot);
+            
+            for (var i = 0; i < projectSnapshots.length; i++) {
+                var currentSnapshot = projectSnapshots[i];
+                var previousSnapshot = i > 0 ? projectSnapshots[i - 1] : null;
+                
+                var stepAnalysis = {
+                    step: currentSnapshot.name,
+                    releases: [],
+                    allocations: [],
+                    poolUsage: []
+                };
+                
+                // 处理预释放人力
+                if (previousSnapshot && previousSnapshot.preRelease) {
+                    previousSnapshot.preRelease.forEach(function(release) {
+                        availablePool[release.project] = (availablePool[release.project] || 0) + release.releasePersons;
+                        stepAnalysis.releases.push({
+                            project: release.project,
+                            persons: release.releasePersons,
+                            note: release.note
+                        });
+                    });
+                }
+                
+                // 计算当前时间点的项目总人力
+                var currentProjects = {};
+                currentSnapshot.projectRequirements.forEach(function(req) {
+                    var totalPersons = req.teamNeeds.reduce(function(sum, need) {
+                        return sum + need.persons;
+                    }, 0);
+                    
+                    currentProjects[req.project] = {
+                        totalPersons: totalPersons,
+                        teamNeeds: req.teamNeeds
+                    };
+                });
+                
+                // 添加当前时间点的项目节点
+                Object.keys(currentProjects).forEach(function(project) {
+                    var projectConfig = data.projects.find(p => p.name === project);
+                    var color = projectConfig ? projectConfig.color : '#95a5a6';
+                    
+                    nodes.push({
+                        name: currentSnapshot.id + '-' + project,
+                        value: currentProjects[project].totalPersons,
+                        itemStyle: {color: color}
+                    });
+                });
+                
+                // 计算人力分配逻辑
+                if (i === 0) {
+                    // 第一个时间点：从团队直接分配
+                    currentSnapshot.projectRequirements.forEach(function(req) {
+                        req.teamNeeds.forEach(function(need) {
+                            links.push({
+                                source: need.team,
+                                target: currentSnapshot.id + '-' + req.project,
+                                value: need.persons
+                            });
+                        });
+                    });
+                } else {
+                    // 后续时间点：智能分配逻辑
+                    var previousProjects = {};
+                    previousSnapshot.projectRequirements.forEach(function(req) {
+                        var totalPersons = req.teamNeeds.reduce(function(sum, need) {
+                            return sum + need.persons;
+                        }, 0);
+                        previousProjects[req.project] = totalPersons;
+                    });
+                    
+                    Object.keys(currentProjects).forEach(function(project) {
+                        var currentNeed = currentProjects[project].totalPersons;
+                        var previousAllocation = previousProjects[project] || 0;
+                        
+                        if (previousAllocation > 0) {
+                            // 项目继承：优先从上一时间点继承
+                            var inheritedPersons = Math.min(currentNeed, previousAllocation);
+                            if (inheritedPersons > 0) {
+                                links.push({
+                                    source: previousSnapshot.id + '-' + project,
+                                    target: currentSnapshot.id + '-' + project,
+                                    value: inheritedPersons
+                                });
+                                
+                                stepAnalysis.allocations.push({
+                                    type: '项目继承',
+                                    project: project,
+                                    persons: inheritedPersons,
+                                    from: '上一时间点'
+                                });
+                            }
+                            
+                            // 如果需要更多人力，从人力池补充
+                            var additionalNeed = currentNeed - inheritedPersons;
+                            if (additionalNeed > 0) {
+                                var poolAllocated = 0;
+                                Object.keys(availablePool).forEach(function(poolProject) {
+                                    if (availablePool[poolProject] > 0 && poolAllocated < additionalNeed) {
+                                        var fromPool = Math.min(availablePool[poolProject], additionalNeed - poolAllocated);
+                                        availablePool[poolProject] -= fromPool;
+                                        poolAllocated += fromPool;
+                                        
+                                        links.push({
+                                            source: previousSnapshot.id + '-' + poolProject,
+                                            target: currentSnapshot.id + '-' + project,
+                                            value: fromPool
+                                        });
+                                        
+                                        stepAnalysis.poolUsage.push({
+                                            to: project,
+                                            from: poolProject,
+                                            persons: fromPool
+                                        });
+                                    }
+                                });
+                                
+                                if (poolAllocated > 0) {
+                                    stepAnalysis.allocations.push({
+                                        type: '人力池补充',
+                                        project: project,
+                                        persons: poolAllocated,
+                                        from: '释放人力池'
+                                    });
+                                }
+                            }
+                        } else {
+                            // 新项目：完全从人力池分配
+                            var poolAllocated = 0;
+                            Object.keys(availablePool).forEach(function(poolProject) {
+                                if (availablePool[poolProject] > 0 && poolAllocated < currentNeed) {
+                                    var fromPool = Math.min(availablePool[poolProject], currentNeed - poolAllocated);
+                                    availablePool[poolProject] -= fromPool;
+                                    poolAllocated += fromPool;
+                                    
+                                    links.push({
+                                        source: previousSnapshot.id + '-' + poolProject,
+                                        target: currentSnapshot.id + '-' + project,
+                                        value: fromPool
+                                    });
+                                    
+                                    stepAnalysis.poolUsage.push({
+                                        to: project,
+                                        from: poolProject,
+                                        persons: fromPool
+                                    });
+                                }
+                            });
+                            
+                            if (poolAllocated > 0) {
+                                stepAnalysis.allocations.push({
+                                    type: '新项目启动',
+                                    project: project,
+                                    persons: poolAllocated,
+                                    from: '释放人力池'
+                                });
+                            }
+                        }
+                    });
+                }
+                
+                flowAnalysis.push(stepAnalysis);
+            }
+            
+            return {
+                nodes: nodes,
+                links: links,
+                flowAnalysis: flowAnalysis,
+                finalPool: availablePool
+            };
+        }
+
+        // 渲染图表
+        function renderChart(flowData) {
+            // 生成时间轴
+            generateTimeline(currentData.timePointSnapshots);
+            
+            // 配置选项
+            var option = {
+                title: {
+                    text: currentData.metadata.title,
+                    subtext: currentData.metadata.subtitle,
+                    left: 'center',
+                    textStyle: {
+                        fontSize: 18,
+                        color: '#2c3e50'
+                    },
+                    subtextStyle: {
+                        fontSize: 12,
+                        color: '#7f8c8d'
+                    }
+                },
+                tooltip: {
+                    trigger: 'item',
+                    triggerOn: 'mousemove',
+                    formatter: function(params) {
+                        if (params.dataType === 'edge') {
+                            return params.data.source + ' → ' + params.data.target + 
+                                   '<br/>人力流动: ' + params.data.value + ' 人';
+                        } else {
+                            var teamDesc = getTeamDescription(params.data.name, currentData.teams);
+                            var result = '<strong>' + params.data.name + '</strong><br/>人力: ' + params.data.value + ' 人';
+                            if (teamDesc) {
+                                result += '<br/><span style="color:#7f8c8d;font-size:11px;">' + teamDesc + '</span>';
+                            }
+                            return result;
+                        }
+                    }
+                },
+                series: [
+                    {
+                        type: 'sankey',
+                        layout: 'none',
+                        layoutIterations: 32,
+                        nodeWidth: 8,
+                        nodeGap: 3,
+                        nodeAlign: 'justify',
+                        data: flowData.nodes,
+                        links: flowData.links,
+                        emphasis: {
+                            focus: 'adjacency'
+                        },
+                        lineStyle: {
+                            color: 'gradient',
+                            curveness: 0.5,
+                            opacity: 0.6
+                        },
+                        label: {
+                            fontSize: 8,
+                            color: '#2c3e50',
+                            fontWeight: 'bold',
+                            formatter: function(params) {
+                                var name = params.data.name;
+                                if (name.includes('-')) {
+                                    var parts = name.split('-');
+                                    return parts.slice(1).join('-') + '\n(' + params.data.value + ')';
+                                }
+                                return name + '\n(' + params.data.value + ')';
+                            }
+                        },
+                        itemStyle: {
+                            borderWidth: 1,
+                            borderColor: '#fff'
+                        }
+                    }
+                ]
+            };
+            
+            myChart.setOption(option);
+        }
+
+        // 生成时间轴
+        function generateTimeline(timePoints) {
+            var header = document.getElementById('timelineHeader');
+            header.innerHTML = '';
+            
+            timePoints.forEach(function(point) {
+                var div = document.createElement('div');
+                div.className = 'timeline-point';
+                div.innerHTML = 
+                    '<div class="timeline-date">' + point.name + '</div>' +
+                    '<div class="timeline-event">' + point.description.replace('\\n', '<br/>') + '</div>';
+                header.appendChild(div);
+            });
+        }
+
+        // 显示流动分析
+        function displayFlowAnalysis(flowAnalysis) {
+            var container = document.getElementById('flowAnalysis');
+            var html = '<h3>智能人力流动分析</h3>';
+            
+            flowAnalysis.forEach(function(step) {
+                html += '<div class="flow-step">';
+                html += '<div class="flow-step-title">' + step.step + ' 时间点</div>';
+                
+                // 显示释放信息
+                if (step.releases.length > 0) {
+                    html += '<div class="release-info">';
+                    html += '<strong>人力释放：</strong>';
+                    step.releases.forEach(function(release) {
+                        html += release.project + ' 释放 ' + release.persons + ' 人 (' + release.note + '); ';
+                    });
+                    html += '</div>';
+                }
+                
+                // 显示分配信息
+                if (step.allocations.length > 0) {
+                    html += '<div class="allocation-info">';
+                    html += '<strong>人力分配策略：</strong><br/>';
+                    step.allocations.forEach(function(allocation) {
+                        html += '• ' + allocation.type + ': ' + allocation.project + ' 获得 ' + 
+                               allocation.persons + ' 人 (来源: ' + allocation.from + ')<br/>';
+                    });
+                    html += '</div>';
+                }
+                
+                // 显示人力池使用详情
+                if (step.poolUsage.length > 0) {
+                    html += '<div class="flow-detail">';
+                    html += '<strong>详细流动：</strong>';
+                    step.poolUsage.forEach(function(usage) {
+                        html += usage.from + ' → ' + usage.to + ' (' + usage.persons + '人); ';
+                    });
+                    html += '</div>';
+                }
+                
+                html += '</div>';
+            });
+            
+            container.innerHTML = html;
+        }
+
+        // 获取团队描述
+        function getTeamDescription(name, teams) {
+            var team = teams.find(t => t.name === name);
+            return team ? team.description : '';
+        }
+
+        // 页面加载时初始化
+        window.onload = init;
+    </script>
+</body>
+</html>

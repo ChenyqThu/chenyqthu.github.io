@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>圣地亚哥国庆日深度攻略 | 7月4日完美自驾指南</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+    <script type="text/javascript" src="https://webapi.amap.com/maps?v=2.0&key=YOUR_AMAP_KEY"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .gradient-accent {
+            background: linear-gradient(90deg, #ff6b6b, #ee5a24, #ffa726);
+        }
+        
+        .gradient-blue {
+            background: linear-gradient(90deg, #3742fa, #2f3542);
+        }
+        
+        .hero-gradient {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+        }
+        
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        
+        .timeline-line {
+            background: linear-gradient(180deg, #667eea, #764ba2);
+        }
+        
+        .pulse-animation {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+        
+        .floating {
+            animation: floating 3s ease-in-out infinite;
+        }
+        
+        @keyframes floating {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .map-container {
+            border-radius: 20px;
+            overflow: hidden;
+        }
+        
+        .comparison-table {
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.1);
+        }
+    </style>
+</head>
+<body class="bg-white text-gray-900">
+    <!-- Hero Section -->
+    <div class="hero-gradient text-white py-20">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center">
+                <h1 class="text-6xl font-bold mb-6 floating">
+                    圣地亚哥国庆日
+                    <span class="block gradient-accent bg-clip-text text-transparent">深度攻略</span>
+                </h1>
+                <p class="text-xl opacity-90 mb-8 max-w-3xl mx-auto">
+                    为来自尔湾的品味旅行家量身定制的自驾指南
+                </p>
+                <div class="flex items-center justify-center space-x-6 text-lg">
+                    <div class="flex items-center">
+                        <i class="fas fa-calendar-alt mr-2"></i>
+                        <span>2025年7月4日</span>
+                    </div>
+                    <div class="flex items-center">
+                        <i class="fas fa-route mr-2"></i>
+                        <span>尔湾 → 圣地亚哥</span>
+                    </div>
+                    <div class="flex items-center">
+                        <i class="fas fa-clock mr-2"></i>
+                        <span>一日游</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Key Highlights -->
+    <div class="py-16 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="bg-white rounded-2xl p-8 card-hover">
+                    <div class="w-16 h-16 gradient-blue rounded-xl flex items-center justify-center mb-6">
+                        <i class="fas fa-clock text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4">早起制胜</h3>
+                    <p class="text-gray-600 text-lg">7:00 AM 出发，避开节日车流高峰，抢占优质停车位</p>
+                </div>
+                
+                <div class="bg-white rounded-2xl p-8 card-hover">
+                    <div class="w-16 h-16 gradient-accent rounded-xl flex items-center justify-center mb-6">
+                        <i class="fas fa-camera text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4">特色景点</h3>
+                    <p class="text-gray-600 text-lg">海豹海滩观察、拉霍亚海湾、科罗纳多大桥航拍</p>
+                </div>
+                
+                <div class="bg-white rounded-2xl p-8 card-hover">
+                    <div class="w-16 h-16 bg-gradient-to-r from-green-400 to-blue-500 rounded-xl flex items-center justify-center mb-6">
+                        <i class="fas fa-star text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4">专家推荐</h3>
+                    <p class="text-gray-600 text-lg">圣克莱门特海岸烟花，避开大公园拥堵</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Route Options Comparison -->
+    <div class="py-16">
+        <div class="max-w-7xl mx-auto px-6">
+            <h2 class="text-4xl font-bold text-center mb-12">
+                晚间庆典方案 <span class="gradient-accent bg-clip-text text-transparent">对比分析</span>
+            </h2>
+            
+            <div class="comparison-table rounded-3xl p-8 border border-gray-200">
+                <div class="overflow-x-auto">
+                    <table class="w-full">
+                        <thead>
+                            <tr class="border-b-2 border-gray-200">
+                                <th class="text-left py-4 px-6 font-bold text-lg">特性对比</th>
+                                <th class="text-center py-4 px-6 font-bold text-lg">
+                                    <div class="bg-red-100 rounded-lg p-3">
+                                        方案A：尔湾大公园
+                                        <div class="text-sm font-normal text-red-600 mt-1">高压选择</div>
+                                    </div>
+                                </th>
+                                <th class="text-center py-4 px-6 font-bold text-lg">
+                                    <div class="bg-green-100 rounded-lg p-3">
+                                        方案B：圣克莱门特码头
+                                        <div class="text-sm font-normal text-green-600 mt-1">专家推荐</div>
+                                    </div>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-100">
+                            <tr>
+                                <td class="py-4 px-6 font-semibold">核心活动</td>
+                                <td class="py-4 px-6 text-center">8:45 PM 无人机秀 + 9:45 PM 烟花秀</td>
+                                <td class="py-4 px-6 text-center">6:00 PM 复古飞机 + 9:00 PM 码头烟花</td>
+                            </tr>
+                            <tr class="bg-gray-50">
+                                <td class="py-4 px-6 font-semibold">从圣地亚哥出发时间</td>
+                                <td class="py-4 px-6 text-center text-red-600">最晚 6:30 PM</td>
+                                <td class="py-4 px-6 text-center text-green-600">建议 7:00-7:30 PM</td>
+                            </tr>
+                            <tr>
+                                <td class="py-4 px-6 font-semibold">返程交通压力</td>
+                                <td class="py-4 px-6 text-center">
+                                    <span class="bg-red-100 text-red-700 px-3 py-1 rounded-full text-sm">极高</span>
+                                </td>
+                                <td class="py-4 px-6 text-center">
+                                    <span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm">中等</span>
+                                </td>
+                            </tr>
+                            <tr class="bg-gray-50">
+                                <td class="py-4 px-6 font-semibold">日落体验</td>
+                                <td class="py-4 px-6 text-center text-red-600">错过（在路上）</td>
+                                <td class="py-4 px-6 text-center text-green-600">完美融合</td>
+                            </tr>
+                            <tr>
+                                <td class="py-4 px-6 font-semibold">"休闲"指数</td>
+                                <td class="py-4 px-6 text-center">
+                                    <div class="flex justify-center">
+                                        <span class="text-red-500">★☆☆☆☆</span>
+                                    </div>
+                                </td>
+                                <td class="py-4 px-6 text-center">
+                                    <div class="flex justify-center">
+                                        <span class="text-green-500">★★★★★</span>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Detailed Itinerary -->
+    <div class="py-16 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-6">
+            <h2 class="text-4xl font-bold text-center mb-12">
+                推荐行程 <span class="gradient-accent bg-clip-text text-transparent">Timeline</span>
+            </h2>
+            
+            <div class="relative">
+                <!-- Timeline Line -->
+                <div class="absolute left-12 top-0 bottom-0 w-1 timeline-line opacity-30"></div>
+                
+                <!-- Timeline Items -->
+                <div class="space-y-8">
+                    <!-- 7:00 AM -->
+                    <div class="relative flex items-start">
+                        <div class="w-24 h-24 gradient-blue rounded-2xl flex items-center justify-center flex-shrink-0 z-10">
+                            <i class="fas fa-play text-white text-xl"></i>
+                        </div>
+                        <div class="ml-8 bg-white rounded-2xl p-6 flex-1 card-hover">
+                            <div class="flex items-center justify-between mb-4">
+                                <h3 class="text-2xl font-bold">07:00 出发启程</h3>
+                                <span class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm">关键时刻</span>
+                            </div>
+                            <p class="text-gray-600 text-lg mb-4">从尔湾准时出发，避开节日车流高峰</p>
+                            <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded">
+                                <p class="text-yellow-800"><i class="fas fa-lightbulb mr-2"></i>前一晚加满油箱，准备充足饮用水和零食</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 8:15 AM -->
+                    <div class="relative flex items-start">
+                        <div class="w-24 h-24 bg-gradient-to-r from-purple-500 to-pink-500 rounded-2xl flex items-center justify-center flex-shrink-0 z-10">
+                            <i class="fas fa-map-marker-alt text-white text-xl"></i>
+                        </div>
+                        <div class="ml-8 bg-white rounded-2xl p-6 flex-1 card-hover">
+                            <h3 class="text-2xl font-bold mb-4">08:15 抵达拉霍亚</h3>
+                            <p class="text-gray-600 text-lg mb-4">直接驶入预定停车场，开始精彩的海岸探索</p>
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
+                                <div class="bg-gray-100 rounded-lg p-4">
+                                    <h4 class="font-semibold">推荐停车场</h4>
+                                    <p class="text-sm text-gray-600">Coast Walk Garage<br>1299 Prospect St</p>
+                                </div>
+                                <div class="bg-gray-100 rounded-lg p-4">
+                                    <h4 class="font-semibold">875 Prospect Garage</h4>
+                                    <p class="text-sm text-gray-600">875 Prospect St<br>中心位置便利</p>
+                                </div>
+                                <div class="bg-gray-100 rounded-lg p-4">
+                                    <h4 class="font-semibold">La Jolla Financial</h4>
+                                    <p class="text-sm text-gray-600">1200 Prospect St<br>金融大厦车库</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- La Jolla Exploration -->
+                    <div class="relative flex items-start">
+                        <div class="w-24 h-24 gradient-accent rounded-2xl flex items-center justify-center flex-shrink-0 z-10">
+                            <i class="fas fa-binoculars text-white text-xl"></i>
+                        </div>
+                        <div class="ml-8 bg-white rounded-2xl p-6 flex-1 card-hover">
+                            <h3 class="text-2xl font-bold mb-4">08:30-14:30 拉霍亚深度探索</h3>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <h4 class="text-xl font-semibold mb-3">探索路线</h4>
+                                    <ul class="space-y-2 text-gray-600">
+                                        <li class="flex items-center"><i class="fas fa-coffee text-amber-500 mr-2"></i>Better Buzz Coffee 能量补充</li>
+                                        <li class="flex items-center"><i class="fas fa-swimmer text-blue-500 mr-2"></i>儿童池观察港湾海豹</li>
+                                        <li class="flex items-center"><i class="fas fa-walking text-green-500 mr-2"></i>拉霍亚海岸步道漫步</li>
+                                        <li class="flex items-center"><i class="fas fa-fish text-cyan-500 mr-2"></i>拉霍亚海湾看海狮</li>
+                                        <li class="flex items-center"><i class="fas fa-search text-purple-500 mr-2"></i>贝壳海滩潮汐池探索</li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <h4 class="text-xl font-semibold mb-3">摄影要点</h4>
+                                    <div class="bg-blue-50 rounded-lg p-4">
+                                        <p class="text-blue-800 text-sm mb-2"><i class="fas fa-camera mr-2"></i>拍摄提示</p>
+                                        <ul class="text-sm text-blue-700 space-y-1">
+                                            <li>• 海豹海狮区域禁飞无人机</li>
+                                            <li>• 长焦镜头捕捉野生动物</li>
+                                            <li>• 悬崖步道提供绝佳全景</li>
+                                            <li>• 潮汐池拍摄倒影效果</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Lunch -->
+                    <div class="relative flex items-start">
+                        <div class="w-24 h-24 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-2xl flex items-center justify-center flex-shrink-0 z-10">
+                            <i class="fas fa-utensils text-white text-xl"></i>
+                        </div>
+                        <div class="ml-8 bg-white rounded-2xl p-6 flex-1 card-hover">
+                            <h3 class="text-2xl font-bold mb-4">14:30-16:00 海景午餐时光</h3>
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                <div class="border border-gray-200 rounded-lg p-4">
+                                    <h4 class="font-semibold text-green-600">快捷美食</h4>
+                                    <p class="text-sm text-gray-600 mt-2">Puesto - 创新墨西哥Taco<br>El Pescador - 超新鲜海鲜</p>
+                                </div>
+                                <div class="border border-gray-200 rounded-lg p-4">
+                                    <h4 class="font-semibold text-blue-600">经典景观</h4>
+                                    <p class="text-sm text-gray-600 mt-2">George's Ocean Terrace<br>无与伦比的观景露台</p>
+                                </div>
+                                <div class="border border-gray-200 rounded-lg p-4">
+                                    <h4 class="font-semibold text-purple-600">本地风味</h4>
+                                    <p class="text-sm text-gray-600 mt-2">Brockton Villa - Coast Toast<br>Duke's - 夏威夷风情</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Coronado -->
+                    <div class="relative flex items-start">
+                        <div class="w-24 h-24 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-2xl flex items-center justify-center flex-shrink-0 z-10">
+                            <i class="fas fa-drone text-white text-xl"></i>
+                        </div>
+                        <div class="ml-8 bg-white rounded-2xl p-6 flex-1 card-hover">
+                            <h3 class="text-2xl font-bold mb-4">16:15-18:00 科罗纳多航拍之旅</h3>
+                            <p class="text-gray-600 text-lg mb-4">驾车穿越标志性科罗纳多大桥，在海湾公园进行专业航拍</p>
+                            <div class="bg-gradient-to-r from-blue-50 to-purple-50 rounded-lg p-6">
+                                <h4 class="text-lg font-semibold mb-3">📍 科罗纳多海湾公园航拍点</h4>
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div>
+                                        <h5 class="font-medium text-green-600">✅ 法规优势</h5>
+                                        <ul class="text-sm text-gray-600 mt-2 space-y-1">
+                                            <li>• G类非管制空域</li>
+                                            <li>• 无需LAANC授权</li>
+                                            <li>• 远离机场5英里通知范围</li>
+                                        </ul>
+                                    </div>
+                                    <div>
+                                        <h5 class="font-medium text-blue-600">📸 拍摄建议</h5>
+                                        <ul class="text-sm text-gray-600 mt-2 space-y-1">
+                                            <li>• 科罗纳多大桥穿越镜头</li>
+                                            <li>• 圣地亚哥天际线全景</li>
+                                            <li>• 游艇码头追踪拍摄</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Evening Finale -->
+                    <div class="relative flex items-start">
+                        <div class="w-24 h-24 bg-gradient-to-r from-pink-500 to-red-500 rounded-2xl flex items-center justify-center flex-shrink-0 z-10 pulse-animation">
+                            <i class="fas fa-fire text-white text-xl"></i>
+                        </div>
+                        <div class="ml-8 bg-white rounded-2xl p-6 flex-1 card-hover">
+                            <h3 class="text-2xl font-bold mb-4">19:15-22:00 圣克莱门特完美收官</h3>
+                            <div class="bg-gradient-to-r from-orange-50 to-red-50 rounded-lg p-6">
+                                <div class="flex items-center justify-between mb-4">
+                                    <h4 class="text-xl font-semibold">🌅 日落晚餐 + 烟花盛宴</h4>
+                                    <span class="bg-red-100 text-red-700 px-3 py-1 rounded-full text-sm">专家推荐</span>
+                                </div>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <div>
+                                        <h5 class="font-medium mb-2">19:30-21:00 码头日落晚餐</h5>
+                                        <p class="text-gray-600 text-sm">The Fisherman's Restaurant<br>太平洋日落 + 海鲜美食</p>
+                                    </div>
+                                    <div>
+                                        <h5 class="font-medium mb-2">21:00-21:20 码头烟花秀</h5>
+                                        <p class="text-gray-600 text-sm">经典加州海滨小镇氛围<br>绝佳观赏视角</p>
+                                    </div>
+                                </div>
+                                <div class="mt-4 bg-green-100 rounded-lg p-3">
+                                    <p class="text-green-800 text-sm"><i class="fas fa-check-circle mr-2"></i>22:00 轻松返家，避开主要车流高峰</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Maps Section -->
+<div class="py-16">
+    <div class="max-w-7xl mx-auto px-6">
+        <h2 class="text-4xl font-bold text-center mb-12">
+            行程 <span class="gradient-accent bg-clip-text text-transparent">地图导览</span>
+        </h2>
+        
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <!-- Route Map -->
+            <div class="bg-white rounded-2xl p-6 card-hover">
+                <h3 class="text-2xl font-bold mb-4">🗺️ 完整路线图</h3>
+                <div class="map-container bg-gray-100 h-96 relative">
+                    <iframe 
+                        src="https://maps.google.com/maps?width=100%25&amp;height=384&amp;hl=en&amp;q=La%20Jolla,%20San%20Diego,%20CA&amp;t=&amp;z=10&amp;ie=UTF8&amp;iwloc=B&amp;output=embed"
+                        width="100%" 
+                        height="384" 
+                        style="border:0; border-radius: 12px;" 
+                        allowfullscreen="" 
+                        loading="lazy" 
+                        referrerpolicy="no-referrer-when-downgrade">
+                    </iframe>
+                </div>
+                <div class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-3">
+                    <a href="https://www.google.com/maps/dir/Irvine,+CA/La+Jolla,+CA/San+Clemente,+CA" 
+                       target="_blank" 
+                       class="inline-flex items-center justify-center bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors text-sm">
+                        <i class="fas fa-route mr-2"></i>
+                        完整路线导航
+                    </a>
+                    <a href="https://www.google.com/maps/dir/Irvine,+CA/La+Jolla,+CA" 
+                       target="_blank" 
+                       class="inline-flex items-center justify-center bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition-colors text-sm">
+                        <i class="fas fa-play mr-2"></i>
+                        尔湾→拉霍亚
+                    </a>
+                </div>
+            </div>
+
+            <!-- Key Locations -->
+            <div class="bg-white rounded-2xl p-6 card-hover">
+                <h3 class="text-2xl font-bold mb-4">📍 关键位置</h3>
+                <div class="space-y-4">
+                    <div class="flex items-center p-3 bg-blue-50 rounded-lg">
+                        <i class="fas fa-swimmer text-blue-500 text-xl mr-4"></i>
+                        <div class="flex-1">
+                            <h4 class="font-semibold">拉霍亚儿童池</h4>
+                            <p class="text-sm text-gray-600">观察港湾海豹的最佳地点</p>
+                        </div>
+                        <a href="https://maps.google.com/maps?q=La+Jolla+Children's+Pool,San+Diego,CA" target="_blank" class="text-blue-500 hover:text-blue-700">
+                            <i class="fas fa-external-link-alt"></i>
+                        </a>
+                    </div>
+                    <div class="flex items-center p-3 bg-cyan-50 rounded-lg">
+                        <i class="fas fa-fish text-cyan-500 text-xl mr-4"></i>
+                        <div class="flex-1">
+                            <h4 class="font-semibold">拉霍亚海湾</h4>
+                            <p class="text-sm text-gray-600">加州海狮聚集地，浮潜胜地</p>
+                        </div>
+                        <a href="https://maps.google.com/maps?q=La+Jolla+Cove,San+Diego,CA" target="_blank" class="text-cyan-500 hover:text-cyan-700">
+                            <i class="fas fa-external-link-alt"></i>
+                        </a>
+                    </div>
+                    <div class="flex items-center p-3 bg-purple-50 rounded-lg">
+                        <i class="fas fa-plane text-purple-500 text-xl mr-4"></i>
+                        <div class="flex-1">
+                            <h4 class="font-semibold">托里派恩斯滑翔场</h4>
+                            <p class="text-sm text-gray-600">远眺索尔克研究所，观看滑翔翼</p>
+                        </div>
+                        <a href="https://maps.google.com/maps?q=Torrey+Pines+Gliderport,La+Jolla,CA" target="_blank" class="text-purple-500 hover:text-purple-700">
+                            <i class="fas fa-external-link-alt"></i>
+                        </a>
+                    </div>
+                    <div class="flex items-center p-3 bg-indigo-50 rounded-lg">
+                        <i class="fas fa-bridge text-indigo-500 text-xl mr-4"></i>
+                        <div class="flex-1">
+                            <h4 class="font-semibold">科罗纳多大桥</h4>
+                            <p class="text-sm text-gray-600">圣地亚哥标志性建筑</p>
+                        </div>
+                        <a href="https://maps.google.com/maps?q=Coronado+Bridge,San+Diego,CA" target="_blank" class="text-indigo-500 hover:text-indigo-700">
+                            <i class="fas fa-external-link-alt"></i>
+                        </a>
+                    </div>
+                    <div class="flex items-center p-3 bg-green-50 rounded-lg">
+                        <i class="fas fa-drone text-green-500 text-xl mr-4"></i>
+                        <div class="flex-1">
+                            <h4 class="font-semibold">科罗纳多海湾公园</h4>
+                            <p class="text-sm text-gray-600">合法无人机航拍点</p>
+                        </div>
+                        <a href="https://maps.google.com/maps?q=Coronado+Cays+Park,Coronado,CA" target="_blank" class="text-green-500 hover:text-green-700">
+                            <i class="fas fa-external-link-alt"></i>
+                        </a>
+                    </div>
+                    <div class="flex items-center p-3 bg-red-50 rounded-lg">
+                        <i class="fas fa-fire text-red-500 text-xl mr-4"></i>
+                        <div class="flex-1">
+                            <h4 class="font-semibold">圣克莱门特码头</h4>
+                            <p class="text-sm text-gray-600">烟花表演 + 日落晚餐</p>
+                        </div>
+                        <a href="https://maps.google.com/maps?q=San+Clemente+Pier,San+Clemente,CA" target="_blank" class="text-red-500 hover:text-red-700">
+                            <i class="fas fa-external-link-alt"></i>
+                        </a>
+                    </div>
+                    <div class="flex items-center p-3 bg-orange-50 rounded-lg">
+                        <i class="fas fa-utensils text-orange-500 text-xl mr-4"></i>
+                        <div class="flex-1">
+                            <h4 class="font-semibold">The Fisherman's Restaurant</h4>
+                            <p class="text-sm text-gray-600">码头海景餐厅，日落晚餐推荐</p>
+                        </div>
+                        <a href="https://maps.google.com/maps?q=The+Fisherman's+Restaurant,San+Clemente,CA" target="_blank" class="text-orange-500 hover:text-orange-700">
+                            <i class="fas fa-external-link-alt"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+            </div>
+        </div>
+    </div>
+
+<!-- Image Placeholders Section -->
+<div class="py-16 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-6">
+        <h2 class="text-4xl font-bold text-center mb-12">
+            精彩 <span class="gradient-accent bg-clip-text text-transparent">瞬间预览</span>
+        </h2>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- La Jolla Children's Pool -->
+            <div class="bg-white rounded-2xl overflow-hidden card-hover">
+                <a href="https://www.magiccat.tw/%E5%8D%97%E5%8A%A0%E5%B7%9E-%E8%81%96%E5%9C%B0%E7%89%99%E5%93%A5-la-jolla-%E6%8B%89%E9%9C%8D%E4%BA%9E-%E9%A2%A8%E5%85%89%E6%98%8E%E5%AA%9A%E7%9A%84%E6%B5%B7%E5%B2%B8-childrens-pool-%E8%BF%91/" target="_blank">
+                    <div class="h-64 bg-cover bg-center" style="background-image: url('https://dynamic-media-cdn.tripadvisor.com/media/photo-o/0e/cf/85/fd/beach-at-la-jolla.jpg?w=1000&h=-1&s=1');">
+                        <div class="h-full bg-black bg-opacity-30 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-300">
+                            <div class="text-white text-center">
+                                <i class="fas fa-external-link-alt text-2xl mb-2"></i>
+                                <p class="font-semibold">查看攻略</p>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+                <div class="p-6">
+                    <h3 class="text-xl font-bold mb-2">拉霍亚儿童池 <span class="text-sm text-gray-500">Children's Pool</span></h3>
+                    <p class="text-gray-600">太平洋港湾海豹栖息地，观察野生动物的绝佳地点</p>
+                </div>
+            </div>
+
+            <!-- La Jolla Coast Walk -->
+            <div class="bg-white rounded-2xl overflow-hidden card-hover">
+                <a href="https://www.getyourguide.com/zh-cn/la-jolla-l1489/prochazka-po-mori-skryte-poklady-la-jolly-prochazka-po-skrytych-pokladech-la-jolly-t603747/" target="_blank">
+                    <div class="h-64 bg-cover bg-center" style="background-image: url('https://cdn.getyourguide.com/image/format=auto,fit=crop,gravity=auto,quality=60,width=620,height=400,dpr=2/tour_img/e85142d30f142616c7823879423719d48b63cb2c86edc29d28a3c0cd690ed72a.jpg');">
+                        <div class="h-full bg-black bg-opacity-30 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-300">
+                            <div class="text-white text-center">
+                                <i class="fas fa-external-link-alt text-2xl mb-2"></i>
+                                <p class="font-semibold">查看攻略</p>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+                <div class="p-6">
+                    <h3 class="text-xl font-bold mb-2">拉霍亚海岸步道 <span class="text-sm text-gray-500">La Jolla Coast Walk</span></h3>
+                    <p class="text-gray-600">沿悬崖顶端蜿蜒，欣赏无与伦比的海岸风光</p>
+                </div>
+            </div>
+
+            <!-- Coronado Bridge -->
+            <div class="bg-white rounded-2xl overflow-hidden card-hover">
+                <a href="https://cn.tripadvisor.com/Attraction_Review-g60750-d127014-Reviews-Coronado_Bridge-San_Diego_California.html" target="_blank">
+                    <div class="h-64 bg-cover bg-center" style="background-image: url('https://dynamic-media-cdn.tripadvisor.com/media/photo-o/16/6b/f0/86/coronado-bridge.jpg?w=900&h=-1&s=1');">
+                        <div class="h-full bg-black bg-opacity-30 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-300">
+                            <div class="text-white text-center">
+                                <i class="fas fa-external-link-alt text-2xl mb-2"></i>
+                                <p class="font-semibold">查看攻略</p>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+                <div class="p-6">
+                    <h3 class="text-xl font-bold mb-2">科罗纳多大桥 <span class="text-sm text-gray-500">Coronado Bridge</span></h3>
+                    <p class="text-gray-600">圣地亚哥地标建筑，驾车穿越体验壮观海湾景色</p>
+                </div>
+            </div>
+
+            <!-- La Jolla Cove -->
+            <div class="bg-white rounded-2xl overflow-hidden card-hover">
+                <a href="https://cn.tripadvisor.com/Attraction_Review-g32578-d255307-Reviews-La_Jolla_Cove-La_Jolla_San_Diego_California.html" target="_blank">
+                    <div class="h-64 bg-cover bg-center" style="background-image: url('https://dynamic-media-cdn.tripadvisor.com/media/photo-o/15/ca/ae/99/sea-lions-doing-their.jpg?w=1400&h=800&s=1');">
+                        <div class="h-full bg-black bg-opacity-30 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-300">
+                            <div class="text-white text-center">
+                                <i class="fas fa-external-link-alt text-2xl mb-2"></i>
+                                <p class="font-semibold">查看攻略</p>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+                <div class="p-6">
+                    <h3 class="text-xl font-bold mb-2">拉霍亚海湾 <span class="text-sm text-gray-500">La Jolla Cove</span></h3>
+                    <p class="text-gray-600">成群海狮在岩石上晒太阳，构成生动的自然画面</p>
+                </div>
+            </div>
+
+            <!-- Coronado Beach -->
+            <div class="bg-white rounded-2xl overflow-hidden card-hover">
+                <a href="https://cn.tripadvisor.com/Attraction_Review-g32250-d117411-Reviews-Coronado_Beach-Coronado_California.html" target="_blank">
+                    <div class="h-64 bg-cover bg-center" style="background-image: url('https://dynamic-media-cdn.tripadvisor.com/media/photo-o/0c/81/92/e0/coronado-municipal-beach.jpg?w=1400&h=-1&s=1');">
+                        <div class="h-full bg-black bg-opacity-30 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-300">
+                            <div class="text-white text-center">
+                                <i class="fas fa-external-link-alt text-2xl mb-2"></i>
+                                <p class="font-semibold">查看攻略</p>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+                <div class="p-6">
+                    <h3 class="text-xl font-bold mb-2">科罗纳多海滩 <span class="text-sm text-gray-500">Coronado Beach</span></h3>
+                    <p class="text-gray-600">合法航拍点，俯瞰圣地亚哥天际线和游艇码头</p>
+                </div>
+            </div>
+
+            <!-- San Clemente Pier -->
+            <div class="bg-white rounded-2xl overflow-hidden card-hover">
+                <a href="https://www.magiccat.tw/%E8%81%96%E5%85%8B%E8%90%8A%E9%96%80%E7%89%B9%E7%A2%BC%E9%A0%AD-san-clemente-pier-%E4%BC%B8%E5%85%A5%E6%B5%B7%E4%B8%AD%E7%9A%84%E6%9C%A8%E6%A3%A7%E9%81%93%E5%92%8C%E9%80%A3%E7%B6%BF%E7%9A%84%E6%B2%99/" target="_blank">
+                    <div class="h-64 bg-cover bg-center" style="background-image: url('https://www.magiccat.tw/wp-content/uploads/2023/09/batch_20230715_132355.jpg');">
+                        <div class="h-full bg-black bg-opacity-30 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-300">
+                            <div class="text-white text-center">
+                                <i class="fas fa-external-link-alt text-2xl mb-2"></i>
+                                <p class="font-semibold">查看攻略</p>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+                <div class="p-6">
+                    <h3 class="text-xl font-bold mb-2">圣克莱门特码头 <span class="text-sm text-gray-500">San Clemente Pier</span></h3>
+                    <p class="text-gray-600">经典加州海滨小镇烟花秀，浪漫日落晚餐完美收官</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <!-- Practical Tips -->
+    <div class="py-16">
+        <div class="max-w-7xl mx-auto px-6">
+            <h2 class="text-4xl font-bold text-center mb-12">
+                实用 <span class="gradient-accent bg-clip-text text-transparent">贴士指南</span>
+            </h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Parking Tips -->
+                <div class="bg-white rounded-2xl p-8 card-hover">
+                    <div class="w-16 h-16 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-xl flex items-center justify-center mb-6">
+                        <i class="fas fa-parking text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4">停车策略</h3>
+                    <ul class="space-y-3 text-gray-600">
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-green-500 mr-3 mt-1"></i>
+                            <span>提前通过SpotHero预订车位</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-green-500 mr-3 mt-1"></i>
+                            <span>优先选择付费停车场</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-green-500 mr-3 mt-1"></i>
+                            <span>避免寻找街边车位浪费时间</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Drone Rules -->
+                <div class="bg-white rounded-2xl p-8 card-hover">
+                    <div class="w-16 h-16 gradient-accent rounded-xl flex items-center justify-center mb-6">
+                        <i class="fas fa-drone text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4">无人机规则</h3>
+                    <ul class="space-y-3 text-gray-600">
+                        <li class="flex items-start">
+                            <i class="fas fa-ban text-red-500 mr-3 mt-1"></i>
+                            <span>拉霍亚海豹海狮区域禁飞</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-ban text-red-500 mr-3 mt-1"></i>
+                            <span>加州州立海滩禁止起降</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-green-500 mr-3 mt-1"></i>
+                            <span>科罗纳多海湾公园合法航拍</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Weather & Gear -->
+                <div class="bg-white rounded-2xl p-8 card-hover">
+                    <div class="w-16 h-16 bg-gradient-to-r from-yellow-500 to-orange-500 rounded-xl flex items-center justify-center mb-6">
+                        <i class="fas fa-sun text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4">装备建议</h3>
+                    <ul class="space-y-3 text-gray-600">
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-green-500 mr-3 mt-1"></i>
+                            <span>防晒霜和遮阳帽必备</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-green-500 mr-3 mt-1"></i>
+                            <span>舒适的步行鞋</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-green-500 mr-3 mt-1"></i>
+                            <span>充足的饮用水和零食</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Traffic Analysis -->
+    <div class="py-16 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-6">
+            <h2 class="text-4xl font-bold text-center mb-12">
+                交通 <span class="gradient-accent bg-clip-text text-transparent">分析预测</span>
+            </h2>
+            
+            <div class="bg-white rounded-3xl p-8">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <div>
+                        <h3 class="text-2xl font-bold mb-6 flex items-center">
+                            <i class="fas fa-chart-line gradient-blue text-white p-3 rounded-lg mr-4"></i>
+                            节日车流预测
+                        </h3>
+                        <div class="space-y-4">
+                            <div class="bg-red-50 border-l-4 border-red-400 p-4 rounded">
+                                <h4 class="font-semibold text-red-800">高峰时段 ⚠️</h4>
+                                <p class="text-red-700 text-sm">上午8:00后出发 - 严重拥堵</p>
+                                <p class="text-red-700 text-sm">下午17:00-19:00北上返程 - 极度拥堵</p>
+                            </div>
+                            <div class="bg-green-50 border-l-4 border-green-400 p-4 rounded">
+                                <h4 class="font-semibold text-green-800">最佳时段 ✅</h4>
+                                <p class="text-green-700 text-sm">清晨7:00前出发 - 畅通无阻</p>
+                                <p class="text-green-700 text-sm">晚上21:30后返程 - 相对顺畅</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <h3 class="text-2xl font-bold mb-6 flex items-center">
+                            <i class="fas fa-route gradient-accent text-white p-3 rounded-lg mr-4"></i>
+                            关键路段状况
+                        </h3>
+                        <div class="space-y-3">
+                            <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                                <span class="font-medium">I-5 南下 (尔湾→圣地亚哥)</span>
+                                <span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm">清晨畅通</span>
+                            </div>
+                            <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                                <span class="font-medium">I-5 北上 (圣地亚哥→橙县)</span>
+                                <span class="bg-red-100 text-red-700 px-3 py-1 rounded-full text-sm">傍晚拥堵</span>
+                            </div>
+                            <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                                <span class="font-medium">圣克莱门特当地道路</span>
+                                <span class="bg-yellow-100 text-yellow-700 px-3 py-1 rounded-full text-sm">中等车流</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Emergency Contacts -->
+    <div class="py-16">
+        <div class="max-w-4xl mx-auto px-6">
+            <h2 class="text-4xl font-bold text-center mb-12">
+                紧急 <span class="gradient-accent bg-clip-text text-transparent">联系方式</span>
+            </h2>
+            
+            <div class="bg-white rounded-2xl p-8 border border-gray-200">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div>
+                        <h3 class="text-xl font-bold mb-4 flex items-center">
+                            <i class="fas fa-phone-alt text-blue-500 mr-3"></i>
+                            重要电话
+                        </h3>
+                        <div class="space-y-3">
+                            <div class="flex justify-between">
+                                <span>紧急救援:</span>
+                                <span class="font-mono font-bold">911</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span>圣地亚哥非紧急:</span>
+                                <span class="font-mono">(619) 531-2000</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span>加州公路巡警:</span>
+                                <span class="font-mono">(858) 637-3800</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <h3 class="text-xl font-bold mb-4 flex items-center">
+                            <i class="fas fa-info-circle text-green-500 mr-3"></i>
+                            实用信息
+                        </h3>
+                        <div class="space-y-3">
+                            <div class="flex justify-between">
+                                <span>拉霍亚停车信息:</span>
+                                <span class="font-mono">(858) 454-1444</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span>科罗纳多市政:</span>
+                                <span class="font-mono">(619) 522-7300</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span>圣克莱门特市政:</span>
+                                <span class="font-mono">(949) 361-8200</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="hero-gradient text-white py-12">
+        <div class="max-w-7xl mx-auto px-6 text-center">
+            <h3 class="text-3xl font-bold mb-4">祝您拥有完美的独立日之旅！</h3>
+            <p class="text-xl opacity-90 mb-6">
+                通过精心规划，让这一天成为充满阳光、海浪、美食和璀璨烟花的完美回忆
+            </p>
+            <div class="flex items-center justify-center space-x-8 text-sm opacity-75">
+                <span>📅 2025年7月4日</span>
+                <span>🚗 尔湾出发</span>
+                <span>🌊 圣地亚哥探索</span>
+                <span>🎆 圣克莱门特收官</span>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Add smooth scrolling for better UX
+        document.documentElement.style.scrollBehavior = 'smooth';
+        
+        // Initialize maps (placeholder for Amap integration)
+        function initMaps() {
+            // This is where Amap integration would go
+            console.log('Maps would be initialized here with actual Amap API key');
+        }
+        
+        // Add some interactive animations
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        });
+
+        // Observe all cards for animation
+        document.querySelectorAll('.card-hover').forEach((card) => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            card.style.transition = 'all 0.6s ease';
+            observer.observe(card);
+        });
+    </script>
+</body>
+</html>
