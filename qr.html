@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WiFi 二维码</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            max-width: 400px;
+            width: 100%;
+        }
+        
+        h1 {
+            color: #333;
+            margin-bottom: 30px;
+            font-size: 2em;
+            font-weight: 600;
+        }
+        
+        .qr-code {
+            margin: 30px 0;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 15px;
+            border: 2px solid #e9ecef;
+        }
+        
+        .qr-code img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+        }
+        
+        .wifi-info {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 25px;
+            margin-top: 30px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .wifi-item {
+            margin: 15px 0;
+            padding: 10px 0;
+        }
+        
+        .wifi-label {
+            font-weight: 600;
+            color: #495057;
+            font-size: 1.1em;
+            margin-bottom: 5px;
+        }
+        
+        .wifi-value {
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            background: white;
+            padding: 12px 16px;
+            border-radius: 8px;
+            border: 1px solid #dee2e6;
+            color: #212529;
+            font-size: 1em;
+            word-break: break-all;
+        }
+        
+        .instructions {
+            margin-top: 30px;
+            padding: 20px;
+            background: #e3f2fd;
+            border-radius: 10px;
+            border-left: 4px solid #2196f3;
+        }
+        
+        .instructions p {
+            margin: 8px 0;
+            color: #1565c0;
+            font-size: 0.95em;
+            line-height: 1.5;
+        }
+        
+        @media (max-width: 480px) {
+            .container {
+                padding: 25px;
+                margin: 10px;
+            }
+            
+            h1 {
+                font-size: 1.5em;
+            }
+            
+            .wifi-value {
+                font-size: 0.9em;
+                padding: 10px 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔗 WiFi 连接</h1>
+        
+        <div class="qr-code">
+            <img src="qrcode.png" alt="WiFi 二维码" />
+        </div>
+        
+        <div class="wifi-info">
+            <div class="wifi-item">
+                <div class="wifi-label">📶 网络名称 (SSID)</div>
+                <div class="wifi-value">TP-Link_Office_300</div>
+            </div>
+            
+            <div class="wifi-item">
+                <div class="wifi-label">🔐 密码 (Password)</div>
+                <div class="wifi-value">TPS@jmspP2J_2025</div>
+            </div>
+        </div>
+        
+        <div class="instructions">
+            <p><strong>📱 使用方法：</strong></p>
+            <p>• 打开手机相机或二维码扫描器</p>
+            <p>• 扫描上方二维码即可自动连接</p>
+            <p>• 或手动输入上方网络信息连接</p>
+        </div>
+    </div>
+</body>
+</html> 
