@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>影响者合作与Omada方案分析</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;700;900&display=swap');
+        body {
+            font-family: 'Noto Sans SC', sans-serif;
+            background-color: #ffffff;
+            color: #000000;
+        }
+       .gradient-text {
+            background: linear-gradient(to right, #3b82f6, #8b5cf6, #ef4444);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-fill-color: transparent;
+        }
+       .gradient-bg {
+            background: linear-gradient(to right, #3b82f6, #8b5cf6, #ef4444);
+        }
+       .gradient-border {
+            border-image-slice: 1;
+            border-image-source: linear-gradient(to right, #3b82f6, #8b5cf6, #ef4444);
+        }
+       .section-title {
+            @apply text-5xl md:text-6xl font-black tracking-tighter;
+        }
+       .card {
+            @apply bg-gray-50/80 backdrop-blur-sm p-6 rounded-2xl shadow-lg border border-gray-200 transition-transform duration-300 hover:scale-105;
+        }
+       .fade-in-section {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+       .fade-in-section.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+       .icon-highlight {
+            @apply text-5xl mb-4 gradient-text;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+        <section class="min-h-screen flex flex-col justify-center items-center text-center py-20 fade-in-section">
+            <h1 class="section-title gradient-text leading-tight">战略性影响者合作分析</h1>
+            <p class="mt-4 text-xl md:text-2xl font-bold max-w-3xl">
+                借助 <span class="text-purple-600">Geek of all trades</span> 开拓TP-Link Omada美国高端个人用户市场
+                <span class="block text-lg font-normal text-gray-600 mt-2">Leveraging Influence to Capture the Prosumer Market</span>
+            </p>
+        </section>
+
+        <section class="py-20 fade-in-section">
+            <div class="text-center mb-12">
+                <h2 class="text-2xl font-bold text-gray-500">CHAPTER 1</h2>
+                <p class="section-title">影响者深度剖析</p>
+                <p class="text-2xl font-bold gradient-text">Geek of all trades</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div class="w-full h-auto rounded-2xl overflow-hidden shadow-2xl">
+                    <iframe class="w-full aspect-video" src="https://www.youtube.com/embed/g-pxcJpze74" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+                <div>
+                    <div class="card mb-6">
+                        <h3 class="text-2xl font-bold mb-2">核心画像</h3>
+                        <p class="text-gray-700">自2015年创立，拥有 <span class="font-bold text-purple-600 text-xl">68k+</span> 订阅者，粉丝群体为“Geek SkWad” [1, 2]。他是一位技术深入、动手能力强、且在观众中拥有高度信任的“实干家”。</p>
+                    </div>
+                    <div class="grid sm:grid-cols-2 gap-4">
+                        <div class="card text-center">
+                            <i class="fa-solid fa-server icon-highlight"></i>
+                            <h4 class="text-xl font-bold">家庭实验室</h4>
+                            <p class="text-sm text-gray-600">Proxmox, NAS, 服务器 [3, 4, 5, 6]</p>
+                        </div>
+                        <div class="card text-center">
+                            <i class="fa-solid fa-wifi icon-highlight"></i>
+                            <h4 class="text-xl font-bold">高级网络</h4>
+                            <p class="text-sm text-gray-600">精通Omada & UniFi [3, 4, 5]</p>
+                        </div>
+                        <div class="card text-center">
+                            <i class="fa-solid fa-screwdriver-wrench icon-highlight"></i>
+                            <h4 class="text-xl font-bold">DIY & 评测</h4>
+                            <p class="text-sm text-gray-600">深入硬件评测与项目 [7, 8]</p>
+                        </div>
+                        <div class="card text-center">
+                            <i class="fa-solid fa-handshake-angle icon-highlight"></i>
+                            <h4 class="text-xl font-bold">品牌忠诚</h4>
+                            <p class="text-sm text-gray-600">已深度投资Omada生态</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-12 card">
+                <h3 class="text-2xl font-bold mb-4 text-center">当前网络拓扑：一位Omada超级用户</h3>
+                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 text-center">
+                    <div><p class="font-bold">网关</p><p class="text-gray-600">ER707-M2</p></div>
+                    <div><p class="font-bold">控制器</p><p class="text-gray-600">OC200</p></div>
+                    <div><p class="font-bold">核心交换机</p><p class="text-gray-600">SG3210X-M2</p></div>
+                    <div><p class="font-bold">PoE交换机</p><p class="text-gray-600">SG2008P</p></div>
+                    <div><p class="font-bold">无线AP</p><p class="text-gray-600">EAP653/610</p></div>
+                </div>
+                <p class="text-center mt-4 text-gray-700">这一发现是战略合作的基石：合作叙事应是“<span class="font-bold gradient-text">赋能一位忠实用户的网络升级之旅</span>”。</p>
+            </div>
+        </section>
+
+        <section class="py-20 fade-in-section">
+            <div class="text-center mb-12">
+                <h2 class="text-2xl font-bold text-gray-500">CHAPTER 2</h2>
+                <p class="section-title">高端个人用户市场战场</p>
+                <p class="text-2xl font-bold gradient-text">Omada的战略定位</p>
+            </div>
+            <div class="grid md:grid-cols-2 gap-12 items-start">
+                <div class="card">
+                    <h3 class="text-3xl font-bold mb-4">Omada vs. UniFi：核心叙事</h3>
+                    <p class="mb-4 text-gray-700">社区普遍认为，Omada在提供企业级功能的同时，拥有更优的性价比、更可靠的硬件供应和更稳定的固件 [9, 10, 11, 12]。这是一个可以主动塑造和利用的营销机遇。</p>
+                    <div class="space-y-3">
+                        <p><i class="fa-solid fa-check text-green-500 mr-2"></i><span class="font-bold">Omada优势:</span> 性价比、硬件供应、固件稳定、本地控制</p>
+                        <p><i class="fa-solid fa-lightbulb text-yellow-500 mr-2"></i><span class="font-bold">UniFi优势:</span> UI/UX、社区生态、对新手更友好</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <h3 class="text-3xl font-bold mb-4">解决10G升级核心痛点</h3>
+                    <p class="mb-4 text-gray-700">将营销叙事从“产品评测”提升为高价值的“<span class="font-bold gradient-text">问题解决指南</span>”，而Omada正是解决问题的英雄。</p>
+                    <ul class="list-none space-y-2">
+                        <li><i class="fa-solid fa-bolt text-red-500 mr-2"></i><span class="font-bold">复杂性与成本:</span> 10G网络被认为设置复杂且昂贵 [13, 14, 15]。</li>
+                        <li><i class="fa-solid fa-network-wired text-red-500 mr-2"></i><span class="font-bold">SFP+兼容性:</span> 模块兼容性是主要的挫败感来源 [16, 17, 18, 19]。</li>
+                        <li><i class="fa-solid fa-temperature-high text-red-500 mr-2"></i><span class="font-bold">散热与噪音:</span> 高性能设备的发热和噪音是家庭用户的顾虑 [13, 20, 21]。</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section class="py-20 fade-in-section">
+            <div class="text-center mb-12">
+                <h2 class="text-2xl font-bold text-gray-500">CHAPTER 3 & 4</h2>
+                <p class="section-title">两阶段激活计划</p>
+                <p class="text-2xl font-bold gradient-text">从2.5G到10G的飞跃</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="card">
+                    <div class="p-4">
+                        <p class="font-bold text-purple-600">PHASE 1</p>
+                        <h3 class="text-4xl font-black mb-2">2.5G & Wi-Fi 7 升级</h3>
+                        <p class="text-gray-600 mb-4">通过一次高影响力的升级，迅速建立市场声势。</p>
+                        <div class="text-left space-y-4">
+                            <div>
+                                <p class="font-bold text-lg">核心产品</p>
+                                <p class="text-2xl font-extrabold gradient-text">EAP772</p>
+                                <p class="text-sm text-gray-500">BE11000 吸顶式三频Wi-Fi 7 AP [22, 23, 24]</p>
+                            </div>
+                            <div>
+                                <p class="font-bold text-lg">战略价值</p>
+                                <ul class="list-disc list-inside text-gray-700">
+                                    <li><span class="font-bold">2.5G端口</span> 完美匹配网络，无瓶颈 [23, 24]。</li>
+                                    <li>彰显 <span class="font-bold">Wi-Fi 7</span> 技术领导力 [24, 25]。</li>
+                                    <li>无缝生态整合，展示便捷性。</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="p-4">
+                        <p class="font-bold text-orange-500">PHASE 2</p>
+                        <h3 class="text-4xl font-black mb-2">全面 10G 网络改造</h3>
+                        <p class="text-gray-600 mb-4">打造旗舰级Omada高端个人用户样板间。</p>
+                        <div class="text-left space-y-4">
+                            <div>
+                                <p class="font-bold text-lg">核心产品</p>
+                                <p class="text-2xl font-extrabold gradient-text">ER8411 + EAP787</p>
+                                <p class="text-sm text-gray-500">10G VPN网关 & BE15000 Wi-Fi 7 AP [26, 27]</p>
+                            </div>
+                            <div>
+                                <p class="font-bold text-lg">战略价值</p>
+                                <ul class="list-disc list-inside text-gray-700">
+                                    <li><span class="font-bold">10G骨干</span>，超规格性能吸引玩家 [26, 28]。</li>
+                                    <li><span class="font-bold">10G无线</span>，专用射频扫描等专业特性 [27, 29]。</li>
+                                    <li>完整展示Omada <span class="font-bold">10G全栈解决方案</span>。</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-12 card overflow-x-auto">
+                <h3 class="text-2xl font-bold mb-4 text-center">网络升级路径</h3>
+                <table class="w-full text-left">
+                    <thead class="border-b-2 border-gray-300">
+                        <tr>
+                            <th class="p-2">网络组件</th>
+                            <th class="p-2">当前设备</th>
+                            <th class="p-2">第一阶段 (2.5G)</th>
+                            <th class="p-2">第二阶段 (10G)</th>
+                            <th class="p-2">解锁能力</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="border-b border-gray-200">
+                            <td class="p-2 font-bold">网关/路由器</td>
+                            <td class="p-2">ER707-M2</td>
+                            <td class="p-2 text-gray-500">无变化</td>
+                            <td class="p-2 font-bold gradient-text">ER8411</td>
+                            <td class="p-2">完整10G路由能力</td>
+                        </tr>
+                        <tr class="border-b border-gray-200">
+                            <td class="p-2 font-bold">核心交换机</td>
+                            <td class="p-2">SG3210X-M2</td>
+                            <td class="p-2 text-gray-500">无变化</td>
+                            <td class="p-2 text-gray-500">无变化</td>
+                            <td class="p-2">与新10G网关无缝对接</td>
+                        </tr>
+                        <tr class="border-b border-gray-200">
+                            <td class="p-2 font-bold">主Wi-Fi AP</td>
+                            <td class="p-2">EAP610</td>
+                            <td class="p-2 font-bold gradient-text">EAP772</td>
+                            <td class="p-2 font-bold gradient-text">EAP787</td>
+                            <td class="p-2">2.5G -> 10G无线接入</td>
+                        </tr>
+                        <tr>
+                            <td class="p-2 font-bold">控制器</td>
+                            <td class="p-2">OC200</td>
+                            <td class="p-2 text-gray-500">无变化</td>
+                            <td class="p-2 text-gray-500">无变化</td>
+                            <td class="p-2">证明可扩展性</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section class="py-20 fade-in-section">
+            <div class="text-center mb-12">
+                <h2 class="text-2xl font-bold text-gray-500">CHAPTER 5</h2>
+                <p class="section-title">全方位合作与市场激活</p>
+                <p class="text-2xl font-bold gradient-text">最大化投资回报率</p>
+            </div>
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="card space-y-4">
+                    <h3 class="text-3xl font-bold">长期大使计划 <span class="text-lg font-normal text-gray-500">Long-term Ambassadorship</span></h3>
+                    <p>超越一次性的产品赠送，建立一个长期的品牌大使关系，实现共赢。</p>
+                    <ul class="space-y-2">
+                        <li><i class="fa-solid fa-link fa-fw mr-2 text-blue-500"></i><span class="font-bold">联盟链接与佣金</span> [30, 31, 32]</li>
+                        <li><i class="fa-solid fa-gift fa-fw mr-2 text-purple-500"></i><span class="font-bold">社区回馈活动</span> [33]</li>
+                        <li><i class="fa-solid fa-star fa-fw mr-2 text-orange-500"></i><span class="font-bold">新品优先体验 (NDA)</span> [33, 34]</li>
+                        <li><i class="fa-solid fa-money-bill-wave fa-fw mr-2 text-green-500"></i><span class="font-bold">直接内容创作报酬</span> [34, 35]</li>
+                    </ul>
+                </div>
+                <div class="card space-y-4">
+                    <h3 class="text-3xl font-bold">跨平台内容放大 <span class="text-lg font-normal text-gray-500">Content Amplification</span></h3>
+                    <p>将影响者产出的内容价值最大化，进行二次创作和全渠道分发。</p>
+                    <ul class="space-y-2">
+                        <li><i class="fa-brands fa-twitter fa-fw mr-2 text-blue-500"></i><span class="font-bold">官方社交媒体</span>短片</li>
+                        <li><i class="fa-solid fa-bullhorn fa-fw mr-2 text-purple-500"></i><span class="font-bold">付费数字广告</span>素材</li>
+                        <li><i class="fa-solid fa-file-alt fa-fw mr-2 text-orange-500"></i><span class="font-bold">官网案例研究</span> [36, 37]</li>
+                        <li><i class="fa-solid fa-tags fa-fw mr-2 text-green-500"></i><span class="font-bold">产品页用户证言</span></li>
+                    </ul>
+                </div>
+            </div>
+             <div class="mt-12 card overflow-x-auto">
+                <h3 class="text-2xl font-bold mb-4 text-center">ROI分析框架 [38, 39, 40]</h3>
+                <table class="w-full text-left">
+                    <thead class="border-b-2 border-gray-300">
+                        <tr>
+                            <th class="p-2">KPI类别</th>
+                            <th class="p-2">具体指标</th>
+                            <th class="p-2">追踪工具</th>
+                            <th class="p-2">合作后结果</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="border-b border-gray-200">
+                            <td class="p-2 font-bold" rowspan="2">认知与触达</td>
+                            <td class="p-2">视频总观看量</td>
+                            <td class="p-2">YouTube Analytics</td>
+                            <td class="p-2">[数据]</td>
+                        </tr>
+                        <tr class="border-b border-gray-200">
+                            <td class="p-2">用户参与度 (点赞/评论)</td>
+                            <td class="p-2">YouTube Analytics</td>
+                            <td class="p-2">[数据]</td>
+                        </tr>
+                        <tr class="border-b border-gray-200">
+                            <td class="p-2 font-bold" rowspan="2">流量与转化</td>
+                            <td class="p-2">联盟链接点击率 (CTR)</td>
+                            <td class="p-2">联盟平台 / GA</td>
+                            <td class="p-2">[数据]</td>
+                        </tr>
+                         <tr class="border-b border-gray-200">
+                            <td class="p-2">联盟销售额</td>
+                            <td class="p-2">联盟平台</td>
+                            <td class="p-2">[数据]</td>
+                        </tr>
+                        <tr>
+                            <td class="p-2 font-bold" rowspan="2">品牌提升</td>
+                            <td class="p-2">品牌关键词搜索量变化 (%)</td>
+                            <td class="p-2">Google Trends</td>
+                            <td class="p-2">[数据]</td>
+                        </tr>
+                        <tr>
+                            <td class="p-2">社区正面声量</td>
+                            <td class="p-2">社交聆听工具</td>
+                            <td class="p-2">[数据]</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section class="py-20 fade-in-section">
+            <div class="text-center mb-12">
+                <h2 class="text-2xl font-bold text-gray-500">CHAPTER 6</h2>
+                <p class="section-title">执行摘要与战略建议</p>
+            </div>
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="card">
+                    <h3 class="text-2xl font-bold mb-2 gradient-text">定位为“升级之旅”</h3>
+                    <p>充分利用影响者对品牌的既有忠诚度，以真实的故事打动目标受众。</p>
+                </div>
+                <div class="card">
+                    <h3 class="text-2xl font-bold mb-2 gradient-text">两阶段硬件支持</h3>
+                    <p>从2.5G/Wi-Fi 7的快速胜利，到10G网络样板间的树立，分步推进。</p>
+                </div>
+                <div class="card">
+                    <h3 class="text-2xl font-bold mb-2 gradient-text">聚焦解决痛点</h3>
+                    <p>将产品定位为“解决方案”，展示Omada如何轻松解决10G升级难题。</p>
+                </div>
+                <div class="card">
+                    <h3 class="text-2xl font-bold mb-2 gradient-text">建立长期大使关系</h3>
+                    <p>通过正式合作计划，培养持久且高价值的伙伴关系，超越一次性赠送。</p>
+                </div>
+                <div class="card">
+                    <h3 class="text-2xl font-bold mb-2 gradient-text">实施全面ROI追踪</h3>
+                    <p>衡量标准应超越直接销售额，将品牌提升等长期价值指标纳入考量。</p>
+                </div>
+                <div class="card bg-black text-white">
+                    <h3 class="text-2xl font-bold mb-2">核心发现</h3>
+                    <p>“Geek of all trades”是完美人选，此次合作是回应“Omada vs. UniFi”市场辩论的黄金机会。</p>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <footer class="text-center py-8 text-gray-500 text-sm">
+        <p>TP-Link Omada Influencer Strategy &copy; 2025. All Rights Reserved.</p>
+        <p>This is a strategic analysis document for internal use.</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const sections = document.querySelectorAll('.fade-in-section');
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                    }
+                });
+            }, {
+                threshold: 0.1
+            });
+
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+        });
+    </script>
+
+</body>
+</html>
