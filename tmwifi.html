@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TM WiFi 项目需求分析报告 - 完整版</title>
+    <script src="https://cdn.tailwindcss.com/3.4.3"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', 'Noto Sans SC', sans-serif;
+            background-color: #f8f9fa;
+            color: #3c4043;
+        }
+        .g-highlight { color: #1a73e8; } /* Google Blue */
+        .g-bg-highlight { background-color: #1a73e8; }
+        .g-secondary-highlight { color: #1e8e3e; } /* Google Green */
+        .g-tertiary-highlight { color: #f9ab00; } /* Google Yellow */
+        .g-warn-highlight { color: #d93025; } /* Google Red */
+        .tab-button {
+            transition: all 0.3s ease;
+            border-bottom: 4px solid transparent;
+            color: #5f6368;
+        }
+        .tab-button.active {
+            border-bottom-color: #1a73e8;
+            color: #1a73e8;
+        }
+        .content-card {
+            background-color: #ffffff;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 1px 3px 0 rgba(60,64,67,0.302), 0 4px 8px 3px rgba(60,64,67,0.149);
+            overflow: hidden;
+        }
+        code {
+            font-family: 'Fira Code', 'Menlo', monospace;
+            background-color: #202124;
+            color: #e8eaed;
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+        pre > code {
+            display: block;
+            padding: 1rem;
+            border-radius: 8px;
+            white-space: pre-wrap;
+            word-break: break-all;
+        }
+        .flow-diagram-container {
+            width: 100%;
+            padding: 1rem 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .flow-diagram-image {
+            border-radius: 8px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            transition: transform 0.2s ease-in-out;
+        }
+        .flow-diagram-image:hover {
+            transform: scale(1.02);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        details > summary {
+            cursor: pointer;
+            list-style-type: none;
+        }
+        details[open] > summary .arrow {
+             transform: rotate(90deg);
+        }
+        .arrow {
+            color: #5f6368;
+            transition: transform 0.2s ease-in-out;
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body class="text-gray-800">
+
+    <div class="container mx-auto px-4 py-12 md:py-20 max-w-screen-xl">
+
+        <header class="text-center mb-16">
+            <h1 class="text-5xl md:text-7xl font-bold tracking-tight mb-2">
+                <span data-lang="zh">TM WiFi 项目需求分析报告</span>
+                <span data-lang="en" class="hidden">TM WiFi Project Requirement Analysis</span>
+            </h1>
+            <p class="text-xl md:text-2xl text-gray-500">
+                <span data-lang="zh">完整技术规格与交互设计</span>
+                <span data-lang="en" class="hidden">Complete Technical Specification & Interaction Design</span>
+            </p>
+        </header>
+
+        <div id="main-tabs">
+            <div class="border-b border-gray-200 mb-8 sticky top-0 bg-[#f8f9fa] z-10">
+                <nav class="flex space-x-2 md:space-x-4 -mb-px overflow-x-auto">
+                    <button class="tab-button active py-4 px-3 text-sm md:text-lg font-medium whitespace-nowrap" onclick="showTab('architecture')"><span data-lang="zh">核心架构与逻辑</span><span data-lang="en" class="hidden">Architecture & Logic</span></button>
+                    <button class="tab-button py-4 px-3 text-sm md:text-lg font-medium whitespace-nowrap" onclick="showTab('scenarios')"><span data-lang="zh">使用场景需求</span><span data-lang="en" class="hidden">Use Case Scenarios</span></button>
+                    <button class="tab-button py-4 px-3 text-sm md:text-lg font-medium whitespace-nowrap" onclick="showTab('comparison')"><span data-lang="zh">方案对比分析</span><span data-lang="en" class="hidden">Solution Comparison</span></button>
+                    <button class="tab-button py-4 px-3 text-sm md:text-lg font-medium whitespace-nowrap" onclick="showTab('advantages')"><span data-lang="zh">最终方案优势</span><span data-lang="en" class="hidden">Solution Advantages</span></button>
+                    <button class="tab-button py-4 px-3 text-sm md:text-lg font-medium whitespace-nowrap" onclick="showTab('requirements')"><span data-lang="zh">详细功能需求</span><span data-lang="en" class="hidden">Detailed Features</span></button>
+                    <button class="tab-button py-4 px-3 text-sm md:text-lg font-medium whitespace-nowrap" onclick="showTab('packets')"><span data-lang="zh">关键报文分析</span><span data-lang="en" class="hidden">Packet Analysis</span></button>
+                    <button class="tab-button py-4 px-3 text-sm md:text-lg font-medium whitespace-nowrap" onclick="showTab('flow')"><span data-lang="zh">完整认证流程</span><span data-lang="en" class="hidden">Full Auth Flow</span></button>
+                </nav>
+            </div>
+
+            <div id="tab-content">
+                <div id="architecture" class="tab-pane space-y-8">
+                     <div class="content-card">
+                        <h2 class="text-2xl font-bold mb-4 flex items-center"><i class="material-icons g-highlight mr-2">corporate_fare</i><span data-lang="zh">项目背景</span><span data-lang="en" class="hidden">Project Background</span></h2>
+                        <p class="mb-2"><strong class="g-highlight"><span data-lang="zh">客户信息:</span><span data-lang="en" class="hidden">Client Information:</span></strong> <span data-lang="zh">TM (Telekom Malaysia) 是马来西亚最大的电信运营商。</span><span data-lang="en" class="hidden">TM (Telekom Malaysia) is the largest telecom operator in Malaysia.</span></p>
+                        <p class="mb-4"><strong class="g-highlight"><span data-lang="zh">主要服务场景:</span><span data-lang="en" class="hidden">Primary Service Scenarios:</span></strong> <span data-lang="zh">大学校园网络、政府机构公共WiFi、购物中心等。</span><span data-lang="en" class="hidden">University campuses, public WiFi for government agencies, shopping malls, etc.</span></p>
+                        <div class="mt-4 border-t pt-4">
+                            <h3 class="font-bold text-lg g-secondary-highlight"><span data-lang="zh">合作伙伴架构</span><span data-lang="en" class="hidden">Partner Architecture</span></h3>
+                            <p><strong>Attrelogix:</strong> <span data-lang="zh">作为TM的技术合作伙伴，负责后端AAA系统开发、Portal定制及与Omada集成。</span><span data-lang="en" class="hidden">As TM's technical partner, responsible for backend AAA system development, Portal customization, and Omada integration.</span></p>
+                        </div>
+                    </div>
+                    <div class="content-card">
+                         <h2 class="text-2xl font-bold mb-4 flex items-center"><i class="material-icons g-highlight mr-2">account_tree</i><span data-lang="zh">Portal服务架构与逻辑</span><span data-lang="en" class="hidden">Portal Architecture & Logic</span></h2>
+                        <h3 class="font-bold text-lg mb-2"><span data-lang="zh">分布式架构</span><span data-lang="en" class="hidden">Distributed Architecture</span></h3>
+                        <p class="mb-4"><span data-lang="zh">采用分布式EaziWiFi Portal平台, 域名格式为 </span><span data-lang="en" class="hidden">Adopts a distributed EaziWiFi Portal platform with domain format: </span><code>https://eaziwi5-{location}.attrelogix.com</code>, <span data-lang="zh">支持基于地理位置的服务。</span><span data-lang="en" class="hidden">supporting geo-based services.</span></p>
+                        <h3 class="font-bold text-lg mb-2"><span data-lang="zh">认证流程集成</span><span data-lang="en" class="hidden">Authentication Flow Integration</span></h3>
+                        <div class="font-mono text-sm bg-gray-100 p-4 rounded-lg text-center mb-6">TM AAA Server ←→ Attrelogix Portal ←→ Omada Controller ←→ Access Points</div>
+                        <h3 class="font-bold text-lg mb-2 g-secondary-highlight"><span data-lang="zh">为何采用MAC Auth + Portal Fallback机制?</span><span data-lang="en" class="hidden">Why Adopt MAC Auth + Portal Fallback?</span></h3>
+                        <ul class="list-disc list-inside space-y-2 text-gray-700">
+                           <li><strong class="text-black"><span data-lang="zh">用户体验优化:</span><span data-lang="en" class="hidden">User Experience:</span></strong> <span data-lang="zh">实现"一次认证，长期使用"。</span><span data-lang="en" class="hidden">Achieve "authenticate once, use long-term".</span></li>
+                           <li><strong class="text-black"><span data-lang="zh">运营管理需求:</span><span data-lang="en" class="hidden">Operational Needs:</span></strong> <span data-lang="zh">精确的用户追踪、广告投放和计费审计。</span><span data-lang="en" class="hidden">Precise user tracking, ad delivery, and billing audits.</span></li>
+                           <li><strong class="text-black"><span data-lang="zh">技术架构考虑:</span><span data-lang="en" class="hidden">Technical Architecture:</span></strong> <span data-lang="zh">简化网络配置，降低安全风险，支持大规模部署。</span><span data-lang="en" class="hidden">Simplify network configuration, reduce security risks, and support large-scale deployment.</span></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div id="scenarios" class="tab-pane hidden space-y-6">
+                    <div class="content-card">
+                        <h2 class="text-3xl font-bold mb-6 flex items-center"><i class="material-icons g-highlight mr-3">location_on</i><span data-lang="zh">使用场景需求</span><span data-lang="en" class="hidden">Use Case Scenarios</span></h2>
+                        
+                        <div class="grid md:grid-cols-3 gap-6">
+                            <div class="bg-blue-50 p-6 rounded-lg border-l-4 border-blue-500">
+                                <h3 class="font-bold text-xl mb-3 text-blue-700"><i class="material-icons text-blue-500 mr-2">school</i><span data-lang="zh">大学校园网络</span><span data-lang="en" class="hidden">University Campus Network</span></h3>
+                                <ul class="space-y-2 text-gray-700">
+                                    <li><strong><span data-lang="zh">用户群体:</span><span data-lang="en" class="hidden">User Groups:</span></strong> <span data-lang="zh">学生、教职工、访客</span><span data-lang="en" class="hidden">Students, faculty, visitors</span></li>
+                                    <li><strong><span data-lang="zh">认证需求:</span><span data-lang="en" class="hidden">Auth Requirements:</span></strong> <span data-lang="zh">统一身份管理、学期有效期控制</span><span data-lang="en" class="hidden">Unified identity management, semester validity control</span></li>
+                                    <li><strong><span data-lang="zh">网络规模:</span><span data-lang="en" class="hidden">Network Scale:</span></strong> <span data-lang="zh">数千用户同时在线</span><span data-lang="en" class="hidden">Thousands of concurrent users</span></li>
+                                    <li><strong><span data-lang="zh">特殊要求:</span><span data-lang="en" class="hidden">Special Requirements:</span></strong> <span data-lang="zh">基于建筑/区域的精准定位</span><span data-lang="en" class="hidden">Precise location based on buildings/areas</span></li>
+                                </ul>
+                            </div>
+                            
+                            <div class="bg-green-50 p-6 rounded-lg border-l-4 border-green-500">
+                                <h3 class="font-bold text-xl mb-3 text-green-700"><i class="material-icons text-green-500 mr-2">account_balance</i><span data-lang="zh">政府机构公共WiFi</span><span data-lang="en" class="hidden">Government Public WiFi</span></h3>
+                                <ul class="space-y-2 text-gray-700">
+                                    <li><strong><span data-lang="zh">用户群体:</span><span data-lang="en" class="hidden">User Groups:</span></strong> <span data-lang="zh">公众用户、临时访客</span><span data-lang="en" class="hidden">Public users, temporary visitors</span></li>
+                                    <li><strong><span data-lang="zh">认证需求:</span><span data-lang="en" class="hidden">Auth Requirements:</span></strong> <span data-lang="zh">实名制认证、严格审计</span><span data-lang="en" class="hidden">Real-name authentication, strict auditing</span></li>
+                                    <li><strong><span data-lang="zh">安全考虑:</span><span data-lang="en" class="hidden">Security Considerations:</span></strong> <span data-lang="zh">完整用户行为记录、法规合规</span><span data-lang="en" class="hidden">Complete user activity logs, regulatory compliance</span></li>
+                                    <li><strong><span data-lang="zh">管理要求:</span><span data-lang="en" class="hidden">Management Requirements:</span></strong> <span data-lang="zh">按部门/楼层的权限控制</span><span data-lang="en" class="hidden">Department/floor-based access control</span></li>
+                                </ul>
+                            </div>
+                            
+                            <div class="bg-purple-50 p-6 rounded-lg border-l-4 border-purple-500">
+                                <h3 class="font-bold text-xl mb-3 text-purple-700"><i class="material-icons text-purple-500 mr-2">shopping_cart</i><span data-lang="zh">购物中心等商业场所</span><span data-lang="en" class="hidden">Shopping Malls & Commercial</span></h3>
+                                <ul class="space-y-2 text-gray-700">
+                                    <li><strong><span data-lang="zh">用户群体:</span><span data-lang="en" class="hidden">User Groups:</span></strong> <span data-lang="zh">顾客、商户、员工</span><span data-lang="en" class="hidden">Customers, merchants, staff</span></li>
+                                    <li><strong><span data-lang="zh">商业需求:</span><span data-lang="en" class="hidden">Business Requirements:</span></strong> <span data-lang="zh">精准营销、广告推送</span><span data-lang="en" class="hidden">Targeted marketing, ad delivery</span></li>
+                                    <li><strong><span data-lang="zh">用户体验:</span><span data-lang="en" class="hidden">User Experience:</span></strong> <span data-lang="zh">快速连接、个性化服务</span><span data-lang="en" class="hidden">Quick connection, personalized service</span></li>
+                                    <li><strong><span data-lang="zh">分析需求:</span><span data-lang="en" class="hidden">Analytics Requirements:</span></strong> <span data-lang="zh">客流分析、停留时间统计</span><span data-lang="en" class="hidden">Foot traffic analysis, dwell time statistics</span></li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-8 bg-gradient-to-r from-blue-100 to-green-100 p-6 rounded-lg">
+                            <h3 class="font-bold text-xl mb-4 text-gray-800"><i class="material-icons text-blue-600 mr-2">insights</i><span data-lang="zh">共同技术需求</span><span data-lang="en" class="hidden">Common Technical Requirements</span></h3>
+                            <div class="grid md:grid-cols-2 gap-6">
+                                <div>
+                                    <h4 class="font-semibold text-lg mb-2 text-blue-700"><span data-lang="zh">用户体验要求</span><span data-lang="en" class="hidden">User Experience Requirements</span></h4>
+                                    <ul class="list-disc list-inside space-y-1 text-gray-700">
+                                        <li><span data-lang="zh">一次认证，长期使用</span><span data-lang="en" class="hidden">Authenticate once, use long-term</span></li>
+                                        <li><span data-lang="zh">设备自动重连</span><span data-lang="en" class="hidden">Automatic device reconnection</span></li>
+                                        <li><span data-lang="zh">快速网络接入（3秒内）</span><span data-lang="en" class="hidden">Rapid network access (within 3 seconds)</span></li>
+                                        <li><span data-lang="zh">跨设备用户身份管理</span><span data-lang="en" class="hidden">Cross-device user identity management</span></li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold text-lg mb-2 text-green-700"><span data-lang="zh">运营管理要求</span><span data-lang="en" class="hidden">Operational Management Requirements</span></h4>
+                                    <ul class="list-disc list-inside space-y-1 text-gray-700">
+                                        <li><span data-lang="zh">精确的用户身份追踪</span><span data-lang="en" class="hidden">Precise user identity tracking</span></li>
+                                        <li><span data-lang="zh">基于位置的服务能力</span><span data-lang="en" class="hidden">Location-based service capabilities</span></li>
+                                        <li><span data-lang="zh">完整的计费和审计记录</span><span data-lang="en" class="hidden">Complete billing and audit records</span></li>
+                                        <li><span data-lang="zh">大规模部署和管理简化</span><span data-lang="en" class="hidden">Large-scale deployment and management simplification</span></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="comparison" class="tab-pane hidden space-y-6">
+                    <div class="content-card">
+                        <h2 class="text-3xl font-bold mb-6 flex items-center"><i class="material-icons g-highlight mr-3">compare</i><span data-lang="zh">认证方案对比分析</span><span data-lang="en" class="hidden">Authentication Solution Comparison</span></h2>
+                        
+                        <div class="overflow-x-auto">
+                            <table class="w-full border-collapse border border-gray-300 rounded-lg overflow-hidden shadow-sm">
+                                <thead class="bg-gray-50">
+                                    <tr>
+                                        <th class="border border-gray-300 px-4 py-3 text-left font-bold"><span data-lang="zh">方案类型</span><span data-lang="en" class="hidden">Solution Type</span></th>
+                                        <th class="border border-gray-300 px-4 py-3 text-left font-bold"><span data-lang="zh">优势</span><span data-lang="en" class="hidden">Advantages</span></th>
+                                        <th class="border border-gray-300 px-4 py-3 text-left font-bold"><span data-lang="zh">劣势</span><span data-lang="en" class="hidden">Disadvantages</span></th>
+                                        <th class="border border-gray-300 px-4 py-3 text-center font-bold"><span data-lang="zh">适用场景</span><span data-lang="en" class="hidden">Use Cases</span></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="bg-red-50">
+                                        <td class="border border-gray-300 px-4 py-3 font-semibold text-red-700"><span data-lang="zh">单一External Portal</span><span data-lang="en" class="hidden">Single External Portal</span></td>
+                                        <td class="border border-gray-300 px-4 py-3">
+                                            <ul class="list-disc list-inside text-sm space-y-1">
+                                                <li><span data-lang="zh">实现简单</span><span data-lang="en" class="hidden">Simple implementation</span></li>
+                                                <li><span data-lang="zh">无需AAA服务器</span><span data-lang="en" class="hidden">No AAA server needed</span></li>
+                                                <li><span data-lang="zh">Portal服务完全可控</span><span data-lang="en" class="hidden">Full Portal service control</span></li>
+                                            </ul>
+                                        </td>
+                                        <td class="border border-gray-300 px-4 py-3">
+                                            <ul class="list-disc list-inside text-sm space-y-1 text-red-600">
+                                                <li><span data-lang="zh">缺少用户身份持久化</span><span data-lang="en" class="hidden">No user identity persistence</span></li>
+                                                <li><span data-lang="zh">无RADIUS Accounting</span><span data-lang="en" class="hidden">No RADIUS Accounting</span></li>
+                                                <li><span data-lang="zh">重复认证体验差</span><span data-lang="en" class="hidden">Poor repeated auth experience</span></li>
+                                                <li><span data-lang="zh">无法支持离线认证</span><span data-lang="en" class="hidden">No offline auth support</span></li>
+                                            </ul>
+                                        </td>
+                                        <td class="border border-gray-300 px-4 py-3 text-center text-sm"><span data-lang="zh">临时WiFi<br/>小规模部署</span><span data-lang="en" class="hidden">Temporary WiFi<br/>Small scale deployment</span></td>
+                                    </tr>
+                                    <tr class="bg-yellow-50">
+                                        <td class="border border-gray-300 px-4 py-3 font-semibold text-yellow-700"><span data-lang="zh">单一MAC Auth</span><span data-lang="en" class="hidden">Single MAC Auth</span></td>
+                                        <td class="border border-gray-300 px-4 py-3">
+                                            <ul class="list-disc list-inside text-sm space-y-1">
+                                                <li><span data-lang="zh">无缝用户体验</span><span data-lang="en" class="hidden">Seamless user experience</span></li>
+                                                <li><span data-lang="zh">完整RADIUS流程</span><span data-lang="en" class="hidden">Complete RADIUS flow</span></li>
+                                                <li><span data-lang="zh">支持离线认证</span><span data-lang="en" class="hidden">Offline auth support</span></li>
+                                            </ul>
+                                        </td>
+                                        <td class="border border-gray-300 px-4 py-3">
+                                            <ul class="list-disc list-inside text-sm space-y-1 text-yellow-600">
+                                                <li><span data-lang="zh">新用户无法注册</span><span data-lang="en" class="hidden">New users cannot register</span></li>
+                                                <li><span data-lang="zh">缺少用户信息收集</span><span data-lang="en" class="hidden">No user info collection</span></li>
+                                                <li><span data-lang="zh">无个性化服务</span><span data-lang="en" class="hidden">No personalized service</span></li>
+                                                <li><span data-lang="zh">管理复杂度高</span><span data-lang="en" class="hidden">High management complexity</span></li>
+                                            </ul>
+                                        </td>
+                                        <td class="border border-gray-300 px-4 py-3 text-center text-sm"><span data-lang="zh">企业内网<br/>已知用户群体</span><span data-lang="en" class="hidden">Corporate intranet<br/>Known user groups</span></td>
+                                    </tr>
+                                    <tr class="bg-green-50">
+                                        <td class="border border-gray-300 px-4 py-3 font-semibold text-green-700"><span data-lang="zh">MAC Auth + Portal Fallback<br/>(TM选择的方案)</span><span data-lang="en" class="hidden">MAC Auth + Portal Fallback<br/>(TM's Chosen Solution)</span></td>
+                                        <td class="border border-gray-300 px-4 py-3">
+                                            <ul class="list-disc list-inside text-sm space-y-1 text-green-600">
+                                                <li><span data-lang="zh">✓ 已认证用户无缝体验</span><span data-lang="en" class="hidden">✓ Seamless exp for auth users</span></li>
+                                                <li><span data-lang="zh">✓ 新用户可自主注册</span><span data-lang="en" class="hidden">✓ New user self-registration</span></li>
+                                                <li><span data-lang="zh">✓ 完整RADIUS计费流程</span><span data-lang="en" class="hidden">✓ Complete RADIUS billing</span></li>
+                                                <li><span data-lang="zh">✓ 支持个性化服务</span><span data-lang="en" class="hidden">✓ Personalized service support</span></li>
+                                                <li><span data-lang="zh">✓ 统一身份和计费管理</span><span data-lang="en" class="hidden">✓ Unified identity & billing</span></li>
+                                            </ul>
+                                        </td>
+                                        <td class="border border-gray-300 px-4 py-3">
+                                            <ul class="list-disc list-inside text-sm space-y-1 text-orange-600">
+                                                <li><span data-lang="zh">实现复杂度相对较高</span><span data-lang="en" class="hidden">Higher implementation complexity</span></li>
+                                                <li><span data-lang="zh">需要Portal和AAA协调</span><span data-lang="en" class="hidden">Requires Portal-AAA coordination</span></li>
+                                                <li><span data-lang="zh">依赖MAC Auth Fallback特性</span><span data-lang="en" class="hidden">Depends on MAC Auth Fallback</span></li>
+                                            </ul>
+                                        </td>
+                                        <td class="border border-gray-300 px-4 py-3 text-center text-sm font-semibold text-green-700"><span data-lang="zh">✓ 公共WiFi<br/>✓ 大规模部署<br/>✓ 商业场景</span><span data-lang="en" class="hidden">✓ Public WiFi<br/>✓ Large scale deploy<br/>✓ Commercial scenarios</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                        <div class="mt-8 bg-blue-50 p-6 rounded-lg border-l-4 border-blue-500">
+                            <h3 class="font-bold text-xl mb-4 text-blue-700"><i class="material-icons text-blue-500 mr-2">lightbulb</i><span data-lang="zh">为什么TM选择混合方案？</span><span data-lang="en" class="hidden">Why TM Chose the Hybrid Solution?</span></h3>
+                            <div class="grid md:grid-cols-3 gap-4">
+                                <div class="bg-white p-4 rounded-lg shadow-sm">
+                                    <h4 class="font-semibold text-blue-600 mb-2"><span data-lang="zh">业务需求驱动</span><span data-lang="en" class="hidden">Business Requirements</span></h4>
+                                    <p class="text-sm text-gray-700"><span data-lang="zh">公共WiFi需要平衡用户体验和商业价值，既要让老用户快速连接，又要能获取新用户信息用于营销。</span><span data-lang="en" class="hidden">Public WiFi needs to balance user experience and commercial value, allowing quick access for existing users while collecting new user info for marketing.</span></p>
+                                </div>
+                                <div class="bg-white p-4 rounded-lg shadow-sm">
+                                    <h4 class="font-semibold text-blue-600 mb-2"><span data-lang="zh">技术架构优势</span><span data-lang="en" class="hidden">Technical Architecture</span></h4>
+                                    <p class="text-sm text-gray-700"><span data-lang="zh">Controller发起认证简化了AAA服务器管理，MAC Auth Fallback提供了优雅的降级处理，保证了系统的稳定性。</span><span data-lang="en" class="hidden">Controller-initiated auth simplifies AAA server management, MAC Auth Fallback provides graceful degradation, ensuring system stability.</span></p>
+                                </div>
+                                <div class="bg-white p-4 rounded-lg shadow-sm">
+                                    <h4 class="font-semibold text-blue-600 mb-2"><span data-lang="zh">运营成本考虑</span><span data-lang="en" class="hidden">Operational Cost</span></h4>
+                                    <p class="text-sm text-gray-700"><span data-lang="zh">统一的RADIUS计费流程便于与现有计费系统集成，减少了系统改造成本和运营复杂度。</span><span data-lang="en" class="hidden">Unified RADIUS billing flow facilitates integration with existing billing systems, reducing system modification costs and operational complexity.</span></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="advantages" class="tab-pane hidden space-y-6">
+                    <div class="content-card">
+                        <h2 class="text-3xl font-bold mb-6 flex items-center"><i class="material-icons g-highlight mr-3">emoji_events</i><span data-lang="zh">最终方案的优势</span><span data-lang="en" class="hidden">Final Solution Advantages</span></h2>
+                        
+                        <div class="grid md:grid-cols-2 gap-8">
+                            <div class="space-y-6">
+                                <div class="bg-gradient-to-r from-green-100 to-blue-100 p-6 rounded-lg">
+                                    <h3 class="font-bold text-xl mb-4 text-green-700"><i class="material-icons text-green-500 mr-2">person</i><span data-lang="zh">用户体验优势</span><span data-lang="en" class="hidden">User Experience Benefits</span></h3>
+                                    <div class="space-y-3">
+                                        <div class="flex items-start space-x-3">
+                                            <div class="bg-green-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold">1</div>
+                                            <div>
+                                                <h4 class="font-semibold"><span data-lang="zh">一次认证，长期使用</span><span data-lang="en" class="hidden">Authenticate Once, Use Long-term</span></h4>
+                                                <p class="text-sm text-gray-600"><span data-lang="zh">已认证用户重连时自动通过MAC认证，无需重复输入信息</span><span data-lang="en" class="hidden">Authenticated users auto-pass MAC auth on reconnection, no re-entry needed</span></p>
+                                            </div>
+                                        </div>
+                                        <div class="flex items-start space-x-3">
+                                            <div class="bg-green-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold">2</div>
+                                            <div>
+                                                <h4 class="font-semibold"><span data-lang="zh">智能降级处理</span><span data-lang="en" class="hidden">Intelligent Fallback</span></h4>
+                                                <p class="text-sm text-gray-600"><span data-lang="zh">新用户或过期用户无缝进入Portal认证，无断连体验</span><span data-lang="en" class="hidden">New/expired users seamlessly enter Portal auth without disconnection</span></p>
+                                            </div>
+                                        </div>
+                                        <div class="flex items-start space-x-3">
+                                            <div class="bg-green-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold">3</div>
+                                            <div>
+                                                <h4 class="font-semibold"><span data-lang="zh">跨设备身份管理</span><span data-lang="en" class="hidden">Cross-device Identity</span></h4>
+                                                <p class="text-sm text-gray-600"><span data-lang="zh">支持一个用户多设备的场景，真实身份与MAC地址动态关联</span><span data-lang="en" class="hidden">Support multi-device per user, dynamic identity-MAC association</span></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="bg-gradient-to-r from-purple-100 to-pink-100 p-6 rounded-lg">
+                                    <h3 class="font-bold text-xl mb-4 text-purple-700"><i class="material-icons text-purple-500 mr-2">business</i><span data-lang="zh">商业价值优势</span><span data-lang="en" class="hidden">Business Value Benefits</span></h3>
+                                    <div class="space-y-3">
+                                        <div class="flex items-start space-x-3">
+                                            <div class="bg-purple-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold">1</div>
+                                            <div>
+                                                <h4 class="font-semibold"><span data-lang="zh">精准用户画像</span><span data-lang="en" class="hidden">Precise User Profiling</span></h4>
+                                                <p class="text-sm text-gray-600"><span data-lang="zh">收集真实用户信息（邮箱/手机号），建立完整用户档案</span><span data-lang="en" class="hidden">Collect real user info (email/phone), build complete user profiles</span></p>
+                                            </div>
+                                        </div>
+                                        <div class="flex items-start space-x-3">
+                                            <div class="bg-purple-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold">2</div>
+                                            <div>
+                                                <h4 class="font-semibold"><span data-lang="zh">位置化营销</span><span data-lang="en" class="hidden">Location-based Marketing</span></h4>
+                                                <p class="text-sm text-gray-600"><span data-lang="zh">基于AP位置信息进行精准广告推送和个性化服务</span><span data-lang="en" class="hidden">Precise ad delivery and personalized service based on AP location</span></p>
+                                            </div>
+                                        </div>
+                                        <div class="flex items-start space-x-3">
+                                            <div class="bg-purple-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold">3</div>
+                                            <div>
+                                                <h4 class="font-semibold"><span data-lang="zh">完整计费审计</span><span data-lang="en" class="hidden">Complete Billing Audit</span></h4>
+                                                <p class="text-sm text-gray-600"><span data-lang="zh">统一RADIUS Accounting，提供完整的用户行为和计费记录</span><span data-lang="en" class="hidden">Unified RADIUS Accounting for complete user behavior and billing records</span></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="space-y-6">
+                                <div class="bg-gradient-to-r from-blue-100 to-cyan-100 p-6 rounded-lg">
+                                    <h3 class="font-bold text-xl mb-4 text-blue-700"><i class="material-icons text-blue-500 mr-2">settings</i><span data-lang="zh">技术架构优势</span><span data-lang="en" class="hidden">Technical Architecture Benefits</span></h3>
+                                    <div class="space-y-3">
+                                        <div class="flex items-start space-x-3">
+                                            <div class="bg-blue-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold">1</div>
+                                            <div>
+                                                <h4 class="font-semibold"><span data-lang="zh">简化网络管理</span><span data-lang="en" class="hidden">Simplified Network Management</span></h4>
+                                                <p class="text-sm text-gray-600"><span data-lang="zh">Controller发起认证，AAA服务器只需管理Controller IP白名单</span><span data-lang="en" class="hidden">Controller-initiated auth, AAA only manages Controller IP whitelist</span></p>
+                                            </div>
+                                        </div>
+                                        <div class="flex items-start space-x-3">
+                                            <div class="bg-blue-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold">2</div>
+                                            <div>
+                                                <h4 class="font-semibold"><span data-lang="zh">高可用性设计</span><span data-lang="en" class="hidden">High Availability Design</span></h4>
+                                                <p class="text-sm text-gray-600"><span data-lang="zh">MAC Auth Fallback确保Portal服务异常时的优雅降级</span><span data-lang="en" class="hidden">MAC Auth Fallback ensures graceful degradation when Portal service fails</span></p>
+                                            </div>
+                                        </div>
+                                        <div class="flex items-start space-x-3">
+                                            <div class="bg-blue-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold">3</div>
+                                            <div>
+                                                <h4 class="font-semibold"><span data-lang="zh">大规模部署支持</span><span data-lang="en" class="hidden">Large-scale Deployment Support</span></h4>
+                                                <p class="text-sm text-gray-600"><span data-lang="zh">分布式Portal架构支持地理位置分布式部署</span><span data-lang="en" class="hidden">Distributed Portal architecture supports geo-distributed deployment</span></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="bg-gradient-to-r from-orange-100 to-red-100 p-6 rounded-lg">
+                                    <h3 class="font-bold text-xl mb-4 text-orange-700"><i class="material-icons text-orange-500 mr-2">security</i><span data-lang="zh">安全性优势</span><span data-lang="en" class="hidden">Security Benefits</span></h3>
+                                    <div class="space-y-3">
+                                        <div class="flex items-start space-x-3">
+                                            <div class="bg-orange-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold">1</div>
+                                            <div>
+                                                <h4 class="font-semibold"><span data-lang="zh">统一认证中心</span><span data-lang="en" class="hidden">Centralized Authentication</span></h4>
+                                                <p class="text-sm text-gray-600"><span data-lang="zh">所有认证请求最终通过TM AAA服务器，确保安全策略统一</span><span data-lang="en" class="hidden">All auth requests go through TM AAA server, ensuring unified security policy</span></p>
+                                            </div>
+                                        </div>
+                                        <div class="flex items-start space-x-3">
+                                            <div class="bg-orange-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold">2</div>
+                                            <div>
+                                                <h4 class="font-semibold"><span data-lang="zh">完整审计链路</span><span data-lang="en" class="hidden">Complete Audit Trail</span></h4>
+                                                <p class="text-sm text-gray-600"><span data-lang="zh">从Portal认证到MAC认证的完整审计记录，满足合规要求</span><span data-lang="en" class="hidden">Complete audit from Portal to MAC auth, meeting compliance requirements</span></p>
+                                            </div>
+                                        </div>
+                                        <div class="flex items-start space-x-3">
+                                            <div class="bg-orange-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold">3</div>
+                                            <div>
+                                                <h4 class="font-semibold"><span data-lang="zh">受控网络访问</span><span data-lang="en" class="hidden">Controlled Network Access</span></h4>
+                                                <p class="text-sm text-gray-600"><span data-lang="zh">MAC Auth Fallback状态下的受限网络权限确保安全隔离</span><span data-lang="en" class="hidden">Limited network access in MAC Auth Fallback ensures security isolation</span></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-8 bg-gradient-to-r from-yellow-100 to-orange-100 p-6 rounded-lg border-l-4 border-yellow-500">
+                            <h3 class="font-bold text-xl mb-4 text-yellow-700"><i class="material-icons text-yellow-600 mr-2">trending_up</i><span data-lang="zh">核心竞争优势总结</span><span data-lang="en" class="hidden">Core Competitive Advantages Summary</span></h3>
+                            <div class="grid md:grid-cols-4 gap-4">
+                                <div class="text-center">
+                                    <div class="bg-white rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-2 shadow-md">
+                                        <i class="material-icons text-2xl text-green-500">speed</i>
+                                    </div>
+                                    <h4 class="font-semibold text-green-700"><span data-lang="zh">极致体验</span><span data-lang="en" class="hidden">Ultimate Experience</span></h4>
+                                    <p class="text-xs text-gray-600"><span data-lang="zh">3秒内快速接入</span><span data-lang="en" class="hidden">3-sec rapid access</span></p>
+                                </div>
+                                <div class="text-center">
+                                    <div class="bg-white rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-2 shadow-md">
+                                        <i class="material-icons text-2xl text-blue-500">analytics</i>
+                                    </div>
+                                    <h4 class="font-semibold text-blue-700"><span data-lang="zh">精准营销</span><span data-lang="en" class="hidden">Precise Marketing</span></h4>
+                                    <p class="text-xs text-gray-600"><span data-lang="zh">位置+用户双重定向</span><span data-lang="en" class="hidden">Location + User targeting</span></p>
+                                </div>
+                                <div class="text-center">
+                                    <div class="bg-white rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-2 shadow-md">
+                                        <i class="material-icons text-2xl text-purple-500">account_balance_wallet</i>
+                                    </div>
+                                    <h4 class="font-semibold text-purple-700"><span data-lang="zh">统一计费</span><span data-lang="en" class="hidden">Unified Billing</span></h4>
+                                    <p class="text-xs text-gray-600"><span data-lang="zh">标准RADIUS流程</span><span data-lang="en" class="hidden">Standard RADIUS flow</span></p>
+                                </div>
+                                <div class="text-center">
+                                    <div class="bg-white rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-2 shadow-md">
+                                        <i class="material-icons text-2xl text-orange-500">expand</i>
+                                    </div>
+                                    <h4 class="font-semibold text-orange-700"><span data-lang="zh">易扩展</span><span data-lang="en" class="hidden">Scalable</span></h4>
+                                    <p class="text-xs text-gray-600"><span data-lang="zh">支持万级并发</span><span data-lang="en" class="hidden">10K+ concurrent users</span></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="requirements" class="tab-pane hidden space-y-6">
+                     <h2 class="text-3xl font-bold mb-4"><span data-lang="zh">功能需求详述</span><span data-lang="en" class="hidden">Detailed Functional Requirements</span></h2>
+                     <div class="space-y-4">
+                        <details class="content-card"><summary class="font-bold text-xl flex justify-between items-center"><span class="g-highlight">1. <span data-lang="zh">MAC认证发起点修改</span><span data-lang="en" class="hidden">Modify MAC Auth Initiator</span></span><i class="material-icons arrow">chevron_right</i></summary><div class="mt-4 border-t pt-4 space-y-2"><p><strong><span data-lang="zh">需求行为:</span><span data-lang="en" class="hidden">Required Behavior:</span></strong> <span data-lang="zh">MAC认证请求由 </span><span data-lang="en" class="hidden">MAC authentication requests initiated by </span><code>Controller</code>.</p><p><strong><span data-lang="zh">技术实现:</span><span data-lang="en" class="hidden">Implementation:</span></strong> <span data-lang="zh">修改RADIUS Access-Request的发起点，</span><span data-lang="en" class="hidden">Modify initiator of RADIUS Access-Request, </span><code>Called-Station-Id</code> <span data-lang="zh">字段设置为Controller MAC。</span><span data-lang="en" class="hidden">is set to Controller MAC.</span></p><p><strong><span data-lang="zh">业务价值:</span><span data-lang="en" class="hidden">Business Value:</span></strong> <span data-lang="zh">简化AAA服务器的IP白名单管理。</span><span data-lang="en" class="hidden">Simplifies IP whitelist management on the AAA server.</span></p></div></details>
+                        <details class="content-card"><summary class="font-bold text-xl flex justify-between items-center"><span class="g-highlight">2. <span data-lang="zh">Portal重定向参数增强</span><span data-lang="en" class="hidden">Enhance Portal Redirect Parameters</span></span><i class="material-icons arrow">chevron_right</i></summary><div class="mt-4 border-t pt-4 space-y-2"><p><strong><span data-lang="zh">新增参数:</span><span data-lang="en" class="hidden">New Parameters:</span></strong></p><pre><code>&apGroup=xxx // AP Group Name
+&apName=xxx  // AP Device Name
+&apIp=xxx    // AP Device IP</code></pre><p><strong><span data-lang="zh">业务价值:</span><span data-lang="en" class="hidden">Business Value:</span></strong> <span data-lang="zh">支持基于AP位置的精准营销。</span><span data-lang="en" class="hidden">Enable precise location-based marketing.</span></p></div></details>
+                        <details class="content-card"><summary class="font-bold text-xl flex justify-between items-center"><span class="g-highlight">3. <span data-lang="zh">RADIUS计费报文增强</span><span data-lang="en" class="hidden">Enhance RADIUS Accounting Packets</span></span><i class="material-icons arrow">chevron_right</i></summary><div class="mt-4 border-t pt-4 space-y-2"><p><strong><span data-lang="zh">User-Name字段处理:</span><span data-lang="en" class="hidden">User-Name Field Handling:</span></strong> <span data-lang="zh">计费报文统一使用真实用户标识。</span><span data-lang="en" class="hidden">Use real user identity in accounting packets.</span></p><p><strong><span data-lang="zh">新增位置信息字段:</span><span data-lang="en" class="hidden">New Location Fields:</span></strong> <span data-lang="zh">在RADIUS Accounting报文中添加 </span><span data-lang="en" class="hidden">Add the following to RADIUS Accounting packets: </span><code>AP-Group</code>, <code>AP-Name</code>, <code>AP-Location</code>.</p></div></details>
+                        <details class="content-card"><summary class="font-bold text-xl flex justify-between items-center"><span class="g-highlight">4. <span data-lang="zh">Portal认证后处理机制</span><span data-lang="en" class="hidden">Post-Portal Authentication Mechanism</span></span><i class="material-icons arrow">chevron_right</i></summary><div class="mt-4 border-t pt-4 space-y-2"><p><strong><span data-lang="zh">当前API限制:</span><span data-lang="en" class="hidden">Current API Limitation:</span></strong> <code>POST .../extPortal/auth</code> <span data-lang="zh">绕过RADIUS计费。</span><span data-lang="en" class="hidden">bypasses RADIUS accounting.</span></p><p><strong><span data-lang="zh">需求功能:</span><span data-lang="en" class="hidden">Required Functionality:</span></strong> <span data-lang="zh">需要支持 </span><span data-lang="en" class="hidden">Need APIs to support </span><code><span data-lang="zh">踢除客户端</span><span data-lang="en" class="hidden">client disconnection</span></code> <span data-lang="zh">或</span><span data-lang="en" class="hidden">or</span> <code><span data-lang="zh">触发MAC重认证</span><span data-lang="en" class="hidden">trigger MAC re-auth</span></code><span data-lang="zh"> 的API。</span><span data-lang="en" class="hidden">.</span></p></div></details>
+                    </div>
+                    
+                    <div class="content-card">
+                        <h2 class="text-2xl font-bold mb-4 flex items-center"><i class="material-icons g-highlight mr-2">build</i><span data-lang="zh">配置以及详细需求</span><span data-lang="en" class="hidden">Configuration & Detailed Requirements</span></h2>
+                        
+                        <div class="space-y-6">
+                            <div class="bg-blue-50 p-4 rounded-lg">
+                                <h3 class="font-bold text-lg mb-3 text-blue-700"><i class="material-icons text-blue-500 mr-2">wifi</i><span data-lang="zh">SSID配置要求</span><span data-lang="en" class="hidden">SSID Configuration Requirements</span></h3>
+                                <div class="bg-white p-4 rounded border">
+                                    <pre><code class="text-sm">认证方式: MAC Authentication
+MAC Auth Fallback: 启用
+Portal类型: External Portal Server
+Portal URL: https://eaziwi5-xxx.attrelogix.com/cp/tm-lab/tplink/</code></pre>
+                                </div>
+                            </div>
+                            
+                            <div class="bg-green-50 p-4 rounded-lg">
+                                <h3 class="font-bold text-lg mb-3 text-green-700"><i class="material-icons text-green-500 mr-2">router</i><span data-lang="zh">RADIUS配置要求</span><span data-lang="en" class="hidden">RADIUS Configuration Requirements</span></h3>
+                                <div class="bg-white p-4 rounded border">
+                                    <pre><code class="text-sm">Primary RADIUS Server: TM AAA Server
+MAC Auth发起者: Controller (非AP)
+Accounting: 启用
+NAS-IP-Address: Controller_IP</code></pre>
+                                </div>
+                            </div>
+                            
+                            <div class="bg-yellow-50 p-4 rounded-lg">
+                                <h3 class="font-bold text-lg mb-3 text-yellow-700"><i class="material-icons text-yellow-500 mr-2">security</i><span data-lang="zh">网络权限控制机制</span><span data-lang="en" class="hidden">Network Access Control</span></h3>
+                                <div class="grid md:grid-cols-2 gap-4">
+                                    <div class="bg-white p-4 rounded border">
+                                        <h4 class="font-semibold mb-2 text-red-600"><span data-lang="zh">MAC Auth Fallback状态（受限权限）</span><span data-lang="en" class="hidden">MAC Auth Fallback (Limited Access)</span></h4>
+                                        <ul class="text-sm space-y-1">
+                                            <li>• <span data-lang="zh">分配受限IP地址</span><span data-lang="en" class="hidden">Assign limited IP address</span></li>
+                                            <li>• <span data-lang="zh">允许DNS查询</span><span data-lang="en" class="hidden">Allow DNS queries</span></li>
+                                            <li>• <span data-lang="zh">允许访问Portal服务器</span><span data-lang="en" class="hidden">Allow Portal server access</span></li>
+                                            <li>• <span data-lang="zh">允许设备检测域名</span><span data-lang="en" class="hidden">Allow device detection domains</span></li>
+                                            <li>• <span data-lang="zh">阻止其他网络访问</span><span data-lang="en" class="hidden">Block other network access</span></li>
+                                        </ul>
+                                    </div>
+                                    <div class="bg-white p-4 rounded border">
+                                        <h4 class="font-semibold mb-2 text-green-600"><span data-lang="zh">MAC Auth成功后（完整权限）</span><span data-lang="en" class="hidden">MAC Auth Success (Full Access)</span></h4>
+                                        <ul class="text-sm space-y-1">
+                                            <li>• <span data-lang="zh">分配完整IP地址</span><span data-lang="en" class="hidden">Assign full IP address</span></li>
+                                            <li>• <span data-lang="zh">开始RADIUS Accounting</span><span data-lang="en" class="hidden">Start RADIUS Accounting</span></li>
+                                            <li>• <span data-lang="zh">允许正常互联网访问</span><span data-lang="en" class="hidden">Allow normal internet access</span></li>
+                                            <li>• <span data-lang="zh">应用用户策略</span><span data-lang="en" class="hidden">Apply user policies</span></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="bg-purple-50 p-4 rounded-lg">
+                                <h3 class="font-bold text-lg mb-3 text-purple-700"><i class="material-icons text-purple-500 mr-2">api</i><span data-lang="zh">所需API接口</span><span data-lang="en" class="hidden">Required API Interfaces</span></h3>
+                                <div class="space-y-3">
+                                    <div class="bg-white p-3 rounded border">
+                                        <h4 class="font-semibold text-sm text-purple-600"><span data-lang="zh">踢除客户端API（方案A）</span><span data-lang="en" class="hidden">Client Disconnection API (Option A)</span></h4>
+                                        <code class="text-xs">DELETE /api/v2/clients/{clientMac}/disconnect</code>
+                                        <p class="text-xs text-gray-600 mt-1"><span data-lang="zh">强制断开指定客户端，触发重连和重新认证</span><span data-lang="en" class="hidden">Force disconnect client, trigger reconnection and re-auth</span></p>
+                                    </div>
+                                    <div class="bg-white p-3 rounded border">
+                                        <h4 class="font-semibold text-sm text-purple-600"><span data-lang="zh">触发重认证API（方案B）</span><span data-lang="en" class="hidden">Trigger Re-auth API (Option B)</span></h4>
+                                        <code class="text-xs">POST /api/v2/clients/{clientMac}/reauth</code>
+                                        <p class="text-xs text-gray-600 mt-1"><span data-lang="zh">直接触发客户端MAC重认证，无需断开连接</span><span data-lang="en" class="hidden">Direct trigger client MAC re-auth without disconnection</span></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="packets" class="tab-pane hidden space-y-6">
+                    <h2 class="text-3xl font-bold mb-4"><span data-lang="zh">关键报文交互分析</span><span data-lang="en" class="hidden">Key Packet Interaction Analysis</span></h2>
+                    <div class="content-card">
+                        <h3 class="font-bold text-xl mb-2 g-highlight"><span data-lang="zh">RADIUS Access-Request (MAC认证)</span><span data-lang="en" class="hidden">RADIUS Access-Request (MAC Auth)</span></h3>
+                        <pre><code>Code: Access-Request (1)
+User-Name: "aa:bb:cc:dd:ee:ff"          // client MAC
+Called-Station-Id: "11:22:33:44:55:66"  // Controller MAC (key change)
+Calling-Station-Id: "aa:bb:cc:dd:ee:ff" // client MAC
+NAS-IP-Address: Controller_IP</code></pre>
+                    </div>
+                    <div class="content-card">
+                        <h3 class="font-bold text-xl mb-2 g-highlight"><span data-lang="zh">HTTP 302 Portal重定向报文</span><span data-lang="en" class="hidden">HTTP 302 Portal Redirect Packet</span></h3>
+                        <pre><code>HTTP/1.1 302 Found
+Location: https://eaziwi5-campus.attrelogix.com/...?
+  &apGroup=Campus-North              // New
+  &apName=Building-A-Floor-1         // New
+  &apIp=192.168.10.50               // New
+  ...</code></pre>
+                    </div>
+                    <div class="content-card">
+                        <h3 class="font-bold text-xl mb-2 g-highlight"><span data-lang="zh">RADIUS Accounting START (计费开始)</span><span data-lang="en" class="hidden">RADIUS Accounting START</span></h3>
+                        <pre><code>Code: Accounting-Request (4)
+Acct-Status-Type: Start (1)
+User-Name: "user@example.com"          // Real identity
+...
+Vendor-Specific Attributes:
+  AP-Group: "Campus-North"             // New
+  AP-Name: "Building-A-Floor-1"        // New
+  AP-IP: "192.168.10.50"              // New
+</code></pre>
+                    </div>
+                </div>
+
+                <div id="flow" class="tab-pane hidden">
+                     <div class="content-card">
+                        <h2 class="text-3xl font-bold mb-8 text-center"><span data-lang="zh">完整认证流程图</span><span data-lang="en" class="hidden">Complete Authentication Flow</span></h2>
+                        <div class="flow-diagram-container">
+                            <div data-lang="zh" class="text-center">
+                                <img src="https://pages.chenge.ink/assets/authflow_zh.png" alt="完整认证流程图" class="flow-diagram-image mx-auto max-w-full h-auto">
+                            </div>
+                            <div data-lang="en" class="hidden text-center">
+                                <img src="https://pages.chenge.ink/assets/authflow_en.png" alt="Complete Authentication Flow" class="flow-diagram-image mx-auto max-w-full h-auto">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <button id="lang-switcher" class="fixed bottom-8 right-8 g-bg-highlight text-white w-14 h-14 rounded-full shadow-lg flex items-center justify-center text-lg font-bold z-20">
+        <span data-lang="zh">中</span><span data-lang="en" class="hidden">EN</span>
+    </button>
+
+    <script>
+        
+        // Tab functionality
+        const tabButtons = document.querySelectorAll('.tab-button');
+        const tabPanes = document.querySelectorAll('.tab-pane');
+
+        window.showTab = function(tabId) {
+            tabButtons.forEach(button => {
+                button.classList.remove('active');
+                if (button.getAttribute('onclick').includes(`'${tabId}'`)) {
+                    button.classList.add('active');
+                }
+            });
+            tabPanes.forEach(pane => {
+                if (pane.id === tabId) {
+                    pane.classList.remove('hidden');
+                } else {
+                    pane.classList.add('hidden');
+                }
+            });
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Language switcher functionality
+        const langSwitcher = document.getElementById('lang-switcher');
+        let currentLang = 'zh';
+
+        window.updateLanguage = function() {
+            const zhElements = document.querySelectorAll('[data-lang="zh"]');
+            const enElements = document.querySelectorAll('[data-lang="en"]');
+            if (currentLang === 'en') {
+                zhElements.forEach(el => el.classList.add('hidden'));
+                enElements.forEach(el => el.classList.remove('hidden'));
+            } else {
+                zhElements.forEach(el => el.classList.remove('hidden'));
+                enElements.forEach(el => el.classList.add('hidden'));
+            }
+        }
+
+        langSwitcher.addEventListener('click', () => {
+            currentLang = currentLang === 'zh' ? 'en' : 'zh';
+            updateLanguage();
+        });
+
+    </script>
+</body>
+</html>
