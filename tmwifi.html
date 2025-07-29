@@ -58,15 +58,6 @@
             justify-content: center;
             align-items: center;
         }
-        .flow-diagram-image {
-            border-radius: 8px;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-            transition: transform 0.2s ease-in-out;
-        }
-        .flow-diagram-image:hover {
-            transform: scale(1.02);
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-        }
         details > summary {
             cursor: pointer;
             list-style-type: none;
@@ -101,25 +92,116 @@
         <div id="main-tabs">
             <div class="border-b border-gray-200 mb-8 sticky top-0 bg-[#f8f9fa] z-10">
                 <nav class="flex space-x-2 md:space-x-4 -mb-px overflow-x-auto">
-                    <button class="tab-button active py-4 px-3 text-sm md:text-lg font-medium whitespace-nowrap" onclick="showTab('architecture')"><span data-lang="zh">核心架构与逻辑</span><span data-lang="en" class="hidden">Architecture & Logic</span></button>
+                    <button class="tab-button active py-4 px-3 text-sm md:text-lg font-medium whitespace-nowrap" onclick="showTab('overview')"><span data-lang="zh">项目概览</span><span data-lang="en" class="hidden">Project Overview</span></button>
                     <button class="tab-button py-4 px-3 text-sm md:text-lg font-medium whitespace-nowrap" onclick="showTab('scenarios')"><span data-lang="zh">使用场景需求</span><span data-lang="en" class="hidden">Use Case Scenarios</span></button>
-                    <button class="tab-button py-4 px-3 text-sm md:text-lg font-medium whitespace-nowrap" onclick="showTab('comparison')"><span data-lang="zh">方案对比分析</span><span data-lang="en" class="hidden">Solution Comparison</span></button>
-                    <button class="tab-button py-4 px-3 text-sm md:text-lg font-medium whitespace-nowrap" onclick="showTab('advantages')"><span data-lang="zh">最终方案优势</span><span data-lang="en" class="hidden">Solution Advantages</span></button>
-                    <button class="tab-button py-4 px-3 text-sm md:text-lg font-medium whitespace-nowrap" onclick="showTab('requirements')"><span data-lang="zh">详细功能需求</span><span data-lang="en" class="hidden">Detailed Features</span></button>
+                    <button class="tab-button py-4 px-3 text-sm md:text-lg font-medium whitespace-nowrap" onclick="showTab('solution')"><span data-lang="zh">方案对比与优势</span><span data-lang="en" class="hidden">Solution Analysis</span></button>
+                    <button class="tab-button py-4 px-3 text-sm md:text-lg font-medium whitespace-nowrap" onclick="showTab('requirements')"><span data-lang="zh">技术需求详情</span><span data-lang="en" class="hidden">Technical Requirements</span></button>
                     <button class="tab-button py-4 px-3 text-sm md:text-lg font-medium whitespace-nowrap" onclick="showTab('packets')"><span data-lang="zh">关键报文分析</span><span data-lang="en" class="hidden">Packet Analysis</span></button>
                     <button class="tab-button py-4 px-3 text-sm md:text-lg font-medium whitespace-nowrap" onclick="showTab('flow')"><span data-lang="zh">完整认证流程</span><span data-lang="en" class="hidden">Full Auth Flow</span></button>
                 </nav>
             </div>
 
             <div id="tab-content">
-                <div id="architecture" class="tab-pane space-y-8">
+                <div id="overview" class="tab-pane space-y-8">
                      <div class="content-card">
-                        <h2 class="text-2xl font-bold mb-4 flex items-center"><i class="material-icons g-highlight mr-2">corporate_fare</i><span data-lang="zh">项目背景</span><span data-lang="en" class="hidden">Project Background</span></h2>
+                        <h2 class="text-2xl font-bold mb-4 flex items-center"><i class="material-icons g-highlight mr-2">corporate_fare</i><span data-lang="zh">项目背景与概览</span><span data-lang="en" class="hidden">Project Background & Overview</span></h2>
+                        
+                        <div class="grid md:grid-cols-2 gap-6 mb-6">
+                            <div class="bg-blue-50 p-4 rounded-lg">
+                                <h3 class="font-bold text-lg mb-2 text-blue-700 flex items-center"><i class="material-icons text-blue-500 mr-2">info</i><span data-lang="zh">项目类型</span><span data-lang="en" class="hidden">Project Type</span></h3>
+                                <p class="text-sm text-blue-600 mb-2"><strong><span data-lang="zh">SI合作准入需求</span><span data-lang="en" class="hidden">SI Partnership Qualification</span></strong></p>
+                                <p class="text-xs text-gray-600"><span data-lang="zh">目标是通过Attrelogix准入，以Omada + Attrelogix搭配方案拿下TM项目</span><span data-lang="en" class="hidden">Aim to pass Attrelogix qualification with Omada + Attrelogix solution for TM projects</span></p>
+                            </div>
+                            
+                            <div class="bg-green-50 p-4 rounded-lg">
+                                <h3 class="font-bold text-lg mb-2 text-green-700 flex items-center"><i class="material-icons text-green-500 mr-2">schedule</i><span data-lang="zh">时间表</span><span data-lang="en" class="hidden">Timeline</span></h3>
+                                <div class="text-sm space-y-1">
+                                    <div class="flex justify-between"><span><span data-lang="zh">技术验证:</span><span data-lang="en" class="hidden">Tech Validation:</span></span><span class="font-semibold text-green-600">Q4 2025</span></div>
+                                    <div class="flex justify-between"><span><span data-lang="zh">第一阶段:</span><span data-lang="en" class="hidden">Phase 1:</span></span><span class="font-semibold text-green-600">RM 800K</span></div>
+                                </div>
+                            </div>
+                        </div>
+                        
                         <p class="mb-2"><strong class="g-highlight"><span data-lang="zh">客户信息:</span><span data-lang="en" class="hidden">Client Information:</span></strong> <span data-lang="zh">TM (Telekom Malaysia) 是马来西亚最大的电信运营商。</span><span data-lang="en" class="hidden">TM (Telekom Malaysia) is the largest telecom operator in Malaysia.</span></p>
-                        <p class="mb-4"><strong class="g-highlight"><span data-lang="zh">主要服务场景:</span><span data-lang="en" class="hidden">Primary Service Scenarios:</span></strong> <span data-lang="zh">大学校园网络、政府机构公共WiFi、购物中心等。</span><span data-lang="en" class="hidden">University campuses, public WiFi for government agencies, shopping malls, etc.</span></p>
+                        <p class="mb-2"><strong class="g-highlight"><span data-lang="zh">项目规模:</span><span data-lang="en" class="hidden">Project Scale:</span></strong> <span data-lang="zh">第一阶段预算约80万马来西亚令吉，替换原有Aruba设备。</span><span data-lang="en" class="hidden">Phase 1 budget RM 800K, replacing existing Aruba equipment.</span></p>
+                        <p class="mb-4"><strong class="g-highlight"><span data-lang="zh">部署场景:</span><span data-lang="en" class="hidden">Deployment Scenarios:</span></strong> <span data-lang="zh">购物广场、巴士站、大众场所等，为马来西亚人民提供免费网络服务。</span><span data-lang="en" class="hidden">Shopping malls, bus stations, public areas, providing free network services for Malaysian citizens.</span></p>
+                        <div class="bg-yellow-50 p-4 rounded-lg mb-4">
+                            <h3 class="font-bold text-lg mb-2 text-yellow-700 flex items-center"><i class="material-icons text-yellow-500 mr-2">history</i><span data-lang="zh">原有系统情况</span><span data-lang="en" class="hidden">Legacy System Status</span></h3>
+                            <ul class="text-sm space-y-1 text-yellow-700">
+                                <li>• <span data-lang="zh">原有部署约10,000台Aruba AP设备</span><span data-lang="en" class="hidden">~10,000 Aruba AP devices previously deployed</span></li>
+                                <li>• <span data-lang="zh">设备已过期及达到生命周期终止(EOL)</span><span data-lang="en" class="hidden">Equipment expired and reached End of Life (EOL)</span></li>
+                                <li>• <span data-lang="zh">通过商家广告收取运营费用</span><span data-lang="en" class="hidden">Revenue generated through merchant advertising</span></li>
+                            </ul>
+                        </div>
                         <div class="mt-4 border-t pt-4">
                             <h3 class="font-bold text-lg g-secondary-highlight"><span data-lang="zh">合作伙伴架构</span><span data-lang="en" class="hidden">Partner Architecture</span></h3>
-                            <p><strong>Attrelogix:</strong> <span data-lang="zh">作为TM的技术合作伙伴，负责后端AAA系统开发、Portal定制及与Omada集成。</span><span data-lang="en" class="hidden">As TM's technical partner, responsible for backend AAA system development, Portal customization, and Omada integration.</span></p>
+                            <div class="space-y-3">
+                                <p><strong>Attrelogix:</strong> <span data-lang="zh">作为TM的技术合作伙伴，负责后端AAA系统开发、Portal定制及与Omada集成。</span><span data-lang="en" class="hidden">As TM's technical partner, responsible for backend AAA system development, Portal customization, and Omada integration.</span></p>
+                                <div class="bg-green-50 p-3 rounded">
+                                    <h4 class="font-semibold text-green-700 mb-2 flex items-center"><span data-lang="zh">合作伙伴背景</span><span data-lang="en" class="hidden">Partner Background</span></h4>
+                                    <ul class="text-sm space-y-1 text-green-600">
+                                        <li>• <span data-lang="zh">已中标TM WiFi Backhaul项目</span><span data-lang="en" class="hidden">Won TM WiFi Backhaul project</span></li>
+                                        <li>• <span data-lang="zh">负责马来西亚大型UKM大学网络平台管理</span><span data-lang="en" class="hidden">Managing network platform for UKM University Malaysia</span></li>
+                                        <li>• <span data-lang="zh">在MCMC政府项目中与H3C合作完成数千台Wi-Fi 7项目</span><span data-lang="en" class="hidden">Collaborated with H3C on thousands of Wi-Fi 7 devices in MCMC government project</span></li>
+                                        <li>• <span data-lang="zh">提供类似Infinity酒店的管理服务模式</span><span data-lang="en" class="hidden">Provides managed service model similar to Infinity hotel solutions</span></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-6 bg-gradient-to-r from-purple-100 to-blue-100 p-6 rounded-lg">
+                            <h3 class="font-bold text-xl mb-4 text-purple-700 flex items-center"><i class="material-icons text-purple-500 mr-2">trending_up</i><span data-lang="zh">潜在商业价值分析</span><span data-lang="en" class="hidden">Potential Business Value Analysis</span></h3>
+                            
+                            <div class="grid md:grid-cols-3 gap-4 mb-4">
+                                <div class="bg-white p-4 rounded-lg border-l-4 border-green-500">
+                                    <h4 class="font-semibold text-green-700 mb-2 flex items-center"><i class="material-icons text-green-500 mr-1">account_balance</i><span data-lang="zh">直接收益</span><span data-lang="en" class="hidden">Direct Revenue</span></h4>
+                                    <ul class="text-sm space-y-1 text-gray-700">
+                                        <li>• <span data-lang="zh">第一阶段: RM 800K</span><span data-lang="en" class="hidden">Phase 1: RM 800K</span></li>
+                                        <li>• <span data-lang="zh">替换原有10K+ Aruba AP</span><span data-lang="en" class="hidden">Replace 10K+ Aruba APs</span></li>
+                                        <li>• <span data-lang="zh">产品: EAP653/723/650</span><span data-lang="en" class="hidden">Products: EAP653/723/650</span></li>
+                                    </ul>
+                                </div>
+                                
+                                <div class="bg-white p-4 rounded-lg border-l-4 border-blue-500">
+                                    <h4 class="font-semibold text-blue-700 mb-2 flex items-center"><i class="material-icons text-blue-500 mr-1">business</i><span data-lang="zh">长期合作</span><span data-lang="en" class="hidden">Long-term Partnership</span></h4>
+                                    <ul class="text-sm space-y-1 text-gray-700">
+                                        <li>• <span data-lang="zh">成为Attrelogix认证伙伴</span><span data-lang="en" class="hidden">Become Attrelogix certified partner</span></li>
+                                        <li>• <span data-lang="zh">参与TM更多项目</span><span data-lang="en" class="hidden">Access more TM projects</span></li>
+                                        <li>• <span data-lang="zh">马来西亚市场拓展</span><span data-lang="en" class="hidden">Malaysia market expansion</span></li>
+                                    </ul>
+                                </div>
+                                
+                                <div class="bg-white p-4 rounded-lg border-l-4 border-orange-500">
+                                    <h4 class="font-semibold text-orange-700 mb-2 flex items-center"><i class="material-icons text-orange-500 mr-1">share</i><span data-lang="zh">战略意义</span><span data-lang="en" class="hidden">Strategic Value</span></h4>
+                                    <ul class="text-sm space-y-1 text-gray-700">
+                                        <li>• <span data-lang="zh">打入ISP运营商市场</span><span data-lang="en" class="hidden">Enter ISP operator market</span></li>
+                                        <li>• <span data-lang="zh">建立技术标准化方案</span><span data-lang="en" class="hidden">Establish standardized solution</span></li>
+                                        <li>• <span data-lang="zh">复制到其他东南亚国家</span><span data-lang="en" class="hidden">Replicate to other SEA countries</span></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            
+                            <div class="bg-white p-4 rounded-lg">
+                                <h4 class="font-semibold text-lg mb-2 text-purple-700"><span data-lang="zh">项目风险与机会</span><span data-lang="en" class="hidden">Project Risks & Opportunities</span></h4>
+                                <div class="grid md:grid-cols-2 gap-4">
+                                    <div>
+                                        <h5 class="font-semibold text-red-600 mb-2"><span data-lang="zh">风险评估</span><span data-lang="en" class="hidden">Risk Assessment</span></h5>
+                                        <ul class="text-sm space-y-1 text-gray-700">
+                                            <li>• <span data-lang="zh">目前无明确标案收益保证</span><span data-lang="en" class="hidden">No guaranteed tender revenue currently</span></li>
+                                            <li>• <span data-lang="zh">需要投入研发资源做定制</span><span data-lang="en" class="hidden">Requires R&D investment for customization</span></li>
+                                            <li>• <span data-lang="zh">技术验证周期较长</span><span data-lang="en" class="hidden">Long technical validation cycle</span></li>
+                                        </ul>
+                                    </div>
+                                    <div>
+                                        <h5 class="font-semibold text-green-600 mb-2"><span data-lang="zh">机会评估</span><span data-lang="en" class="hidden">Opportunity Assessment</span></h5>
+                                        <ul class="text-sm space-y-1 text-gray-700">
+                                            <li>• <span data-lang="zh">具备未来标案合作基础</span><span data-lang="en" class="hidden">Foundation for future tender cooperation</span></li>
+                                            <li>• <span data-lang="zh">价格优势明显，竞争力强</span><span data-lang="en" class="hidden">Strong price advantage and competitiveness</span></li>
+                                            <li>• <span data-lang="zh">合作伙伴关系良好</span><span data-lang="en" class="hidden">Good partnership relationships</span></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="content-card">
@@ -127,7 +209,7 @@
                         <h3 class="font-bold text-lg mb-2"><span data-lang="zh">分布式架构</span><span data-lang="en" class="hidden">Distributed Architecture</span></h3>
                         <p class="mb-4"><span data-lang="zh">采用分布式EaziWiFi Portal平台, 域名格式为 </span><span data-lang="en" class="hidden">Adopts a distributed EaziWiFi Portal platform with domain format: </span><code>https://eaziwi5-{location}.attrelogix.com</code>, <span data-lang="zh">支持基于地理位置的服务。</span><span data-lang="en" class="hidden">supporting geo-based services.</span></p>
                         <h3 class="font-bold text-lg mb-2"><span data-lang="zh">认证流程集成</span><span data-lang="en" class="hidden">Authentication Flow Integration</span></h3>
-                        <div class="font-mono text-sm bg-gray-100 p-4 rounded-lg text-center mb-6">TM AAA Server ←→ Attrelogix Portal ←→ Omada Controller ←→ Access Points</div>
+                        <div class="font-mono text-sm bg-gray-100 p-4 rounded-lg text-center mb-6">Client ←→ Access Points ←→ Omada Controller ←→ EaziWi5 AAA Server ←→ EaziWi5 Portal</div>
                         <h3 class="font-bold text-lg mb-2 g-secondary-highlight"><span data-lang="zh">为何采用MAC Auth + Portal Fallback机制?</span><span data-lang="en" class="hidden">Why Adopt MAC Auth + Portal Fallback?</span></h3>
                         <ul class="list-disc list-inside space-y-2 text-gray-700">
                            <li><strong class="text-black"><span data-lang="zh">用户体验优化:</span><span data-lang="en" class="hidden">User Experience:</span></strong> <span data-lang="zh">实现"一次认证，长期使用"。</span><span data-lang="en" class="hidden">Achieve "authenticate once, use long-term".</span></li>
@@ -143,7 +225,7 @@
                         
                         <div class="grid md:grid-cols-3 gap-6">
                             <div class="bg-blue-50 p-6 rounded-lg border-l-4 border-blue-500">
-                                <h3 class="font-bold text-xl mb-3 text-blue-700"><i class="material-icons text-blue-500 mr-2">school</i><span data-lang="zh">大学校园网络</span><span data-lang="en" class="hidden">University Campus Network</span></h3>
+                                <h3 class="font-bold text-xl mb-3 text-blue-700 flex items-center"><i class="material-icons text-blue-500 mr-2">school</i><span data-lang="zh">大学校园网络</span><span data-lang="en" class="hidden">University Campus Network</span></h3>
                                 <ul class="space-y-2 text-gray-700">
                                     <li><strong><span data-lang="zh">用户群体:</span><span data-lang="en" class="hidden">User Groups:</span></strong> <span data-lang="zh">学生、教职工、访客</span><span data-lang="en" class="hidden">Students, faculty, visitors</span></li>
                                     <li><strong><span data-lang="zh">认证需求:</span><span data-lang="en" class="hidden">Auth Requirements:</span></strong> <span data-lang="zh">统一身份管理、学期有效期控制</span><span data-lang="en" class="hidden">Unified identity management, semester validity control</span></li>
@@ -153,7 +235,7 @@
                             </div>
                             
                             <div class="bg-green-50 p-6 rounded-lg border-l-4 border-green-500">
-                                <h3 class="font-bold text-xl mb-3 text-green-700"><i class="material-icons text-green-500 mr-2">account_balance</i><span data-lang="zh">政府机构公共WiFi</span><span data-lang="en" class="hidden">Government Public WiFi</span></h3>
+                                <h3 class="font-bold text-xl mb-3 text-green-700 flex items-center"><i class="material-icons text-green-500 mr-2">account_balance</i><span data-lang="zh">政府机构公共WiFi</span><span data-lang="en" class="hidden">Government Public WiFi</span></h3>
                                 <ul class="space-y-2 text-gray-700">
                                     <li><strong><span data-lang="zh">用户群体:</span><span data-lang="en" class="hidden">User Groups:</span></strong> <span data-lang="zh">公众用户、临时访客</span><span data-lang="en" class="hidden">Public users, temporary visitors</span></li>
                                     <li><strong><span data-lang="zh">认证需求:</span><span data-lang="en" class="hidden">Auth Requirements:</span></strong> <span data-lang="zh">实名制认证、严格审计</span><span data-lang="en" class="hidden">Real-name authentication, strict auditing</span></li>
@@ -163,7 +245,7 @@
                             </div>
                             
                             <div class="bg-purple-50 p-6 rounded-lg border-l-4 border-purple-500">
-                                <h3 class="font-bold text-xl mb-3 text-purple-700"><i class="material-icons text-purple-500 mr-2">shopping_cart</i><span data-lang="zh">购物中心等商业场所</span><span data-lang="en" class="hidden">Shopping Malls & Commercial</span></h3>
+                                <h3 class="font-bold text-xl mb-3 text-purple-700 flex items-center"><i class="material-icons text-purple-500 mr-2">shopping_cart</i><span data-lang="zh">购物中心等商业场所</span><span data-lang="en" class="hidden">Shopping Malls & Commercial</span></h3>
                                 <ul class="space-y-2 text-gray-700">
                                     <li><strong><span data-lang="zh">用户群体:</span><span data-lang="en" class="hidden">User Groups:</span></strong> <span data-lang="zh">顾客、商户、员工</span><span data-lang="en" class="hidden">Customers, merchants, staff</span></li>
                                     <li><strong><span data-lang="zh">商业需求:</span><span data-lang="en" class="hidden">Business Requirements:</span></strong> <span data-lang="zh">精准营销、广告推送</span><span data-lang="en" class="hidden">Targeted marketing, ad delivery</span></li>
@@ -174,19 +256,19 @@
                         </div>
                         
                         <div class="mt-8 bg-gradient-to-r from-blue-100 to-green-100 p-6 rounded-lg">
-                            <h3 class="font-bold text-xl mb-4 text-gray-800"><i class="material-icons text-blue-600 mr-2">insights</i><span data-lang="zh">共同技术需求</span><span data-lang="en" class="hidden">Common Technical Requirements</span></h3>
+                            <h3 class="font-bold text-xl mb-4 text-gray-800 flex items-center"><i class="material-icons text-blue-600 mr-2">insights</i><span data-lang="zh">共同技术需求</span><span data-lang="en" class="hidden">Common Technical Requirements</span></h3>
                             <div class="grid md:grid-cols-2 gap-6">
                                 <div>
-                                    <h4 class="font-semibold text-lg mb-2 text-blue-700"><span data-lang="zh">用户体验要求</span><span data-lang="en" class="hidden">User Experience Requirements</span></h4>
+                                    <h4 class="font-semibold text-lg mb-2 text-blue-700 flex items-center"><span data-lang="zh">用户体验要求</span><span data-lang="en" class="hidden">User Experience Requirements</span></h4>
                                     <ul class="list-disc list-inside space-y-1 text-gray-700">
                                         <li><span data-lang="zh">一次认证，长期使用</span><span data-lang="en" class="hidden">Authenticate once, use long-term</span></li>
                                         <li><span data-lang="zh">设备自动重连</span><span data-lang="en" class="hidden">Automatic device reconnection</span></li>
-                                        <li><span data-lang="zh">快速网络接入（3秒内）</span><span data-lang="en" class="hidden">Rapid network access (within 3 seconds)</span></li>
+                                        <li><span data-lang="zh">快速网络接入</span><span data-lang="en" class="hidden">Rapid network access</span></li>
                                         <li><span data-lang="zh">跨设备用户身份管理</span><span data-lang="en" class="hidden">Cross-device user identity management</span></li>
                                     </ul>
                                 </div>
                                 <div>
-                                    <h4 class="font-semibold text-lg mb-2 text-green-700"><span data-lang="zh">运营管理要求</span><span data-lang="en" class="hidden">Operational Management Requirements</span></h4>
+                                    <h4 class="font-semibold text-lg mb-2 text-green-700 flex items-center"><span data-lang="zh">运营管理要求</span><span data-lang="en" class="hidden">Operational Management Requirements</span></h4>
                                     <ul class="list-disc list-inside space-y-1 text-gray-700">
                                         <li><span data-lang="zh">精确的用户身份追踪</span><span data-lang="en" class="hidden">Precise user identity tracking</span></li>
                                         <li><span data-lang="zh">基于位置的服务能力</span><span data-lang="en" class="hidden">Location-based service capabilities</span></li>
@@ -199,7 +281,7 @@
                     </div>
                 </div>
                 
-                <div id="comparison" class="tab-pane hidden space-y-6">
+                <div id="solution" class="tab-pane hidden space-y-6">
                     <div class="content-card">
                         <h2 class="text-3xl font-bold mb-6 flex items-center"><i class="material-icons g-highlight mr-3">compare</i><span data-lang="zh">认证方案对比分析</span><span data-lang="en" class="hidden">Authentication Solution Comparison</span></h2>
                         
@@ -277,7 +359,7 @@
                         </div>
                         
                         <div class="mt-8 bg-blue-50 p-6 rounded-lg border-l-4 border-blue-500">
-                            <h3 class="font-bold text-xl mb-4 text-blue-700"><i class="material-icons text-blue-500 mr-2">lightbulb</i><span data-lang="zh">为什么TM选择混合方案？</span><span data-lang="en" class="hidden">Why TM Chose the Hybrid Solution?</span></h3>
+                            <h3 class="font-bold text-xl mb-4 text-blue-700 flex items-center"><i class="material-icons text-blue-500 mr-2">lightbulb</i><span data-lang="zh">为什么TM选择混合方案？</span><span data-lang="en" class="hidden">Why TM Chose the Hybrid Solution?</span></h3>
                             <div class="grid md:grid-cols-3 gap-4">
                                 <div class="bg-white p-4 rounded-lg shadow-sm">
                                     <h4 class="font-semibold text-blue-600 mb-2"><span data-lang="zh">业务需求驱动</span><span data-lang="en" class="hidden">Business Requirements</span></h4>
@@ -293,17 +375,15 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-                
-                <div id="advantages" class="tab-pane hidden space-y-6">
-                    <div class="content-card">
-                        <h2 class="text-3xl font-bold mb-6 flex items-center"><i class="material-icons g-highlight mr-3">emoji_events</i><span data-lang="zh">最终方案的优势</span><span data-lang="en" class="hidden">Final Solution Advantages</span></h2>
+                        </div>
+                        
+                        <div class="mt-8 content-card">
+                            <h2 class="text-3xl font-bold mb-6 flex items-center"><i class="material-icons g-highlight mr-3">emoji_events</i><span data-lang="zh">最终方案的核心优势</span><span data-lang="en" class="hidden">Core Solution Advantages</span></h2>
                         
                         <div class="grid md:grid-cols-2 gap-8">
                             <div class="space-y-6">
                                 <div class="bg-gradient-to-r from-green-100 to-blue-100 p-6 rounded-lg">
-                                    <h3 class="font-bold text-xl mb-4 text-green-700"><i class="material-icons text-green-500 mr-2">person</i><span data-lang="zh">用户体验优势</span><span data-lang="en" class="hidden">User Experience Benefits</span></h3>
+                                    <h3 class="font-bold text-xl mb-4 text-green-700 flex items-center"><i class="material-icons text-green-500 mr-2">person</i><span data-lang="zh">用户体验优势</span><span data-lang="en" class="hidden">User Experience Benefits</span></h3>
                                     <div class="space-y-3">
                                         <div class="flex items-start space-x-3">
                                             <div class="bg-green-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold">1</div>
@@ -330,7 +410,7 @@
                                 </div>
                                 
                                 <div class="bg-gradient-to-r from-purple-100 to-pink-100 p-6 rounded-lg">
-                                    <h3 class="font-bold text-xl mb-4 text-purple-700"><i class="material-icons text-purple-500 mr-2">business</i><span data-lang="zh">商业价值优势</span><span data-lang="en" class="hidden">Business Value Benefits</span></h3>
+                                    <h3 class="font-bold text-xl mb-4 text-purple-700 flex items-center"><i class="material-icons text-purple-500 mr-2">business</i><span data-lang="zh">商业价值优势</span><span data-lang="en" class="hidden">Business Value Benefits</span></h3>
                                     <div class="space-y-3">
                                         <div class="flex items-start space-x-3">
                                             <div class="bg-purple-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold">1</div>
@@ -359,7 +439,7 @@
                             
                             <div class="space-y-6">
                                 <div class="bg-gradient-to-r from-blue-100 to-cyan-100 p-6 rounded-lg">
-                                    <h3 class="font-bold text-xl mb-4 text-blue-700"><i class="material-icons text-blue-500 mr-2">settings</i><span data-lang="zh">技术架构优势</span><span data-lang="en" class="hidden">Technical Architecture Benefits</span></h3>
+                                    <h3 class="font-bold text-xl mb-4 text-blue-700 flex items-center"><i class="material-icons text-blue-500 mr-2">settings</i><span data-lang="zh">技术架构优势</span><span data-lang="en" class="hidden">Technical Architecture Benefits</span></h3>
                                     <div class="space-y-3">
                                         <div class="flex items-start space-x-3">
                                             <div class="bg-blue-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold">1</div>
@@ -386,7 +466,7 @@
                                 </div>
                                 
                                 <div class="bg-gradient-to-r from-orange-100 to-red-100 p-6 rounded-lg">
-                                    <h3 class="font-bold text-xl mb-4 text-orange-700"><i class="material-icons text-orange-500 mr-2">security</i><span data-lang="zh">安全性优势</span><span data-lang="en" class="hidden">Security Benefits</span></h3>
+                                    <h3 class="font-bold text-xl mb-4 text-orange-700 flex items-center"><i class="material-icons text-orange-500 mr-2">security</i><span data-lang="zh">安全性优势</span><span data-lang="en" class="hidden">Security Benefits</span></h3>
                                     <div class="space-y-3">
                                         <div class="flex items-start space-x-3">
                                             <div class="bg-orange-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold">1</div>
@@ -415,14 +495,14 @@
                         </div>
                         
                         <div class="mt-8 bg-gradient-to-r from-yellow-100 to-orange-100 p-6 rounded-lg border-l-4 border-yellow-500">
-                            <h3 class="font-bold text-xl mb-4 text-yellow-700"><i class="material-icons text-yellow-600 mr-2">trending_up</i><span data-lang="zh">核心竞争优势总结</span><span data-lang="en" class="hidden">Core Competitive Advantages Summary</span></h3>
+                            <h3 class="font-bold text-xl mb-4 text-yellow-700 flex items-center"><i class="material-icons text-yellow-600 mr-2">trending_up</i><span data-lang="zh">核心竞争优势总结</span><span data-lang="en" class="hidden">Core Competitive Advantages Summary</span></h3>
                             <div class="grid md:grid-cols-4 gap-4">
                                 <div class="text-center">
                                     <div class="bg-white rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-2 shadow-md">
                                         <i class="material-icons text-2xl text-green-500">speed</i>
                                     </div>
-                                    <h4 class="font-semibold text-green-700"><span data-lang="zh">极致体验</span><span data-lang="en" class="hidden">Ultimate Experience</span></h4>
-                                    <p class="text-xs text-gray-600"><span data-lang="zh">3秒内快速接入</span><span data-lang="en" class="hidden">3-sec rapid access</span></p>
+                                    <h4 class="font-semibold text-green-700"><span data-lang="zh">优秀体验</span><span data-lang="en" class="hidden">Great Experience</span></h4>
+                                    <p class="text-xs text-gray-600"><span data-lang="zh">快速接入</span><span data-lang="en" class="hidden">Rapid access</span></p>
                                 </div>
                                 <div class="text-center">
                                     <div class="bg-white rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-2 shadow-md">
@@ -443,50 +523,44 @@
                                         <i class="material-icons text-2xl text-orange-500">expand</i>
                                     </div>
                                     <h4 class="font-semibold text-orange-700"><span data-lang="zh">易扩展</span><span data-lang="en" class="hidden">Scalable</span></h4>
-                                    <p class="text-xs text-gray-600"><span data-lang="zh">支持万级并发</span><span data-lang="en" class="hidden">10K+ concurrent users</span></p>
+                                    <p class="text-xs text-gray-600"><span data-lang="zh">支持大规模部署</span><span data-lang="en" class="hidden">Large-scale deployment</span></p>
                                 </div>
                             </div>
                         </div>
+                    </div>
+                        
                     </div>
                 </div>
                 
                 <div id="requirements" class="tab-pane hidden space-y-6">
                      <h2 class="text-3xl font-bold mb-4"><span data-lang="zh">功能需求详述</span><span data-lang="en" class="hidden">Detailed Functional Requirements</span></h2>
-                     <div class="space-y-4">
-                        <details class="content-card"><summary class="font-bold text-xl flex justify-between items-center"><span class="g-highlight">1. <span data-lang="zh">MAC认证发起点修改</span><span data-lang="en" class="hidden">Modify MAC Auth Initiator</span></span><i class="material-icons arrow">chevron_right</i></summary><div class="mt-4 border-t pt-4 space-y-2"><p><strong><span data-lang="zh">需求行为:</span><span data-lang="en" class="hidden">Required Behavior:</span></strong> <span data-lang="zh">MAC认证请求由 </span><span data-lang="en" class="hidden">MAC authentication requests initiated by </span><code>Controller</code>.</p><p><strong><span data-lang="zh">技术实现:</span><span data-lang="en" class="hidden">Implementation:</span></strong> <span data-lang="zh">修改RADIUS Access-Request的发起点，</span><span data-lang="en" class="hidden">Modify initiator of RADIUS Access-Request, </span><code>Called-Station-Id</code> <span data-lang="zh">字段设置为Controller MAC。</span><span data-lang="en" class="hidden">is set to Controller MAC.</span></p><p><strong><span data-lang="zh">业务价值:</span><span data-lang="en" class="hidden">Business Value:</span></strong> <span data-lang="zh">简化AAA服务器的IP白名单管理。</span><span data-lang="en" class="hidden">Simplifies IP whitelist management on the AAA server.</span></p></div></details>
-                        <details class="content-card"><summary class="font-bold text-xl flex justify-between items-center"><span class="g-highlight">2. <span data-lang="zh">Portal重定向参数增强</span><span data-lang="en" class="hidden">Enhance Portal Redirect Parameters</span></span><i class="material-icons arrow">chevron_right</i></summary><div class="mt-4 border-t pt-4 space-y-2"><p><strong><span data-lang="zh">新增参数:</span><span data-lang="en" class="hidden">New Parameters:</span></strong></p><pre><code>&apGroup=xxx // AP Group Name
-&apName=xxx  // AP Device Name
-&apIp=xxx    // AP Device IP</code></pre><p><strong><span data-lang="zh">业务价值:</span><span data-lang="en" class="hidden">Business Value:</span></strong> <span data-lang="zh">支持基于AP位置的精准营销。</span><span data-lang="en" class="hidden">Enable precise location-based marketing.</span></p></div></details>
-                        <details class="content-card"><summary class="font-bold text-xl flex justify-between items-center"><span class="g-highlight">3. <span data-lang="zh">RADIUS计费报文增强</span><span data-lang="en" class="hidden">Enhance RADIUS Accounting Packets</span></span><i class="material-icons arrow">chevron_right</i></summary><div class="mt-4 border-t pt-4 space-y-2"><p><strong><span data-lang="zh">User-Name字段处理:</span><span data-lang="en" class="hidden">User-Name Field Handling:</span></strong> <span data-lang="zh">计费报文统一使用真实用户标识。</span><span data-lang="en" class="hidden">Use real user identity in accounting packets.</span></p><p><strong><span data-lang="zh">新增位置信息字段:</span><span data-lang="en" class="hidden">New Location Fields:</span></strong> <span data-lang="zh">在RADIUS Accounting报文中添加 </span><span data-lang="en" class="hidden">Add the following to RADIUS Accounting packets: </span><code>AP-Group</code>, <code>AP-Name</code>, <code>AP-Location</code>.</p></div></details>
-                        <details class="content-card"><summary class="font-bold text-xl flex justify-between items-center"><span class="g-highlight">4. <span data-lang="zh">Portal认证后处理机制</span><span data-lang="en" class="hidden">Post-Portal Authentication Mechanism</span></span><i class="material-icons arrow">chevron_right</i></summary><div class="mt-4 border-t pt-4 space-y-2"><p><strong><span data-lang="zh">当前API限制:</span><span data-lang="en" class="hidden">Current API Limitation:</span></strong> <code>POST .../extPortal/auth</code> <span data-lang="zh">绕过RADIUS计费。</span><span data-lang="en" class="hidden">bypasses RADIUS accounting.</span></p><p><strong><span data-lang="zh">需求功能:</span><span data-lang="en" class="hidden">Required Functionality:</span></strong> <span data-lang="zh">需要支持 </span><span data-lang="en" class="hidden">Need APIs to support </span><code><span data-lang="zh">踢除客户端</span><span data-lang="en" class="hidden">client disconnection</span></code> <span data-lang="zh">或</span><span data-lang="en" class="hidden">or</span> <code><span data-lang="zh">触发MAC重认证</span><span data-lang="en" class="hidden">trigger MAC re-auth</span></code><span data-lang="zh"> 的API。</span><span data-lang="en" class="hidden">.</span></p></div></details>
-                    </div>
-                    
-                    <div class="content-card">
+                     <div class="content-card">
                         <h2 class="text-2xl font-bold mb-4 flex items-center"><i class="material-icons g-highlight mr-2">build</i><span data-lang="zh">配置以及详细需求</span><span data-lang="en" class="hidden">Configuration & Detailed Requirements</span></h2>
                         
                         <div class="space-y-6">
                             <div class="bg-blue-50 p-4 rounded-lg">
-                                <h3 class="font-bold text-lg mb-3 text-blue-700"><i class="material-icons text-blue-500 mr-2">wifi</i><span data-lang="zh">SSID配置要求</span><span data-lang="en" class="hidden">SSID Configuration Requirements</span></h3>
+                                <h3 class="font-bold text-lg mb-3 text-blue-700 flex items-center"><i class="material-icons text-blue-500 mr-2">wifi</i><span data-lang="zh">Portal 配置要求</span><span data-lang="en" class="hidden">Portal Configuration Requirements</span></h3>
                                 <div class="bg-white p-4 rounded border">
-                                    <pre><code class="text-sm">认证方式: MAC Authentication
-MAC Auth Fallback: 启用
-Portal类型: External Portal Server
+                                    <pre><code class="text-sm">Auth Type: MAC Auth + Portal Auth
+MAC Auth Type: External RADIUS
+MAC Auth Fallback: Enabled
+Portal Type: External Portal Server
 Portal URL: https://eaziwi5-xxx.attrelogix.com/cp/tm-lab/tplink/</code></pre>
                                 </div>
                             </div>
                             
                             <div class="bg-green-50 p-4 rounded-lg">
-                                <h3 class="font-bold text-lg mb-3 text-green-700"><i class="material-icons text-green-500 mr-2">router</i><span data-lang="zh">RADIUS配置要求</span><span data-lang="en" class="hidden">RADIUS Configuration Requirements</span></h3>
+                                <h3 class="font-bold text-lg mb-3 text-green-700 flex items-center"><i class="material-icons text-green-500 mr-2">router</i><span data-lang="zh">RADIUS配置要求</span><span data-lang="en" class="hidden">RADIUS Configuration Requirements</span></h3>
                                 <div class="bg-white p-4 rounded border">
-                                    <pre><code class="text-sm">Primary RADIUS Server: TM AAA Server
-MAC Auth发起者: Controller (非AP)
-Accounting: 启用
+                                    <pre><code class="text-sm">Primary RADIUS Server: EaziWi5 AAA Server
+MAC Auth Source: Controller (Not AP)
+Accounting: Enabled
 NAS-IP-Address: Controller_IP</code></pre>
                                 </div>
                             </div>
                             
                             <div class="bg-yellow-50 p-4 rounded-lg">
-                                <h3 class="font-bold text-lg mb-3 text-yellow-700"><i class="material-icons text-yellow-500 mr-2">security</i><span data-lang="zh">网络权限控制机制</span><span data-lang="en" class="hidden">Network Access Control</span></h3>
+                                <h3 class="font-bold text-lg mb-3 text-yellow-700 flex items-center"><i class="material-icons text-yellow-500 mr-2">security</i><span data-lang="zh">网络权限控制机制</span><span data-lang="en" class="hidden">Network Access Control</span></h3>
                                 <div class="grid md:grid-cols-2 gap-4">
                                     <div class="bg-white p-4 rounded border">
                                         <h4 class="font-semibold mb-2 text-red-600"><span data-lang="zh">MAC Auth Fallback状态（受限权限）</span><span data-lang="en" class="hidden">MAC Auth Fallback (Limited Access)</span></h4>
@@ -511,7 +585,7 @@ NAS-IP-Address: Controller_IP</code></pre>
                             </div>
                             
                             <div class="bg-purple-50 p-4 rounded-lg">
-                                <h3 class="font-bold text-lg mb-3 text-purple-700"><i class="material-icons text-purple-500 mr-2">api</i><span data-lang="zh">所需API接口</span><span data-lang="en" class="hidden">Required API Interfaces</span></h3>
+                                <h3 class="font-bold text-lg mb-3 text-purple-700 flex items-center"><i class="material-icons text-purple-500 mr-2">api</i><span data-lang="zh">所需API接口</span><span data-lang="en" class="hidden">Required API Interfaces</span></h3>
                                 <div class="space-y-3">
                                     <div class="bg-white p-3 rounded border">
                                         <h4 class="font-semibold text-sm text-purple-600"><span data-lang="zh">踢除客户端API（方案A）</span><span data-lang="en" class="hidden">Client Disconnection API (Option A)</span></h4>
@@ -527,6 +601,15 @@ NAS-IP-Address: Controller_IP</code></pre>
                             </div>
                         </div>
                     </div>
+                     <div class="space-y-4">
+                        <details class="content-card"><summary class="font-bold text-xl flex justify-between items-center"><span class="g-highlight">1. <span data-lang="zh">MAC认证发起点修改</span><span data-lang="en" class="hidden">Modify MAC Auth Initiator</span></span><i class="material-icons arrow">chevron_right</i></summary><div class="mt-4 border-t pt-4 space-y-2"><p><strong><span data-lang="zh">需求行为:</span><span data-lang="en" class="hidden">Required Behavior:</span></strong> <span data-lang="zh">MAC认证请求由 </span><span data-lang="en" class="hidden">MAC authentication requests initiated by </span><code>Controller</code>.</p><p><strong><span data-lang="zh">技术实现:</span><span data-lang="en" class="hidden">Implementation:</span></strong> <span data-lang="zh">修改RADIUS Access-Request的发起点，</span><span data-lang="en" class="hidden">Modify initiator of RADIUS Access-Request, </span><code>Called-Station-Id</code> <span data-lang="zh">字段设置为Controller MAC。</span><span data-lang="en" class="hidden">is set to Controller MAC.</span></p><p><strong><span data-lang="zh">业务价值:</span><span data-lang="en" class="hidden">Business Value:</span></strong> <span data-lang="zh">简化AAA服务器的IP白名单管理。</span><span data-lang="en" class="hidden">Simplifies IP whitelist management on the AAA server.</span></p></div></details>
+                        <details class="content-card"><summary class="font-bold text-xl flex justify-between items-center"><span class="g-highlight">2. <span data-lang="zh">Portal重定向参数增强</span><span data-lang="en" class="hidden">Enhance Portal Redirect Parameters</span></span><i class="material-icons arrow">chevron_right</i></summary><div class="mt-4 border-t pt-4 space-y-2"><p><strong><span data-lang="zh">新增参数:</span><span data-lang="en" class="hidden">New Parameters:</span></strong></p><pre><code>&apGroup=xxx // AP Group Name
+&apName=xxx  // AP Device Name
+&apIp=xxx    // AP Device IP</code></pre><p><strong><span data-lang="zh">业务价值:</span><span data-lang="en" class="hidden">Business Value:</span></strong> <span data-lang="zh">支持基于AP位置的精准营销。</span><span data-lang="en" class="hidden">Enable precise location-based marketing.</span></p></div></details>
+                        <details class="content-card"><summary class="font-bold text-xl flex justify-between items-center"><span class="g-highlight">3. <span data-lang="zh">RADIUS计费报文增强</span><span data-lang="en" class="hidden">Enhance RADIUS Accounting Packets</span></span><i class="material-icons arrow">chevron_right</i></summary><div class="mt-4 border-t pt-4 space-y-2"><p><strong><span data-lang="zh">User-Name字段处理:</span><span data-lang="en" class="hidden">User-Name Field Handling:</span></strong> <span data-lang="zh">计费报文统一使用 Radius Access-Accept 报文中返回的User-name真实用户标识。</span><span data-lang="en" class="hidden">The accounting packets uniformly use the real user identity, which is the 'User-name' attribute returned in the RADIUS Access-Accept packet.</span></p><p><strong><span data-lang="zh">新增位置信息字段:</span><span data-lang="en" class="hidden">New Location Fields:</span></strong> <span data-lang="zh">在RADIUS Accounting报文中添加 </span><span data-lang="en" class="hidden">Add the following to RADIUS Accounting packets: </span><code>AP-Group</code>, <code>AP-Name</code>, <code>AP-Location</code>.</p></div></details>
+                        <details class="content-card"><summary class="font-bold text-xl flex justify-between items-center"><span class="g-highlight">4. <span data-lang="zh">Portal认证后处理机制</span><span data-lang="en" class="hidden">Post-Portal Authentication Mechanism</span></span><i class="material-icons arrow">chevron_right</i></summary><div class="mt-4 border-t pt-4 space-y-2"><p><strong><span data-lang="zh">问题描述:</span><span data-lang="en" class="hidden">Problem Description:</span></strong> <span data-lang="zh">Portal认证成功后无法实现终端计费，需要重新完成MAC认证才能启动RADIUS Accounting流程。</span><span data-lang="en" class="hidden">After Portal authentication, terminal billing cannot be implemented, requiring MAC re-authentication to start RADIUS Accounting.</span></p><p><strong><span data-lang="zh">需求功能:</span><span data-lang="en" class="hidden">Required Functionality:</span></strong> <span data-lang="zh">需要支持 </span><span data-lang="en" class="hidden">Need APIs to support </span><code><span data-lang="zh">踢除客户端</span><span data-lang="en" class="hidden">client disconnection</span></code> <span data-lang="zh">或</span><span data-lang="en" class="hidden">or</span> <code><span data-lang="zh">触发MAC重认证</span><span data-lang="en" class="hidden">trigger MAC re-auth</span></code><span data-lang="zh"> 的API。</span><span data-lang="en" class="hidden">.</span></p></div></details>
+                    </div>
+                    
                 </div>
                 
                 <div id="packets" class="tab-pane hidden space-y-6">
@@ -564,14 +647,11 @@ Vendor-Specific Attributes:
 
                 <div id="flow" class="tab-pane hidden">
                      <div class="content-card">
-                        <h2 class="text-3xl font-bold mb-8 text-center"><span data-lang="zh">完整认证流程图</span><span data-lang="en" class="hidden">Complete Authentication Flow</span></h2>
-                        <div class="flow-diagram-container">
-                            <div data-lang="zh" class="text-center">
-                                <img src="https://pages.chenge.ink/assets/authflow_zh.png" alt="完整认证流程图" class="flow-diagram-image mx-auto max-w-full h-auto">
-                            </div>
-                            <div data-lang="en" class="hidden text-center">
-                                <img src="https://pages.chenge.ink/assets/authflow_en.png" alt="Complete Authentication Flow" class="flow-diagram-image mx-auto max-w-full h-auto">
-                            </div>
+                        <div data-lang="zh" class="text-center">
+                            <img src="https://pages.chenge.ink/assets/authflow_zh.png" alt="完整认证流程图" class="mx-auto max-w-full h-auto">
+                        </div>
+                        <div data-lang="en" class="hidden text-center">
+                            <img src="https://pages.chenge.ink/assets/authflow_en.png" alt="Complete Authentication Flow" class="mx-auto max-w-full h-auto">
                         </div>
                     </div>
                 </div>
