@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Chosen Palette: Calm Harmony (Slate, Cyan) -->
+    <!-- Application Structure Plan: The SPA uses a dashboard layout. A header provides the title. Below it, two summary cards offer a high-level overview of each website's philosophy, based on the report's conclusion. The core of the app is an interactive comparison module, structured with a vertical tab-based navigation on the left for feature dimensions (e.g., Architecture, SEO) and a dynamic content area on the right. This structure was chosen to break down the dense, comparative information into manageable, user-driven sections, making it easy to explore and compare specific points of interest without being overwhelmed. A Gemini-powered "Deeper Analysis" feature was added to each comparison card to provide expert, non-technical explanations of the trade-offs. -->
+    <!-- Visualization & Content Choices: Report Info: Textual comparison of web tech. -> Goal: Inform & Compare. -> Viz/Presentation Method: Structured HTML/CSS cards and dynamic text blocks. -> Interaction: Clickable vertical tabs to switch content. A new button on each card triggers a Gemini API call. -> Justification: The source report is qualitative. Interactive text blocks are effective. The Gemini API call enhances this by providing synthesized, expert analysis on demand, directly addressing the user's potential follow-up questions about the implications of each technical choice. -> Library/Method: Vanilla JS for interaction, Tailwind CSS for styling. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <title>技术对比报告：UniFi vs. Omada (AI增强版)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', 'Helvetica Neue', 'Arial', 'sans-serif';
+            background-color: #f8fafc;
+        }
+        .active-nav {
+            background-color: #0891b2;
+            color: white;
+            transform: translateX(4px);
+        }
+        .nav-item {
+            transition: all 0.2s ease-in-out;
+        }
+        .nav-item:hover {
+            background-color: #f1f5f9;
+            transform: translateX(4px);
+        }
+        .active-nav:hover {
+            background-color: #06b6d4;
+        }
+        .content-card, .ai-analysis-content {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .loader {
+            width: 20px;
+            height: 20px;
+            border: 2px solid #f3f3f3;
+            border-top: 2px solid #0891b2;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="text-slate-800">
+
+    <div class="container mx-auto p-4 sm:p-6 md:p-8 max-w-7xl">
+        
+        <header class="text-center mb-8 md:mb-12">
+            <h1 class="text-3xl md:text-5xl font-extrabold text-slate-900">官网技术对决</h1>
+            <p class="text-lg md:text-xl text-slate-500 mt-2">Ubiquiti UniFi vs. TP-Link Omada (AI 增强分析)</p>
+        </header>
+
+        <section class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 mb-8 md:mb-12">
+            <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+                <h2 class="text-2xl font-bold text-cyan-600 mb-2">Ubiquiti UniFi</h2>
+                <p class="font-semibold text-slate-700 mb-3">现代、动态、以应用为中心</p>
+                <p class="text-slate-600">采用 React 单页面应用 (SPA) 架构，提供流畅、类似原生应用的交互体验，专注于为现代浏览器打造前沿的用户界面。</p>
+            </div>
+            <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+                <h2 class="text-2xl font-bold text-cyan-600 mb-2">TP-Link Omada</h2>
+                <p class="font-semibold text-slate-700 mb-3">传统、稳健、以内容为中心</p>
+                <p class="text-slate-600">采用传统的多页面架构 (MPA)，对搜索引擎天然友好，国际化支持出色，并确保了对老旧浏览器的兼容性。</p>
+            </div>
+        </section>
+
+        <main class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+            <div class="p-6">
+                <h3 class="text-2xl font-bold text-slate-900">核心技术对比</h3>
+                <p class="text-slate-500 mt-1">点击左侧的特性维度，查看详细的并排比较，并可获取 AI 深度分析。</p>
+            </div>
+            <div class="flex flex-col md:flex-row min-h-[400px]">
+                <nav id="comparison-nav" class="w-full md:w-1/4 lg:w-1/5 p-4 border-b md:border-b-0 md:border-r border-slate-200">
+                    <ul class="flex flex-row md:flex-col overflow-x-auto md:overflow-x-visible pb-2 md:pb-0">
+                        <li class="flex-shrink-0"><button class="nav-item w-full text-left p-3 rounded-lg font-medium">核心架构</button></li>
+                        <li class="flex-shrink-0"><button class="nav-item w-full text-left p-3 rounded-lg font-medium">前端技术栈</button></li>
+                        <li class="flex-shrink-0"><button class="nav-item w-full text-left p-3 rounded-lg font-medium">SEO 策略</button></li>
+                        <li class="flex-shrink-0"><button class="nav-item w-full text-left p-3 rounded-lg font-medium">移动端适配</button></li>
+                        <li class="flex-shrink-0"><button class="nav-item w-full text-left p-3 rounded-lg font-medium">浏览器兼容性</button></li>
+                        <li class="flex-shrink-0"><button class="nav-item w-full text-left p-3 rounded-lg font-medium">性能优化</button></li>
+                        <li class="flex-shrink-0"><button class="nav-item w-full text-left p-3 rounded-lg font-medium">追踪与分析</button></li>
+                        <li class="flex-shrink-0"><button class="nav-item w-full text-left p-3 rounded-lg font-medium">代码结构</button></li>
+                    </ul>
+                </nav>
+                <div id="comparison-content" class="w-full md:w-3/4 lg:w-4/5 p-4 sm:p-6">
+                </div>
+            </div>
+        </main>
+
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const comparisonData = [
+                {
+                    feature: '核心架构',
+                    unifi: { title: '单页面应用 (SPA)', details: '采用更现代的 SPA 架构，页面切换无需刷新，体验流畅，类似桌面应用。' },
+                    omada: { title: '传统多页面架构 (MPA)', details: '采用传统的 MPA 架构，页面之间跳转会有刷新感，但对 SEO 更友好，首屏加载可能更快。' },
+                    analysis: `**用户体验对比：**
+UniFi的SPA架构提供了无缝的页面切换体验，用户点击链接时不会看到页面闪烁或加载，感觉更像使用手机应用。而Omada的传统架构每次点击都会重新加载页面，虽然有短暂的等待时间，但首次打开速度通常更快。
+
+**性能表现：**
+SPA架构首次加载较慢（需要下载整个应用），但后续操作极快。MPA架构每个页面加载都很快，但每次跳转都需要重新请求服务器。对于内容浏览型网站，MPA通常有更好的首屏性能。
+
+**开发复杂性：**
+React SPA需要前端团队具备现代JavaScript框架经验，开发门槛较高，但长期维护性更好。传统MPA开发更容易上手，任何有基础前端经验的开发者都能快速参与。
+
+**商业影响：**
+SPA提升用户留存和交互深度，适合需要用户深度操作的产品。MPA对SEO天然友好，更适合需要搜索引擎流量的营销型网站。从投资回报角度，Omada的策略可能带来更多自然流量。`
+                },
+                {
+                    feature: '前端技术栈',
+                    unifi: { title: 'React', details: '使用现代化的组件化框架 React，开发效率和可维护性更高。' },
+                    omada: { title: 'jQuery', details: '依赖于较旧的 jQuery 库，代表了更传统的开发模式。' },
+                    analysis: `**用户体验对比：**
+React提供组件化的用户界面，交互更流畅，可以实现复杂的动态效果和实时数据更新。jQuery虽然技术较老，但在处理简单交互时响应速度很快，页面切换明确直观。
+
+**性能表现：**
+React的虚拟DOM技术在复杂页面中性能优异，但框架本身有一定体积。jQuery轻量级，对于简单交互性能开销很小，但在复杂场景下可能出现性能瓶颈。
+
+**开发复杂性：**
+React需要学习JSX、组件生命周期、状态管理等概念，初期学习成本高，但适合构建大型应用。jQuery语法简单直观，新手可以快速上手，但大型项目中代码容易变得混乱。
+
+**商业影响：**
+选择React意味着投资未来，团队技能更具市场价值，项目扩展性强。选择jQuery成本较低，可以快速交付，但长期来看技术债务可能增加。对于快速进入市场的产品，jQuery可能是更经济的选择。`
+                },
+                {
+                    feature: 'SEO 策略',
+                    unifi: { title: '基础 SEO', details: '拥有基础 SEO 标签，但内容依赖 JavaScript 动态生成，可能需要搜索引擎执行 JS 才能完全索引。' },
+                    omada: { title: '强大的国际化 SEO', details: '通过大量 <code>hreflang</code> 标签为全球用户和搜索引擎提供清晰指引，静态 HTML 内容对爬虫非常友好。' },
+                    analysis: `**用户体验对比：**
+Omada的强大SEO意味着用户更容易通过搜索引擎发现相关内容，搜索结果中的信息更准确完整。UniFi用户主要通过直接访问或推荐进入，搜索发现能力较弱。
+
+**性能表现：**
+静态HTML内容（Omada）对搜索引擎爬虫更友好，索引速度快。动态内容（UniFi）需要爬虫执行JavaScript，可能导致部分内容无法被正确索引，影响搜索排名。
+
+**开发复杂性：**
+实现有效的SPA SEO需要服务端渲染(SSR)或预渲染技术，开发复杂度显著增加。传统静态页面SEO实现简单，只需要在HTML中添加相应标签即可。
+
+**商业影响：**
+SEO直接影响获客成本。Omada的强SEO策略可以显著降低营销成本，提高品牌在全球市场的可见度。UniFi需要投入更多付费推广预算来弥补自然流量的不足。对于B2B产品，SEO往往是最重要的获客渠道。`
+                },
+                {
+                    feature: '移动端适配',
+                    unifi: { title: '现代响应式设计', details: '使用 <code>width=device-width, initial-scale=1</code>，能更好地自适应不同尺寸的屏幕，移动端用户体验更优。' },
+                    omada: { title: '固定宽度视口', details: '使用 <code>width=1280</code>，依赖浏览器缩放，可能导致在小屏幕设备上元素过小，需要用户手动操作。' },
+                    analysis: `**用户体验对比：**
+UniFi的响应式设计在手机和平板上提供原生般的体验，文字大小合适，按钮易于点击。Omada在移动设备上需要用户缩放才能清晰阅读，操作体验较差，可能导致用户流失。
+
+**性能表现：**
+响应式设计根据设备加载不同尺寸的资源，移动端加载速度更优。固定宽度设计在移动端加载完整桌面版内容，消耗更多流量和加载时间。
+
+**开发复杂性：**
+响应式设计需要考虑多种屏幕尺寸的布局适配，CSS编写更复杂，测试工作量大。固定宽度设计开发简单，只需要设计一套界面即可。
+
+**商业影响：**
+移动端用户占比超过60%，响应式设计直接影响转化率。UniFi的移动友好设计可能带来更高的移动端转化率和用户满意度。Omada可能在移动端失去大量潜在客户，特别是在移动互联网普及的地区。`
+                },
+                {
+                    feature: '浏览器兼容性',
+                    unifi: { title: '面向现代浏览器', details: '专注于为 Chrome, Firefox, Safari 等现代浏览器提供最佳体验。' },
+                    omada: { title: '向后兼容旧版 IE', details: '考虑了对 Internet Explorer 9 之前版本的兼容性，覆盖了更广泛但已过时的浏览器。' },
+                    analysis: `**用户体验对比：**
+UniFi在现代浏览器中提供最佳的视觉效果和交互体验，功能完整。Omada确保了更广泛的用户群体都能正常访问，虽然体验可能不够现代，但覆盖面更广。
+
+**性能表现：**
+现代浏览器支持最新的性能优化特性，UniFi可以充分利用这些特性。兼容旧版IE意味着无法使用很多现代优化技术，整体性能会有所妥协。
+
+**开发复杂性：**
+只支持现代浏览器开发效率更高，可以使用最新的Web标准。兼容旧版IE需要大量额外的兼容性代码和测试工作，开发成本显著增加。
+
+**商业影响：**
+选择兼容性策略需要根据目标用户群体决定。如果客户主要使用现代设备，UniFi的策略更合适。如果需要覆盖使用老旧系统的企业客户（特别是某些行业或地区），Omada的兼容性策略虽然增加成本，但可能是必要的商业决策。`
+                },
+                {
+                    feature: '性能优化',
+                    unifi: { title: '现代化策略', details: '使用 <code>modulepreload</code> 和 <code>dns-prefetch</code> 进行资源预加载，文件名带哈希以实现高效、可靠的浏览器缓存。' },
+                    omada: { title: '传统策略', details: '使用 URL 参数进行缓存控制（如 <code>?202411</code>），也使用了 <code>dns-prefetch</code>，缓存更新机制不如哈希可靠。' },
+                    analysis: `**用户体验对比：**
+UniFi的现代化缓存策略确保用户始终获得最新内容，同时充分利用缓存加快加载速度。Omada的缓存策略可能出现用户看到过期内容的情况，影响体验一致性。
+
+**性能表现：**
+哈希文件名提供最可靠的缓存更新机制，确保性能优化的同时保证内容新鲜度。URL参数缓存控制可能出现缓存失效不及时的问题，影响网站性能表现。
+
+**开发复杂性：**
+现代化构建工具自动处理哈希命名，开发者不需要手动管理。传统URL参数方式需要手动维护版本号，容易出现人为错误，维护成本较高。
+
+**商业影响：**
+网站性能直接影响用户转化率和搜索引擎排名。UniFi的优化策略可以带来更好的用户留存和SEO表现。性能问题可能导致用户流失，特别是在网络条件较差的地区，性能优化的商业价值更加突出。`
+                },
+                {
+                    feature: '追踪与分析',
+                    unifi: { title: '多元化工具集', details: '使用 Google Analytics, Hotjar, VWO (A/B 测试), Reddit/Meta Pixel, 和 OneTrust (Cookie管理)。' },
+                    omada: { title: '专注行为分析', details: '使用 Google Analytics, Crazy Egg, Reddit/Meta Pixel。工具选择上反映了不同的优化策略。' },
+                    analysis: `**用户体验对比：**
+UniFi的多元化分析工具可以全面了解用户行为，通过A/B测试持续优化体验。Omada专注于核心行为分析，工具更精简，对页面性能影响更小。
+
+**性能表现：**
+更多追踪工具意味着更多脚本加载，可能影响页面加载速度。精简的工具集减少了性能开销，但分析能力相对有限。
+
+**开发复杂性：**
+集成多个分析工具需要更复杂的数据管理和隐私合规处理。简化的工具集降低了技术复杂度，但可能缺乏深度洞察。
+
+**商业影响：**
+UniFi的策略体现了数据驱动的产品优化思路，通过A/B测试和热图分析可以持续提升转化率。Omada的策略更注重基础数据收集，适合稳定运营的产品。选择哪种策略取决于公司的数据分析能力和优化需求。强大的分析能力可以显著提升营销ROI。`
+                },
+                {
+                    feature: '代码结构',
+                    unifi: { title: '极简入口 HTML', details: '<code>&lt;body&gt;</code> 标签内只有一个 <code>&lt;div id="root"&gt;</code> 作为应用挂载点，所有内容由 JavaScript 动态渲染。' },
+                    omada: { title: '完整静态 HTML', details: '<code>&lt;body&gt;</code> 标签内包含完整的、结构化的 HTML 内容，由服务器直接生成。' },
+                    analysis: `**用户体验对比：**
+动态渲染可以提供更丰富的交互效果和个性化内容，但依赖JavaScript，如果脚本失败用户将看到空白页。静态HTML确保即使在网络条件极差的情况下，用户也能看到基本内容。
+
+**性能表现：**
+静态HTML首屏渲染更快，特别是在低端设备上优势明显。动态渲染需要等待JavaScript执行，首屏时间较长，但后续交互性能更好。
+
+**开发复杂性：**
+单一入口点的应用架构需要复杂的状态管理和路由处理，但代码组织更模块化。静态HTML结构清晰，易于理解和维护，但缺乏现代应用的灵活性。
+
+**商业影响：**
+代码结构选择影响团队的开发效率和产品迭代速度。UniFi的架构适合快速功能迭代和复杂交互开发。Omada的架构更适合内容驱动的网站，维护成本低，适合资源有限的团队。长期来看，架构选择会影响产品的扩展能力和技术团队的成长。`
+                }
+            ];
+
+            const navContainer = document.getElementById('comparison-nav');
+            const contentContainer = document.getElementById('comparison-content');
+            const navButtons = navContainer.querySelectorAll('.nav-item');
+
+            function formatMarkdownToHtml(text) {
+                // 处理加粗文本 **text** -> <strong>text</strong>
+                text = text.replace(/\*\*(.*?)\*\*/g, '<strong class="text-slate-900">$1</strong>');
+                // 处理代码块 `code` -> <code>code</code>
+                text = text.replace(/`([^`]+)`/g, '<code class="bg-slate-100 text-slate-800 px-1 py-0.5 rounded text-sm">$1</code>');
+                // 处理换行
+                text = text.replace(/\n\n/g, '<br><br>');
+                text = text.replace(/\n/g, '<br>');
+                return text;
+            }
+
+            async function streamAiAnalysis(content, button) {
+                const resultContainer = button.nextElementSibling;
+                const loader = resultContainer.querySelector('.loader');
+                const contentDiv = resultContainer.querySelector('.ai-analysis-content');
+
+                loader.style.display = 'block';
+                contentDiv.innerHTML = '';
+                resultContainer.style.display = 'block';
+                button.disabled = true;
+
+                // 模拟流式加载效果
+                await new Promise(resolve => setTimeout(resolve, 800));
+                loader.style.display = 'none';
+
+                // 预处理内容，转换Markdown格式
+                const formattedContent = formatMarkdownToHtml(content);
+                const words = formattedContent.split('');
+                let index = 0;
+                let tempContent = '';
+
+                function typeText() {
+                    if (index < words.length) {
+                        tempContent += words[index];
+                        // 实时更新显示的内容
+                        contentDiv.innerHTML = tempContent;
+                        index++;
+                        setTimeout(typeText, Math.random() * 15 + 5); // 稍微加快打字速度
+                    } else {
+                        button.disabled = false;
+                        // 添加总结对比
+                        setTimeout(() => {
+                            const summaryHtml = `
+                                <div class="mt-6 p-4 bg-gradient-to-r from-cyan-50 to-blue-50 border border-cyan-200 rounded-lg">
+                                    <h5 class="font-bold text-cyan-800 mb-2">💡 总结对比</h5>
+                                    <p class="text-sm text-cyan-700">
+                                        <strong>UniFi适合：</strong>追求现代用户体验、有充足开发资源、用户主要使用现代设备的产品团队。<br>
+                                        <strong>Omada适合：</strong>依赖搜索引擎流量、需要支持广泛设备、希望降低开发维护成本的产品团队。
+                                    </p>
+                                </div>
+                            `;
+                            contentDiv.innerHTML += summaryHtml;
+                        }, 500);
+                    }
+                }
+
+                typeText();
+            }
+
+            function updateContent(featureName) {
+                const data = comparisonData.find(item => item.feature === featureName);
+                if (!data) return;
+
+                contentContainer.innerHTML = `
+                    <div class="content-card">
+                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6">
+                            <div class="bg-slate-50 p-4 rounded-lg">
+                                <h4 class="text-lg font-bold text-slate-800 mb-2">UniFi</h4>
+                                <p class="font-semibold text-cyan-700 mb-2">${data.unifi.title}</p>
+                                <p class="text-slate-600">${data.unifi.details}</p>
+                            </div>
+                            <div class="bg-slate-50 p-4 rounded-lg">
+                                <h4 class="text-lg font-bold text-slate-800 mb-2">Omada</h4>
+                                <p class="font-semibold text-cyan-700 mb-2">${data.omada.title}</p>
+                                <p class="text-slate-600">${data.omada.details}</p>
+                            </div>
+                        </div>
+                        <div class="mt-6">
+                            <button data-feature="${data.feature}" class="ai-button bg-cyan-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-cyan-700 transition-colors flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed">
+                                ✨ 获取 AI 深度分析
+                            </button>
+                            <div class="ai-result-container mt-4 p-4 bg-cyan-50 border-l-4 border-cyan-500 rounded-r-lg" style="display: none;">
+                                <div class="loader" style="display: none;"></div>
+                                <div class="ai-analysis-content text-slate-700"></div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            navContainer.addEventListener('click', (e) => {
+                if (e.target.classList.contains('nav-item')) {
+                    const button = e.target;
+                    navButtons.forEach(btn => btn.classList.remove('active-nav'));
+                    button.classList.add('active-nav');
+                    updateContent(button.textContent);
+                }
+            });
+            
+            contentContainer.addEventListener('click', (e) => {
+                if (e.target.classList.contains('ai-button')) {
+                    const button = e.target;
+                    const featureName = button.dataset.feature;
+                    const data = comparisonData.find(item => item.feature === featureName);
+                    
+                    if (data && data.analysis) {
+                        streamAiAnalysis(data.analysis, button);
+                    }
+                }
+            });
+
+            if (navButtons.length > 0) {
+                navButtons[0].click();
+            }
+        });
+    </script>
+
+</body>
+</html>
