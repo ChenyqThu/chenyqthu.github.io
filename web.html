@@ -3,100 +3,465 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Chosen Palette: Calm Harmony (Slate, Cyan) -->
-    <!-- Application Structure Plan: The SPA uses a dashboard layout. A header provides the title. Below it, two summary cards offer a high-level overview of each website's philosophy, based on the report's conclusion. The core of the app is an interactive comparison module, structured with a vertical tab-based navigation on the left for feature dimensions (e.g., Architecture, SEO) and a dynamic content area on the right. This structure was chosen to break down the dense, comparative information into manageable, user-driven sections, making it easy to explore and compare specific points of interest without being overwhelmed. A Gemini-powered "Deeper Analysis" feature was added to each comparison card to provide expert, non-technical explanations of the trade-offs. -->
-    <!-- Visualization & Content Choices: Report Info: Textual comparison of web tech. -> Goal: Inform & Compare. -> Viz/Presentation Method: Structured HTML/CSS cards and dynamic text blocks. -> Interaction: Clickable vertical tabs to switch content. A new button on each card triggers a Gemini API call. -> Justification: The source report is qualitative. Interactive text blocks are effective. The Gemini API call enhances this by providing synthesized, expert analysis on demand, directly addressing the user's potential follow-up questions about the implications of each technical choice. -> Library/Method: Vanilla JS for interaction, Tailwind CSS for styling. -->
-    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <!-- 科技渐变风格优化 -->
     <title>技术对比报告：UniFi vs. Omada (AI增强版)</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         body {
             font-family: 'Inter', 'Helvetica Neue', 'Arial', 'sans-serif';
-            background-color: #f8fafc;
+            background: linear-gradient(135deg, #ffffff 0%, #f8fafc 50%, #ffffff 100%);
+            color: #000000;
         }
+
+        /* 科技渐变背景 */
+        .tech-gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .tech-gradient-blue {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        }
+
+        .tech-gradient-purple {
+            background: linear-gradient(135deg, #a18cd1 0%, #fbc2eb 100%);
+        }
+
+        .tech-gradient-orange {
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+        }
+
+        .tech-gradient-rainbow {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 25%, #f093fb 50%, #f5576c 75%, #4facfe 100%);
+        }
+
+        /* 透明度渐变效果 */
+        .alpha-gradient-blue {
+            background: linear-gradient(135deg, rgba(79, 172, 254, 0.9) 0%, rgba(0, 242, 254, 0.1) 100%);
+        }
+
+        .alpha-gradient-purple {
+            background: linear-gradient(135deg, rgba(161, 140, 209, 0.9) 0%, rgba(251, 194, 235, 0.1) 100%);
+        }
+
+        .alpha-gradient-orange {
+            background: linear-gradient(135deg, rgba(245, 87, 108, 0.9) 0%, rgba(252, 182, 159, 0.1) 100%);
+        }
+
+        /* 导航栏激活状态 */
         .active-nav {
-            background-color: #0891b2;
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
             color: white;
-            transform: translateX(4px);
+            transform: translateX(8px);
+            box-shadow: 0 10px 25px rgba(79, 172, 254, 0.3);
         }
+
         .nav-item {
-            transition: all 0.2s ease-in-out;
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            border-radius: 12px;
+            font-weight: 600;
         }
+
         .nav-item:hover {
-            background-color: #f1f5f9;
-            transform: translateX(4px);
+            background: linear-gradient(135deg, rgba(79, 172, 254, 0.1) 0%, rgba(0, 242, 254, 0.05) 100%);
+            transform: translateX(6px);
+            box-shadow: 0 5px 15px rgba(79, 172, 254, 0.2);
         }
+
         .active-nav:hover {
-            background-color: #06b6d4;
+            background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
+            box-shadow: 0 15px 35px rgba(79, 172, 254, 0.4);
         }
+
+        /* 卡片样式 */
+        .tech-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(79, 172, 254, 0.2);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .tech-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 30px 60px rgba(79, 172, 254, 0.2);
+        }
+
+        /* 内容卡片动画 */
         .content-card, .ai-analysis-content {
-            animation: fadeIn 0.5s ease-in-out;
+            animation: slideInUp 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+
+        @keyframes slideInUp {
+            from { 
+                opacity: 0; 
+                transform: translateY(30px); 
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0); 
+            }
         }
+
+        /* 脉冲加载器 */
         .loader {
-            width: 20px;
-            height: 20px;
-            border: 2px solid #f3f3f3;
-            border-top: 2px solid #0891b2;
+            width: 24px;
+            height: 24px;
+            border: 3px solid rgba(79, 172, 254, 0.3);
+            border-top: 3px solid #4facfe;
             border-radius: 50%;
             animation: spin 1s linear infinite;
         }
+
         @keyframes spin {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
+
+        /* 大标题科技效果 */
+        .tech-title {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 30%, #a18cd1 60%, #f5576c 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 900;
+            text-shadow: 0 0 30px rgba(79, 172, 254, 0.3);
+        }
+
+        /* AI按钮特效 */
+        .ai-button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            border-radius: 12px;
+            color: white;
+            font-weight: 700;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .ai-button:hover {
+            background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 12px 30px rgba(102, 126, 234, 0.4);
+        }
+
+        .ai-button:disabled {
+            opacity: 0.6;
+            transform: none;
+            box-shadow: none;
+        }
+
+        /* 雷达图区域优化 */
+        .radar-section {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(248, 250, 252, 0.8) 100%);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(79, 172, 254, 0.15);
+        }
+
+        /* 总结区域渐变 */
+        .summary-section {
+            background: linear-gradient(135deg, rgba(79, 172, 254, 0.05) 0%, rgba(161, 140, 209, 0.05) 50%, rgba(245, 87, 108, 0.05) 100%);
+        }
+
+        /* 数字强调 */
+        .tech-number {
+            font-size: 4rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* 图标样式 */
+        .tech-icon {
+            color: #4facfe;
+            font-size: 1.5rem;
+        }
+
+        /* 响应式超大屏优化 */
+        @media (min-width: 1920px) {
+            .container {
+                max-width: 1600px;
+            }
+            
+            .tech-title {
+                font-size: 6rem;
+            }
+            
+            .tech-number {
+                font-size: 6rem;
+            }
+        }
     </style>
 </head>
-<body class="text-slate-800">
+<body>
 
     <div class="container mx-auto p-4 sm:p-6 md:p-8 max-w-7xl">
         
-        <header class="text-center mb-8 md:mb-12">
-            <h1 class="text-3xl md:text-5xl font-extrabold text-slate-900">官网技术对决</h1>
-            <p class="text-lg md:text-xl text-slate-500 mt-2">Ubiquiti UniFi vs. TP-Link Omada (AI 增强分析)</p>
+        <header class="text-center mb-8 md:mb-16">
+            <div class="relative">
+                <h1 class="tech-title text-4xl md:text-6xl lg:text-7xl mb-4">
+                    官网技术对决
+                </h1>
+                <div class="alpha-gradient-blue absolute -top-4 -left-4 w-32 h-32 rounded-full opacity-30"></div>
+                <div class="alpha-gradient-purple absolute -bottom-4 -right-4 w-24 h-24 rounded-full opacity-30"></div>
+            </div>
+            <p class="text-xl md:text-2xl text-black font-medium mt-4 mb-2">
+                Ubiquiti UniFi vs. TP-Link Omada
+            </p>
+            <p class="text-lg text-gray-700 flex items-center justify-center gap-2">
+                <i class="fas fa-robot tech-icon"></i>
+                AI Enhanced Analysis
+            </p>
         </header>
 
-        <section class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 mb-8 md:mb-12">
-            <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
-                <h2 class="text-2xl font-bold text-cyan-600 mb-2">Ubiquiti UniFi</h2>
-                <p class="font-semibold text-slate-700 mb-3">现代、动态、以应用为中心</p>
-                <p class="text-slate-600">采用 React 单页面应用 (SPA) 架构，提供流畅、类似原生应用的交互体验，专注于为现代浏览器打造前沿的用户界面。</p>
+        <section class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 mb-12 md:mb-16">
+            <div class="tech-card p-8">
+                <div class="flex items-center gap-4 mb-4">
+                    <i class="fas fa-rocket tech-icon"></i>
+                    <h2 class="text-2xl md:text-3xl font-black text-black">Ubiquiti UniFi</h2>
+                </div>
+                <div class="tech-gradient-blue h-1 w-24 rounded-full mb-4"></div>
+                <p class="font-bold text-xl text-black mb-4">现代 Dynamic 以应用为中心</p>
+                <p class="text-gray-800 text-lg leading-relaxed">
+                    采用 <span class="font-bold text-black">React SPA</span> 架构，提供流畅、类似原生应用的交互体验，专注于为现代浏览器打造前沿的用户界面。
+                </p>
             </div>
-            <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
-                <h2 class="text-2xl font-bold text-cyan-600 mb-2">TP-Link Omada</h2>
-                <p class="font-semibold text-slate-700 mb-3">传统、稳健、以内容为中心</p>
-                <p class="text-slate-600">采用传统的多页面架构 (MPA)，对搜索引擎天然友好，国际化支持出色，并确保了对老旧浏览器的兼容性。</p>
+            
+            <div class="tech-card p-8">
+                <div class="flex items-center gap-4 mb-4">
+                    <i class="fas fa-shield-alt tech-icon"></i>
+                    <h2 class="text-2xl md:text-3xl font-black text-black">TP-Link Omada</h2>
+                </div>
+                <div class="tech-gradient-orange h-1 w-24 rounded-full mb-4"></div>
+                <p class="font-bold text-xl text-black mb-4">传统 Robust 以内容为中心</p>
+                <p class="text-gray-800 text-lg leading-relaxed">
+                    采用传统的 <span class="font-bold text-black">MPA</span> 架构，对搜索引擎天然友好，国际化支持出色，并确保了对老旧浏览器的兼容性。
+                </p>
             </div>
         </section>
 
-        <main class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
-            <div class="p-6">
-                <h3 class="text-2xl font-bold text-slate-900">核心技术对比</h3>
-                <p class="text-slate-500 mt-1">点击左侧的特性维度，查看详细的并排比较，并可获取 AI 深度分析。</p>
+        <main class="tech-card overflow-hidden mb-12 md:mb-16">
+            <div class="p-8 tech-gradient-bg">
+                <h3 class="text-3xl md:text-4xl font-black text-white mb-2">核心技术对比</h3>
+                <p class="text-blue-100 text-lg">点击左侧的特性维度，查看详细的并排比较，并可获取 AI 深度分析。</p>
             </div>
-            <div class="flex flex-col md:flex-row min-h-[400px]">
-                <nav id="comparison-nav" class="w-full md:w-1/4 lg:w-1/5 p-4 border-b md:border-b-0 md:border-r border-slate-200">
-                    <ul class="flex flex-row md:flex-col overflow-x-auto md:overflow-x-visible pb-2 md:pb-0">
-                        <li class="flex-shrink-0"><button class="nav-item w-full text-left p-3 rounded-lg font-medium">核心架构</button></li>
-                        <li class="flex-shrink-0"><button class="nav-item w-full text-left p-3 rounded-lg font-medium">前端技术栈</button></li>
-                        <li class="flex-shrink-0"><button class="nav-item w-full text-left p-3 rounded-lg font-medium">SEO 策略</button></li>
-                        <li class="flex-shrink-0"><button class="nav-item w-full text-left p-3 rounded-lg font-medium">移动端适配</button></li>
-                        <li class="flex-shrink-0"><button class="nav-item w-full text-left p-3 rounded-lg font-medium">浏览器兼容性</button></li>
-                        <li class="flex-shrink-0"><button class="nav-item w-full text-left p-3 rounded-lg font-medium">性能优化</button></li>
-                        <li class="flex-shrink-0"><button class="nav-item w-full text-left p-3 rounded-lg font-medium">追踪与分析</button></li>
-                        <li class="flex-shrink-0"><button class="nav-item w-full text-left p-3 rounded-lg font-medium">代码结构</button></li>
+            
+            <div class="flex flex-col md:flex-row min-h-[500px]">
+                <nav id="comparison-nav" class="w-full md:w-1/4 lg:w-1/5 p-6 border-b md:border-b-0 md:border-r border-gray-200 bg-gray-50">
+                    <ul class="flex flex-row md:flex-col overflow-x-auto md:overflow-x-visible pb-2 md:pb-0 space-y-0 md:space-y-3">
+                        <li class="flex-shrink-0 mr-3 md:mr-0">
+                            <button class="nav-item w-full text-left p-4 font-bold text-black">
+                                <i class="fas fa-sitemap mr-2"></i>核心架构
+                            </button>
+                        </li>
+                        <li class="flex-shrink-0 mr-3 md:mr-0">
+                            <button class="nav-item w-full text-left p-4 font-bold text-black">
+                                <i class="fas fa-code mr-2"></i>前端技术栈
+                            </button>
+                        </li>
+                        <li class="flex-shrink-0 mr-3 md:mr-0">
+                            <button class="nav-item w-full text-left p-4 font-bold text-black">
+                                <i class="fas fa-search mr-2"></i>SEO 策略
+                            </button>
+                        </li>
+                        <li class="flex-shrink-0 mr-3 md:mr-0">
+                            <button class="nav-item w-full text-left p-4 font-bold text-black">
+                                <i class="fas fa-mobile-alt mr-2"></i>移动端适配
+                            </button>
+                        </li>
+                        <li class="flex-shrink-0 mr-3 md:mr-0">
+                            <button class="nav-item w-full text-left p-4 font-bold text-black">
+                                <i class="fas fa-globe mr-2"></i>浏览器兼容性
+                            </button>
+                        </li>
+                        <li class="flex-shrink-0 mr-3 md:mr-0">
+                            <button class="nav-item w-full text-left p-4 font-bold text-black">
+                                <i class="fas fa-tachometer-alt mr-2"></i>性能优化
+                            </button>
+                        </li>
+                        <li class="flex-shrink-0 mr-3 md:mr-0">
+                            <button class="nav-item w-full text-left p-4 font-bold text-black">
+                                <i class="fas fa-chart-line mr-2"></i>追踪与分析
+                            </button>
+                        </li>
+                        <li class="flex-shrink-0">
+                            <button class="nav-item w-full text-left p-4 font-bold text-black">
+                                <i class="fas fa-puzzle-piece mr-2"></i>代码结构
+                            </button>
+                        </li>
                     </ul>
                 </nav>
-                <div id="comparison-content" class="w-full md:w-3/4 lg:w-4/5 p-4 sm:p-6">
+                <div id="comparison-content" class="w-full md:w-3/4 lg:w-4/5 p-6 md:p-8 bg-white">
                 </div>
             </div>
         </main>
+
+        <!-- 综合对比雷达图 -->
+        <section class="tech-card radar-section p-8 mb-12 md:mb-16">
+            <div class="text-center mb-8">
+                <h3 class="text-3xl md:text-4xl font-black text-black mb-4">
+                    <i class="fas fa-chart-radar mr-3 tech-icon"></i>
+                    多维度对比雷达图
+                </h3>
+                <p class="text-gray-700 text-lg">以下雷达图展示了两个官网在各个技术维度上的相对表现</p>
+                <div class="tech-number text-center mt-4">10分制</div>
+            </div>
+            
+            <div class="flex flex-col lg:flex-row items-center gap-12">
+                <div class="w-full lg:w-2/3">
+                    <canvas id="radarChart" width="400" height="400"></canvas>
+                </div>
+                <div class="w-full lg:w-1/3 space-y-6">
+                    <div class="flex items-center gap-4 p-4 tech-card">
+                        <div class="w-6 h-6 tech-gradient-blue rounded-full"></div>
+                        <span class="font-bold text-black">UniFi</span>
+                        <a href="https://ui.com" target="_blank" class="text-blue-600 hover:underline font-medium">ui.com</a>
+                    </div>
+                    <div class="flex items-center gap-4 p-4 tech-card">
+                        <div class="w-6 h-6 tech-gradient-orange rounded-full"></div>
+                        <span class="font-bold text-black">Omada</span>
+                        <a href="https://www.omadanetworks.com/" target="_blank" class="text-orange-600 hover:underline font-medium">omadanetworks.com</a>
+                    </div>
+                    
+                    <div class="mt-8 p-6 bg-gray-50 rounded-xl">
+                        <p class="font-black text-black mb-4 text-lg">评分标准：</p>
+                        <div class="space-y-2 text-black">
+                            <p><i class="fas fa-star text-yellow-500 mr-2"></i><strong>现代化程度：</strong>技术栈先进性</p>
+                            <p><i class="fas fa-star text-yellow-500 mr-2"></i><strong>SEO优化：</strong>搜索引擎友好度</p>
+                            <p><i class="fas fa-star text-yellow-500 mr-2"></i><strong>移动适配：</strong>移动端体验</p>
+                            <p><i class="fas fa-star text-yellow-500 mr-2"></i><strong>性能优化：</strong>加载和缓存策略</p>
+                            <p><i class="fas fa-star text-yellow-500 mr-2"></i><strong>开发效率：</strong>维护和扩展难度</p>
+                            <p><i class="fas fa-star text-yellow-500 mr-2"></i><strong>兼容性：</strong>浏览器覆盖范围</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 客观总结对比 -->
+        <section class="summary-section rounded-2xl border border-gray-200 p-8 md:p-12">
+            <h3 class="text-3xl md:text-4xl font-black text-black mb-8 text-center">
+                <i class="fas fa-balance-scale mr-3 tech-icon"></i>
+                官网技术选型对比总结
+            </h3>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+                <div class="tech-card p-8">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="tech-gradient-blue w-3 h-8 rounded-full"></div>
+                        <h4 class="text-2xl font-black text-black">UniFi 官网优势</h4>
+                    </div>
+                    <ul class="space-y-3 text-black">
+                        <li class="flex items-start gap-3">
+                            <i class="fas fa-check-circle text-green-500 mt-1"></i>
+                            <span class="font-medium">现代化用户体验，交互流畅度高</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <i class="fas fa-check-circle text-green-500 mt-1"></i>
+                            <span class="font-medium">React技术栈，组件化开发效率高</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <i class="fas fa-check-circle text-green-500 mt-1"></i>
+                            <span class="font-medium">现代浏览器性能优化充分</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <i class="fas fa-check-circle text-green-500 mt-1"></i>
+                            <span class="font-medium">响应式设计，移动端体验优秀</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <i class="fas fa-check-circle text-green-500 mt-1"></i>
+                            <span class="font-medium">数据分析工具丰富，支持A/B测试</span>
+                        </li>
+                    </ul>
+                    
+                    <div class="mt-8">
+                        <div class="flex items-center gap-3 mb-4">
+                            <div class="tech-gradient-orange w-3 h-6 rounded-full"></div>
+                            <h5 class="text-lg font-black text-black">劣势</h5>
+                        </div>
+                        <ul class="space-y-3 text-gray-700">
+                            <li class="flex items-start gap-3">
+                                <i class="fas fa-times-circle text-red-500 mt-1"></i>
+                                <span>SEO依赖JavaScript执行，搜索引擎发现能力弱</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <i class="fas fa-times-circle text-red-500 mt-1"></i>
+                                <span>首屏加载时间较长</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <i class="fas fa-times-circle text-red-500 mt-1"></i>
+                                <span>开发门槛和维护成本较高</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <i class="fas fa-times-circle text-red-500 mt-1"></i>
+                                <span>国际化支持相对薄弱</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="tech-card p-8">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="tech-gradient-orange w-3 h-8 rounded-full"></div>
+                        <h4 class="text-2xl font-black text-black">Omada 官网优势</h4>
+                    </div>
+                    <ul class="space-y-3 text-black">
+                        <li class="flex items-start gap-3">
+                            <i class="fas fa-check-circle text-green-500 mt-1"></i>
+                            <span class="font-medium">强大的SEO和国际化支持，全球市场覆盖</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <i class="fas fa-check-circle text-green-500 mt-1"></i>
+                            <span class="font-medium">静态HTML结构，搜索引擎爬取友好</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <i class="fas fa-check-circle text-green-500 mt-1"></i>
+                            <span class="font-medium">广泛的浏览器兼容性，包括旧版IE</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <i class="fas fa-check-circle text-green-500 mt-1"></i>
+                            <span class="font-medium">开发门槛低，维护成本可控</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <i class="fas fa-check-circle text-green-500 mt-1"></i>
+                            <span class="font-medium">首屏加载快，内容可直接访问</span>
+                        </li>
+                    </ul>
+                    
+                    <div class="mt-8">
+                        <div class="flex items-center gap-3 mb-4">
+                            <div class="tech-gradient-purple w-3 h-6 rounded-full"></div>
+                            <h5 class="text-lg font-black text-black">劣势</h5>
+                        </div>
+                        <ul class="space-y-3 text-gray-700">
+                            <li class="flex items-start gap-3">
+                                <i class="fas fa-times-circle text-red-500 mt-1"></i>
+                                <span>移动端体验较差，需手动缩放</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <i class="fas fa-times-circle text-red-500 mt-1"></i>
+                                <span>交互体验相对传统，用户留存能力弱</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <i class="fas fa-times-circle text-red-500 mt-1"></i>
+                                <span>jQuery技术栈老旧，扩展性受限</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <i class="fas fa-times-circle text-red-500 mt-1"></i>
+                                <span>缓存策略相对落后</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
 
     </div>
 
@@ -239,9 +604,9 @@ UniFi的策略体现了数据驱动的产品优化思路，通过A/B测试和热
 
             function formatMarkdownToHtml(text) {
                 // 处理加粗文本 **text** -> <strong>text</strong>
-                text = text.replace(/\*\*(.*?)\*\*/g, '<strong class="text-slate-900">$1</strong>');
+                text = text.replace(/\*\*(.*?)\*\*/g, '<strong class="text-black font-bold">$1</strong>');
                 // 处理代码块 `code` -> <code>code</code>
-                text = text.replace(/`([^`]+)`/g, '<code class="bg-slate-100 text-slate-800 px-1 py-0.5 rounded text-sm">$1</code>');
+                text = text.replace(/`([^`]+)`/g, '<code class="bg-blue-100 text-blue-800 px-2 py-1 rounded font-mono text-sm">$1</code>');
                 // 处理换行
                 text = text.replace(/\n\n/g, '<br><br>');
                 text = text.replace(/\n/g, '<br>');
@@ -259,7 +624,7 @@ UniFi的策略体现了数据驱动的产品优化思路，通过A/B测试和热
                 button.disabled = true;
 
                 // 模拟流式加载效果
-                await new Promise(resolve => setTimeout(resolve, 800));
+                await new Promise(resolve => setTimeout(resolve, 1000));
                 loader.style.display = 'none';
 
                 // 预处理内容，转换Markdown格式
@@ -274,22 +639,9 @@ UniFi的策略体现了数据驱动的产品优化思路，通过A/B测试和热
                         // 实时更新显示的内容
                         contentDiv.innerHTML = tempContent;
                         index++;
-                        setTimeout(typeText, Math.random() * 15 + 5); // 稍微加快打字速度
+                        setTimeout(typeText, Math.random() * 12 + 3); // 稍微加快打字速度
                     } else {
                         button.disabled = false;
-                        // 添加总结对比
-                        setTimeout(() => {
-                            const summaryHtml = `
-                                <div class="mt-6 p-4 bg-gradient-to-r from-cyan-50 to-blue-50 border border-cyan-200 rounded-lg">
-                                    <h5 class="font-bold text-cyan-800 mb-2">💡 总结对比</h5>
-                                    <p class="text-sm text-cyan-700">
-                                        <strong>UniFi适合：</strong>追求现代用户体验、有充足开发资源、用户主要使用现代设备的产品团队。<br>
-                                        <strong>Omada适合：</strong>依赖搜索引擎流量、需要支持广泛设备、希望降低开发维护成本的产品团队。
-                                    </p>
-                                </div>
-                            `;
-                            contentDiv.innerHTML += summaryHtml;
-                        }, 500);
                     }
                 }
 
@@ -302,25 +654,32 @@ UniFi的策略体现了数据驱动的产品优化思路，通过A/B测试和热
 
                 contentContainer.innerHTML = `
                     <div class="content-card">
-                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6">
-                            <div class="bg-slate-50 p-4 rounded-lg">
-                                <h4 class="text-lg font-bold text-slate-800 mb-2">UniFi</h4>
-                                <p class="font-semibold text-cyan-700 mb-2">${data.unifi.title}</p>
-                                <p class="text-slate-600">${data.unifi.details}</p>
+                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8">
+                            <div class="tech-card p-6">
+                                <div class="flex items-center gap-3 mb-4">
+                                    <div class="tech-gradient-blue w-1 h-8 rounded-full"></div>
+                                    <h4 class="text-xl font-black text-black">UniFi</h4>
+                                </div>
+                                <p class="font-bold text-lg text-blue-600 mb-3">${data.unifi.title}</p>
+                                <p class="text-gray-800 leading-relaxed">${data.unifi.details}</p>
                             </div>
-                            <div class="bg-slate-50 p-4 rounded-lg">
-                                <h4 class="text-lg font-bold text-slate-800 mb-2">Omada</h4>
-                                <p class="font-semibold text-cyan-700 mb-2">${data.omada.title}</p>
-                                <p class="text-slate-600">${data.omada.details}</p>
+                            <div class="tech-card p-6">
+                                <div class="flex items-center gap-3 mb-4">
+                                    <div class="tech-gradient-orange w-1 h-8 rounded-full"></div>
+                                    <h4 class="text-xl font-black text-black">Omada</h4>
+                                </div>
+                                <p class="font-bold text-lg text-orange-600 mb-3">${data.omada.title}</p>
+                                <p class="text-gray-800 leading-relaxed">${data.omada.details}</p>
                             </div>
                         </div>
-                        <div class="mt-6">
-                            <button data-feature="${data.feature}" class="ai-button bg-cyan-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-cyan-700 transition-colors flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed">
-                                ✨ 获取 AI 深度分析
+                        <div class="mt-8">
+                            <button data-feature="${data.feature}" class="ai-button py-3 px-6 text-lg flex items-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed">
+                                <i class="fas fa-magic"></i>
+                                获取 AI 深度分析
                             </button>
-                            <div class="ai-result-container mt-4 p-4 bg-cyan-50 border-l-4 border-cyan-500 rounded-r-lg" style="display: none;">
-                                <div class="loader" style="display: none;"></div>
-                                <div class="ai-analysis-content text-slate-700"></div>
+                            <div class="ai-result-container mt-6 p-6 alpha-gradient-blue border-l-4 border-blue-500 rounded-r-xl" style="display: none;">
+                                <div class="loader mx-auto" style="display: none;"></div>
+                                <div class="ai-analysis-content text-gray-800 leading-relaxed"></div>
                             </div>
                         </div>
                     </div>
@@ -328,17 +687,17 @@ UniFi的策略体现了数据驱动的产品优化思路，通过A/B测试和热
             }
 
             navContainer.addEventListener('click', (e) => {
-                if (e.target.classList.contains('nav-item')) {
-                    const button = e.target;
+                if (e.target.classList.contains('nav-item') || e.target.parentNode.classList.contains('nav-item')) {
+                    const button = e.target.classList.contains('nav-item') ? e.target : e.target.parentNode;
                     navButtons.forEach(btn => btn.classList.remove('active-nav'));
                     button.classList.add('active-nav');
-                    updateContent(button.textContent);
+                    updateContent(button.textContent.trim().replace(/^.*\s/, ''));
                 }
             });
             
             contentContainer.addEventListener('click', (e) => {
-                if (e.target.classList.contains('ai-button')) {
-                    const button = e.target;
+                if (e.target.classList.contains('ai-button') || e.target.parentNode.classList.contains('ai-button')) {
+                    const button = e.target.classList.contains('ai-button') ? e.target : e.target.parentNode;
                     const featureName = button.dataset.feature;
                     const data = comparisonData.find(item => item.feature === featureName);
                     
@@ -351,6 +710,117 @@ UniFi的策略体现了数据驱动的产品优化思路，通过A/B测试和热
             if (navButtons.length > 0) {
                 navButtons[0].click();
             }
+
+            // 初始化雷达图
+            const ctx = document.getElementById('radarChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'radar',
+                data: {
+                    labels: ['现代化程度', 'SEO优化', '移动适配', '性能优化', '开发效率', '兼容性'],
+                    datasets: [{
+                        label: 'UniFi (ui.com)',
+                        data: [9, 4, 9, 8, 8, 7],
+                        backgroundColor: 'rgba(79, 172, 254, 0.2)',
+                        borderColor: 'rgba(79, 172, 254, 1)',
+                        borderWidth: 3,
+                        pointBackgroundColor: 'rgba(79, 172, 254, 1)',
+                        pointBorderColor: '#fff',
+                        pointBorderWidth: 2,
+                        pointRadius: 6,
+                        pointHoverBackgroundColor: '#fff',
+                        pointHoverBorderColor: 'rgba(79, 172, 254, 1)',
+                        pointHoverRadius: 8
+                    }, {
+                        label: 'Omada (omadanetworks.com)',
+                        data: [5, 9, 4, 6, 8, 9],
+                        backgroundColor: 'rgba(245, 87, 108, 0.2)',
+                        borderColor: 'rgba(245, 87, 108, 1)',
+                        borderWidth: 3,
+                        pointBackgroundColor: 'rgba(245, 87, 108, 1)',
+                        pointBorderColor: '#fff',
+                        pointBorderWidth: 2,
+                        pointRadius: 6,
+                        pointHoverBackgroundColor: '#fff',
+                        pointHoverBorderColor: 'rgba(245, 87, 108, 1)',
+                        pointHoverRadius: 8
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    scales: {
+                        r: {
+                            beginAtZero: true,
+                            max: 10,
+                            min: 0,
+                            ticks: {
+                                stepSize: 2,
+                                font: {
+                                    size: 14,
+                                    weight: 'bold'
+                                },
+                                color: '#374151'
+                            },
+                            grid: {
+                                color: 'rgba(79, 172, 254, 0.2)'
+                            },
+                            angleLines: {
+                                color: 'rgba(79, 172, 254, 0.3)'
+                            },
+                            pointLabels: {
+                                font: {
+                                    size: 15,
+                                    weight: 'bold'
+                                },
+                                color: '#000000'
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                padding: 25,
+                                font: {
+                                    size: 14,
+                                    weight: 'bold'
+                                },
+                                color: '#000000'
+                            }
+                        },
+                        tooltip: {
+                            backgroundColor: 'rgba(0, 0, 0, 0.9)',
+                            titleColor: '#fff',
+                            bodyColor: '#fff',
+                            borderColor: 'rgba(79, 172, 254, 0.5)',
+                            borderWidth: 2,
+                            cornerRadius: 12,
+                            displayColors: true,
+                            titleFont: {
+                                size: 14,
+                                weight: 'bold'
+                            },
+                            bodyFont: {
+                                size: 13
+                            },
+                            callbacks: {
+                                label: function(context) {
+                                    return context.dataset.label + ': ' + context.parsed.r + '/10';
+                                }
+                            }
+                        }
+                    },
+                    elements: {
+                        line: {
+                            borderWidth: 3
+                        },
+                        point: {
+                            radius: 6,
+                            hoverRadius: 8
+                        }
+                    }
+                }
+            });
         });
     </script>
 
