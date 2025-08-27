@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>24 Hour Fitness - Check In</title>
+    <link rel="preload" href="assets/bg.png" as="image">
+    <link rel="preload" href="assets/24fitlogo.png" as="image">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'system': ['-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Arial', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="font-system bg-black text-white overflow-x-hidden">
+    <!-- Main App Container -->
+    <div class="min-h-screen bg-black relative px-4 sm:px-5 pt-6 sm:pt-8">
+        <!-- Search Bar -->
+        <div class="flex items-center gap-3 sm:gap-4 mb-8 sm:mb-12">
+            <div class="w-12 h-12 rounded-full bg-gray-600 flex items-center justify-center">
+                <div class="w-8 h-8 rounded-full bg-white"></div>
+            </div>
+            <div class="flex-1 bg-gray-800 rounded-full px-4 sm:px-5 py-3 sm:py-3.5 flex items-center">
+                <svg class="w-4 h-4 sm:w-5 sm:h-5 text-gray-400 mr-2 sm:mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m21 21-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                </svg>
+                <span class="text-gray-400 text-sm sm:text-base">Search 24GO</span>
+            </div>
+            <div class="bg-gray-800 rounded-lg px-2.5 sm:px-3 py-1.5 sm:py-2 text-white font-semibold text-sm">26</div>
+        </div>
+
+        <!-- Welcome Section with FitPerks -->
+        <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start mb-8">
+            <!-- Welcome Text -->
+            <div class="flex-1 mb-6 sm:mb-0">
+                <h1 id="welcome-text" class="text-3xl sm:text-4xl font-light text-white mb-4">Let's Go, Yuanquan</h1>
+                <div class="w-24 h-1 bg-gray-700 rounded-full relative">
+                    <div class="absolute left-0 top-0 w-8 h-full bg-blue-500 rounded-full"></div>
+                </div>
+            </div>
+            
+            <!-- FitPerks Widget -->
+            <div class="bg-gray-800 rounded-2xl p-3 sm:p-4 w-full sm:w-32 sm:ml-4">
+                <div class="flex items-center justify-center mb-2">
+                    <svg class="w-4 h-4 text-gray-400 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                        <circle cx="10" cy="10" r="8"/>
+                    </svg>
+                    <span class="text-xs font-bold text-gray-400">FITPERKS</span>
+                </div>
+                <div class="bg-gray-600 rounded-xl p-3 text-center">
+                    <div class="text-2xl font-light text-white mb-1">0</div>
+                    <div class="text-xs text-gray-400">Current Points</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Connect Account Button -->
+        <div class="mb-8">
+            <button class="text-blue-400 text-base font-medium">Connect Account</button>
+        </div>
+
+        <!-- Location and Services -->
+        <div class="mb-6 sm:mb-8">
+            <h2 class="text-xl sm:text-2xl font-light text-white mb-4 sm:mb-6">Irvine Marketplace</h2>
+            
+            <!-- Service Buttons -->
+            <!-- <div class="flex flex-col sm:flex-row gap-3 mb-8">
+                <div class="bg-gray-900 border border-gray-700 rounded-xl px-4 py-3 flex-1">
+                    <div class="flex items-center">
+                        <svg class="w-5 h-5 text-white mr-3 sm:mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        <div>
+                            <div class="text-white font-medium text-sm">Tuesday</div>
+                            <div class="text-gray-400 text-xs">12am - 11:59pm</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-gray-900 border border-gray-700 rounded-xl px-4 py-3 flex-1">
+                    <div class="flex items-center">
+                        <svg class="w-5 h-5 text-white mr-3 sm:mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                        </svg>
+                        <div class="text-white font-medium text-sm">Reserve Class</div>
+                    </div>
+                </div>
+                <div class="bg-gray-900 border border-gray-700 rounded-xl px-4 py-3 w-full sm:w-auto flex justify-center">
+                    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                    </svg>
+                </div>
+            </div> -->
+        </div>
+
+        <!-- Check In Button - Centered -->
+        <div class="flex justify-center mt-12 mb-8">
+            <button onclick="openModal()" 
+                class="bg-blue-500 hover:bg-blue-600 active:scale-95 text-white rounded-full px-8 py-4 font-semibold text-base shadow-lg flex items-center space-x-3 transition-all duration-200">
+                <span>Check In</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Bottom Sheet Modal Overlay -->
+    <div id="qr-modal" class="fixed inset-0 bg-black/50 hidden z-50 transition-opacity duration-300" onclick="closeModal(event)">
+        <!-- Bottom Sheet Container -->
+        <div class="modal-content fixed bottom-0 left-0 right-0 bg-gray-800 rounded-t-3xl shadow-2xl transform translate-y-full transition-transform duration-300 ease-out" style="height: 75vh; max-height: 600px;">
+            <!-- Handle Bar -->
+            <div class="flex justify-center pt-0 pb-3">
+                <div class="w-10 h-1 mt-2 bg-gray-500 rounded-full"></div>
+            </div>
+            
+            <!-- Modal Content -->
+            <div class="px-3 pb-8 flex flex-col h-full">
+                <!-- Header Text -->
+                <div class="text-center mb-2 mt-2">
+                    <h2 class="text-white text-3xl font-normal mb-4 mx-16">One step closer to your goals!</h2>
+                    <p class="text-gray-300 text-base">One scan to check in and earn points.</p>
+                </div>
+                
+                <!-- QR Code Container -->
+                <div class="flex items-center justify-center mt-4 mb-4">
+                    <div class="bg-white rounded-2xl p-1 shadow-2xl max-w-full">
+                        <div class="qr-placeholder flex flex-col items-center justify-center qr-responsive">
+                            <p class="text-gray-500 text-lg font-medium">QR Code will appear here</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Bottom Text -->
+                <p class="text-gray-400 text-sm text-center mb-4">
+                    FitPerks points may take 24 hours to be added.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script src="scripts/url-params.js"></script>
+    <script src="scripts/qr-api.js"></script>
+    <script src="scripts/modal.js"></script>
+    
+    <style>
+        /* Bottom Sheet Modal */
+        #qr-modal.active {
+            display: block !important;
+            opacity: 1 !important;
+        }
+        
+        #qr-modal.active .modal-content {
+            transform: translateY(0) !important;
+        }
+        
+        /* QR Code responsive sizing */
+        .qr-responsive {
+            width: calc(100vw - 140px);
+            height: calc(100vw - 140px);
+            max-width: 380px;
+            max-height: 380px;
+        }
+        
+        .qr-code-image {
+            width: 100%;
+            height: 100%;
+            border-radius: 12px;
+        }
+        
+        /* Loading state */
+        .qr-placeholder.loading {
+            position: relative;
+        }
+        
+        .qr-placeholder.loading::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 1.5rem;
+            height: 1.5rem;
+            margin: -0.75rem 0 0 -0.75rem;
+            border: 3px solid rgba(100, 100, 100, 0.3);
+            border-top: 3px solid #6b7280;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        .qr-placeholder.loading p {
+            color: #6b7280;
+            font-weight: 500;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* Handle bar interaction */
+        .modal-content .w-10 {
+            cursor: grab;
+            transition: background-color 0.2s;
+        }
+        
+        .modal-content .w-10:hover {
+            background-color: #6b7280;
+        }
+        
+        /* Mobile optimizations */
+        @media (max-width: 640px) {
+            .modal-content {
+                height: 80vh !important;
+                max-height: none !important;
+            }
+            
+            .qr-responsive {
+                width: calc(100vw - 100px);
+                height: calc(100vw - 100px);
+            }
+            
+            #qr-modal h2 {
+                font-size: 1.75rem !important;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .qr-responsive {
+                width: calc(100vw - 80px);
+                height: calc(100vw - 80px);
+            }
+            
+            #qr-modal h2 {
+                font-size: 1.5rem !important;
+            }
+        }
+        
+        @media (max-width: 360px) {
+            .qr-responsive {
+                width: calc(100vw - 60px);
+                height: calc(100vw - 60px);
+            }
+        }
+        
+        /* Touch improvements */
+        @media (hover: none) and (pointer: coarse) {
+            button {
+                min-height: 44px;
+                min-width: 44px;
+            }
+            
+            .bg-gray-900 {
+                min-height: 56px;
+            }
+            
+            /* Better touch target for handle */
+            .modal-content .flex.justify-center {
+                padding: 0rem;
+            }
+        }
+    </style>
+</body>
+</html>

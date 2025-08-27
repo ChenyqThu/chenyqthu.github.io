@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="UniFi品牌屋架构 - SMB网络界的苹果，重新定义企业网络管理体验">
+    <meta name="keywords" content="UniFi, 品牌屋, 企业网络, SMB, 网络管理, Ubiquiti">
+    <title>UniFi品牌屋架构图 - SMB网络界的苹果</title>
+    
+    <!-- DNS预解析 -->
+    <link rel="dns-prefetch" href="//unpkg.com">
+    <link rel="dns-prefetch" href="//cdnjs.cloudflare.com">
+    
+    <style>
+        body {
+            font-family: 'SF Pro Display', 'Microsoft YaHei', Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #0b66ff 0%, #004db8 50%, #003a91 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #0f172a;
+        }
+
+        .container {
+            background: #ffffff;
+            border-radius: 24px;
+            padding: 40px;
+            box-shadow: 0 20px 45px rgba(0,0,0,0.12);
+            max-width: 1200px;
+            width: 100%;
+        }
+
+        .title {
+            text-align: center;
+            font-size: 32px;
+            font-weight: 800;
+            color: #0f172a;
+            letter-spacing: 0.3px;
+            margin-bottom: 50px;
+            position: relative;
+        }
+
+        .title:after {
+            content: '';
+            position: absolute;
+            bottom: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 88px;
+            height: 3px;
+            background: linear-gradient(90deg, #0ea5e9, #2563eb);
+            border-radius: 2px;
+        }
+
+        .house {
+            position: relative;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        /* UniFi Logo装饰 */
+        .unifi-logo {
+            position: absolute;
+            top: -40px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(45deg, #0ea5e9, #2563eb);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 800;
+            font-size: 20px;
+            box-shadow: 0 10px 24px rgba(14, 165, 233, 0.35);
+            border: 4px solid white;
+            transition: transform .25s ease, box-shadow .25s ease;
+            cursor: default;
+        }
+        .unifi-logo:hover {
+            transform: translateX(-50%) scale(1.06);
+            box-shadow: 0 14px 28px rgba(14, 165, 233, 0.45);
+        }
+
+        /* 屋顶 - 品牌定位 */
+        .roof {
+            width: 0;
+            height: 0;
+            border-left: 400px solid transparent;
+            border-right: 400px solid transparent;
+            border-bottom: 120px solid #0b66ff;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .roof-text {
+            position: absolute;
+            bottom: -100px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: auto;
+            max-width: min(90vw, 700px);
+            text-align: center;
+            font-size: 22px;
+            font-weight: 700;
+            color: white;
+            background: linear-gradient(45deg, #0ea5e9, #2563eb);
+            padding: 18px 35px;
+            border-radius: 50px;
+            box-shadow: 0 10px 24px rgba(14, 165, 233, 0.35);
+            border: 3px solid rgba(255,255,255,0.22);
+            transition: transform .25s ease, box-shadow .25s ease;
+        }
+        .roof-text:hover {
+            transform: translateX(-50%) scale(1.02);
+            box-shadow: 0 14px 32px rgba(14, 165, 233, 0.45);
+        }
+
+        .roof-subtitle {
+            font-size: 14px;
+            margin-top: 6px;
+            opacity: 0.95;
+            font-weight: 500;
+        }
+
+        /* 房屋主体 */
+        .house-body {
+            width: 100%;
+            max-width: 900px;
+            min-height: 340px;
+            background: linear-gradient(135deg, #111827, #1f2937);
+            margin: -1px auto 0 auto;
+            position: relative;
+            display: flex;
+            align-items: stretch;
+            border-radius: 0;
+        }
+
+        /* 支柱 */
+        .pillar {
+            flex: 1;
+            margin: 24px 12px;
+            background: linear-gradient(135deg, #2563eb, #1d4ed8);
+            border-radius: 18px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 24px 16px;
+            color: white;
+            text-align: center;
+            box-shadow: 0 8px 22px rgba(37, 99, 235, 0.28);
+            transition: transform .25s ease, box-shadow .25s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .pillar:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 12px 28px rgba(37, 99, 235, 0.36);
+        }
+        .pillar:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.18), transparent);
+            transition: left 0.6s ease;
+        }
+        .pillar:hover:before { left: 100%; }
+
+        .pillar-icon {
+            font-size: 28px;
+            margin-bottom: 12px;
+            opacity: 0.92;
+            transition: transform .25s ease, filter .25s ease;
+        }
+        .pillar:hover .pillar-icon { transform: scale(1.1) rotate(6deg); filter: brightness(1.15); }
+
+        .pillar-title {
+            font-size: 16px;
+            margin-bottom: 12px;
+            border-bottom: 2px solid rgba(255,255,255,0.28);
+            padding-bottom: 8px;
+            font-weight: 800;
+            letter-spacing: .3px;
+        }
+
+        .pillar-content {
+            font-size: 13px;
+            line-height: 1.55;
+            opacity: 0.98;
+            font-weight: 500;
+        }
+
+        .pillar-highlight {
+            color: #fcd34d;
+            font-weight: 700;
+            text-shadow: 0 0 10px rgba(252, 211, 77, 0.35);
+        }
+
+        /* 渐进式信息展示 */
+        .pillar-detail {
+            max-height: 0;
+            overflow: hidden;
+            opacity: 0;
+            transition: all 0.35s ease;
+            margin-top: 0;
+            font-size: 11px;
+            color: rgba(255,255,255,0.9);
+            border-top: 1px solid rgba(255,255,255,0.2);
+            padding-top: 0;
+        }
+        .pillar:hover .pillar-detail {
+            max-height: 110px;
+            opacity: 1;
+            margin-top: 10px;
+            padding-top: 8px;
+        }
+
+        /* 地基 */
+        .foundation {
+            width: 100%;
+            max-width: 900px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            padding: 24px;
+            box-shadow: inset 0 8px 24px rgba(0,0,0,0.18);
+        }
+        
+        .foundation-layer-1 { height: 150px; background: linear-gradient(135deg, #2f2f2f, #474747); }
+        .foundation-layer-2 { height: 130px; background: linear-gradient(135deg, #474747, #5a5a5a); }
+        .foundation-layer-3 { height: 115px; background: linear-gradient(135deg, #5a5a5a, #6b6b6b); border-radius: 0 0 24px 24px; }
+
+        .foundation-item {
+            background: rgba(255,255,255,0.12);
+            border-radius: 18px;
+            padding: 18px 22px;
+            color: white;
+            font-weight: 600;
+            text-align: center;
+            flex: 1;
+            margin: 0 12px;
+            backdrop-filter: blur(14px);
+            border: 1px solid rgba(255,255,255,0.24);
+            transition: transform .22s ease, box-shadow .22s ease, background .22s ease;
+        }
+        .foundation-item:hover {
+            background: rgba(255,255,255,0.2);
+            transform: translateY(-4px);
+            box-shadow: 0 10px 24px rgba(0,0,0,0.22);
+        }
+
+        .foundation-icon { font-size: 24px; margin-bottom: 10px; display: block; transition: transform .22s ease, filter .22s ease; }
+        .foundation-item:hover .foundation-icon { transform: scale(1.12) rotate(4deg); filter: brightness(1.15); }
+
+        .foundation-title { font-size: 15px; margin-bottom: 10px; color: #f8fafc; font-weight: 800; letter-spacing: .3px; }
+        .foundation-content { font-size: 12px; opacity: 0.95; line-height: 1.45; font-weight: 500; }
+
+        /* 特殊标识 */
+        .apple-badge {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(45deg, #f59e0b, #f97316);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 800;
+            box-shadow: 0 6px 18px rgba(245, 158, 11, 0.35);
+            transition: transform .22s ease, box-shadow .22s ease;
+            cursor: default;
+        }
+        .apple-badge:hover { transform: scale(1.06); box-shadow: 0 8px 22px rgba(245, 158, 11, 0.48); }
+
+        .legend {
+            margin-top: 40px;
+            text-align: center;
+            color: #4b5563;
+            font-size: 15px;
+            font-style: italic;
+            font-weight: 600;
+        }
+        .legend-highlight { color: #2563eb; font-weight: 800; }
+
+        /* 性能优化 */
+        * { box-sizing: border-box; }
+        .pillar, .foundation-item, .unifi-logo, .roof-text { will-change: transform; backface-visibility: hidden; -webkit-backface-visibility: hidden; }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .roof {
+                border-left-width: 250px;
+                border-right-width: 250px;
+                border-bottom-width: 80px;
+            }
+
+            .roof-text {
+                width: auto;
+                max-width: min(90vw, 420px);
+                font-size: 16px;
+                bottom: -75px;
+                padding: 12px 20px;
+            }
+            
+            .house-body { width: 100%; margin: -1px 0 0 0; min-height: 0; }
+            .foundation { width: 100%; margin: 0; flex-direction: column; height: auto; padding: 20px 15px; }
+            .foundation-layer-1, .foundation-layer-2, .foundation-layer-3 { height: auto; min-height: 100px; }
+
+            .pillar { margin: 12px 24px; padding: 20px; }
+            .foundation-item { margin: 8px 0; padding: 15px 20px; }
+
+            .apple-badge { top: 15px; right: 15px; font-size: 10px; padding: 6px 12px; }
+        }
+        
+        @media (max-width: 480px) {
+            .container { padding: 16px; margin: 6px; }
+            .roof { border-left-width: 180px; border-right-width: 180px; border-bottom-width: 60px; }
+            .roof-text { width: auto; max-width: 90vw; font-size: 14px; padding: 10px 15px; bottom: -65px; }
+            .roof-subtitle { font-size: 10px; }
+            .pillar { margin: 10px 16px; padding: 16px; }
+            .pillar-title { font-size: 14px; }
+            .pillar-content { font-size: 11px; }
+            .pillar-detail { font-size: 10px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="title">
+            UniFi 品牌屋架构
+            <div class="apple-badge">SMB网络界的苹果</div>
+        </div>
+        
+        <div class="house">
+            <!-- UniFi Logo -->
+            <div class="unifi-logo">Ui</div>
+            
+            <!-- 屋顶 - 品牌定位 -->
+            <div class="roof">
+                <div class="roof-text">
+                    <div class="roof-main">让复杂的企业网络变得简单优雅</div>
+                    <div class="roof-subtitle">"Rethinking IT" - 极简美学 × 企业级性能 × 统一体验</div>
+                </div>
+            </div>
+            
+            <!-- 房屋主体 - 支撑维度 -->
+            <div class="house-body">
+                <div class="pillar">
+                    <div class="pillar-icon">🎨</div>
+                    <div class="pillar-title">极简设计哲学</div>
+                    <div class="pillar-content">
+                        <span class="pillar-highlight">Apple-like工业设计</span><br>
+                        极简白色美学<br>
+                        专业环境融合<br>
+                        愉悦开箱体验
+                    </div>
+                    <div class="pillar-detail">精致的铝合金外壳，统一的LED状态指示，无噪音被动散热设计</div>
+                </div>
+                
+                <div class="pillar">
+                    <div class="pillar-icon">🔄</div>
+                    <div class="pillar-title">统一生态体验</div>
+                    <div class="pillar-content">
+                        <span class="pillar-highlight">单一界面管控全网</span><br>
+                        UniFi OS统一平台<br>
+                        无缝设备互联<br>
+                        可视化网络拓扑
+                    </div>
+                    <div class="pillar-detail">从接入点到交换机，从防火墙到监控，所有设备统一管理</div>
+                </div>
+                
+                <div class="pillar">
+                    <div class="pillar-icon">💡</div>
+                    <div class="pillar-title">免许可证模式</div>
+                    <div class="pillar-content">
+                        <span class="pillar-highlight">颠覆传统成本结构</span><br>
+                        一次购买终身使用<br>
+                        无月费无年费<br>
+                        企业级零订阅
+                    </div>
+                    <div class="pillar-detail">传统企业网络每年许可费高达50%+，UniFi一次购买永久使用</div>
+                </div>
+                
+                <div class="pillar">
+                    <div class="pillar-icon">🚀</div>
+                    <div class="pillar-title">持续创新能力</div>
+                    <div class="pillar-content">
+                        <span class="pillar-highlight">前沿技术引领</span><br>
+                        WiFi 7 / 6GHz<br>
+                        AI驱动优化<br>
+                        云边协同架构
+                    </div>
+                    <div class="pillar-detail">率先支持WiFi 7标准，6GHz频段解决频谱拥塞，AI可视化分析</div>
+                </div>
+            </div>
+            
+            <!-- 地基第一层 - 核心硬件生态 -->
+            <div class="foundation foundation-layer-1">
+                <div class="foundation-item">
+                    <span class="foundation-icon">📡</span>
+                    <div class="foundation-title">UniFi WiFi</div>
+                    <div class="foundation-content">WiFi 7接入点<br>6GHz三频覆盖<br>智能漫游优化</div>
+                </div>
+                <div class="foundation-item">
+                    <span class="foundation-icon">🔀</span>
+                    <div class="foundation-title">UniFi Switching</div>
+                    <div class="foundation-content">PoE++交换机<br>云管理交换<br>端口镜像分析</div>
+                </div>
+                <div class="foundation-item">
+                    <span class="foundation-icon">🛡️</span>
+                    <div class="foundation-title">UniFi Gateway</div>
+                    <div class="foundation-content">集成安全网关<br>IDS/IPS防护<br>VPN远程接入</div>
+                </div>
+                <div class="foundation-item">
+                    <span class="foundation-icon">☁️</span>
+                    <div class="foundation-title">Cloud Gateways</div>
+                    <div class="foundation-content">WiFi集成网关<br>边缘计算能力<br>混合云部署</div>
+                </div>
+            </div>
+            
+            <!-- 地基第二层 - UniFi OS统一平台 -->
+            <div class="foundation foundation-layer-2">
+                <div class="foundation-item">
+                    <span class="foundation-icon">🌐</span>
+                    <div class="foundation-title">UniFi Network</div>
+                    <div class="foundation-content">网络设备统一管理<br>实时性能监控<br>拓扑可视化</div>
+                </div>
+                <div class="foundation-item">
+                    <span class="foundation-icon">🎥</span>
+                    <div class="foundation-title">UniFi Protect</div>
+                    <div class="foundation-content">AI智能监控<br>本地存储处理<br>隐私优先设计</div>
+                </div>
+                <div class="foundation-item">
+                    <span class="foundation-icon">🔐</span>
+                    <div class="foundation-title">UniFi Access</div>
+                    <div class="foundation-content">智能门禁控制<br>身份认证集成<br>访客管理系统</div>
+                </div>
+                <div class="foundation-item">
+                    <span class="foundation-icon">📞</span>
+                    <div class="foundation-title">UniFi Talk</div>
+                    <div class="foundation-content">企业通信平台<br>SIP电话系统<br>统一消息服务</div>
+                </div>
+            </div>
+            
+            <!-- 地基第三层 - 增值服务生态 -->
+            <div class="foundation foundation-layer-3">
+                <div class="foundation-item">
+                    <span class="foundation-icon">☁️</span>
+                    <div class="foundation-title">UniFi Cloud</div>
+                    <div class="foundation-content">远程管理服务<br>自动备份恢复<br>多站点统一控制</div>
+                </div>
+                <div class="foundation-item">
+                    <span class="foundation-icon">🎯</span>
+                    <div class="foundation-title">Design Center</div>
+                    <div class="foundation-content">网络规划仿真<br>RF覆盖设计<br>容量规划工具</div>
+                </div>
+                <div class="foundation-item">
+                    <span class="foundation-icon">👥</span>
+                    <div class="foundation-title">社区生态</div>
+                    <div class="foundation-content">活跃开发者社区<br>丰富知识库<br>用户互助网络</div>
+                </div>
+                <div class="foundation-item">
+                    <span class="foundation-icon">🎓</span>
+                    <div class="foundation-title">专业服务</div>
+                    <div class="foundation-content">认证培训体系<br>技术支持服务<br>合作伙伴网络</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="legend">
+            <span class="legend-highlight">"客户视角驱动"</span> - 从用户痛点出发，重新设计整个IT管理体验
+        </div>
+    </div>
+
+    <!-- 编辑器切换按钮和工具条 -->
+    <button id="editorToggle" aria-label="切换编辑模式">✎ 编辑</button>
+    <div id="editorBar" hidden>
+        <div class="editor-bar-inner">
+            <strong>编辑模式</strong>
+            <div class="editor-actions">
+                <button id="btnSave">保存</button>
+                <button id="btnReset">重置</button>
+                <button id="btnExport">导出</button>
+                <button id="btnImport">导入</button>
+                <button id="btnExit">退出</button>
+                <input id="fileImport" type="file" accept="application/json" hidden />
+            </div>
+        </div>
+        <div class="editor-hint">提示：点击高亮区域即可直接编辑。标题建议只输入纯文本，内容支持换行（回车）与基本内联样式。</div>
+    </div>
+</body>
+<style>
+/* 内联编辑器 UI 样式 */
+#editorToggle {
+  position: fixed;
+  right: 18px;
+  bottom: 18px;
+  z-index: 1000;
+  background: linear-gradient(45deg, #0ea5e9, #2563eb);
+  color: #fff;
+  border: none;
+  border-radius: 999px;
+  padding: 10px 16px;
+  font-weight: 800;
+  box-shadow: 0 10px 24px rgba(14,165,233,0.35);
+  cursor: pointer;
+}
+#editorToggle:hover{ transform: translateY(-1px); box-shadow: 0 12px 28px rgba(14,165,233,0.45); }
+
+#editorBar {
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 80px;
+  width: min(92vw, 980px);
+  background: rgba(255,255,255,0.95);
+  border: 1px solid rgba(0,0,0,0.05);
+  box-shadow: 0 16px 40px rgba(0,0,0,0.18);
+  border-radius: 14px;
+  z-index: 1000;
+  backdrop-filter: saturate(1.1) blur(6px);
+}
+.editor-bar-inner{ display:flex; align-items:center; justify-content:space-between; padding: 10px 16px; }
+.editor-actions button{ margin-left:8px; }
+.editor-actions button, #btnExit{
+  background:#111827; color:#fff; border:none; border-radius:8px; padding:8px 12px; cursor:pointer;
+}
+.editor-actions button:hover{ filter: brightness(1.05); }
+.editor-hint{ font-size:12px; color:#4b5563; padding: 0 16px 12px; }
+
+/* 可编辑高亮 */
+.editable-highlight{ outline: 2px dashed rgba(14,165,233,0.6); outline-offset: 2px; border-radius: 6px; background: rgba(14,165,233,0.06); }
+.editable-highlight:focus{ outline-color: #2563eb; background: rgba(37,99,235,0.08); }
+</style>
+<script>
+(function(){
+  const LS_KEY = 'brandhouse_editor_v1';
+
+  function sanitizeHTML(html){
+    // 基础清洗：移除 <script> 与内联 on* 事件属性
+    const div = document.createElement('div');
+    div.innerHTML = html;
+    const scripts = div.querySelectorAll('script');
+    scripts.forEach(s => s.remove());
+    div.querySelectorAll('*').forEach(el => {
+      [...el.attributes].forEach(attr => {
+        if (/^on/i.test(attr.name)) el.removeAttribute(attr.name);
+      });
+    });
+    return div.innerHTML;
+  }
+
+  function getNodes(){
+    const roofMain = document.querySelector('.roof-main');
+    const roofSubtitle = document.querySelector('.roof-subtitle');
+    const pillars = Array.from(document.querySelectorAll('.pillar')).map(p => ({
+      title: p.querySelector('.pillar-title'),
+      content: p.querySelector('.pillar-content'),
+      detail: p.querySelector('.pillar-detail')
+    }));
+    const foundations = Array.from(document.querySelectorAll('.foundation')).map(f =>
+      Array.from(f.querySelectorAll('.foundation-item')).map(item => ({
+        title: item.querySelector('.foundation-title'),
+        content: item.querySelector('.foundation-content')
+      }))
+    );
+    return { roofMain, roofSubtitle, pillars, foundations };
+  }
+
+  function buildModelFromDOM(){
+    const { roofMain, roofSubtitle, pillars, foundations } = getNodes();
+    return {
+      roof: {
+        main: roofMain ? sanitizeHTML(roofMain.innerHTML.trim()) : '',
+        subtitle: roofSubtitle ? sanitizeHTML(roofSubtitle.innerHTML.trim()) : ''
+      },
+      pillars: pillars.map(n => ({
+        title: n.title ? n.title.textContent.trim() : '',
+        content: n.content ? sanitizeHTML(n.content.innerHTML.trim()) : '',
+        detail: n.detail ? sanitizeHTML(n.detail.innerHTML.trim()) : ''
+      })),
+      foundations: foundations.map(layer => layer.map(n => ({
+        title: n.title ? n.title.textContent.trim() : '',
+        content: n.content ? sanitizeHTML(n.content.innerHTML.trim()) : ''
+      })))
+    };
+  }
+
+  function applyModelToDOM(model){
+    const { roofMain, roofSubtitle, pillars, foundations } = getNodes();
+    if(model.roof){
+      if(roofMain && typeof model.roof.main === 'string') roofMain.innerHTML = sanitizeHTML(model.roof.main);
+      if(roofSubtitle && typeof model.roof.subtitle === 'string') roofSubtitle.innerHTML = sanitizeHTML(model.roof.subtitle);
+    }
+    if(Array.isArray(model.pillars)){
+      model.pillars.forEach((m, i) => {
+        const node = pillars[i]; if(!node) return;
+        if(node.title && typeof m.title === 'string') node.title.textContent = m.title;
+        if(node.content && typeof m.content === 'string') node.content.innerHTML = sanitizeHTML(m.content);
+        if(node.detail && typeof m.detail === 'string') node.detail.innerHTML = sanitizeHTML(m.detail);
+      });
+    }
+    if(Array.isArray(model.foundations)){
+      model.foundations.forEach((layer, li) => {
+        const layerNodes = foundations[li]; if(!layerNodes) return;
+        layer.forEach((m, ii) => {
+          const node = layerNodes[ii]; if(!node) return;
+          if(node.title && typeof m.title === 'string') node.title.textContent = m.title;
+          if(node.content && typeof m.content === 'string') node.content.innerHTML = sanitizeHTML(m.content);
+        });
+      });
+    }
+  }
+
+  function setEditing(enabled){
+    const { roofMain, roofSubtitle, pillars, foundations } = getNodes();
+    const setNode = (el, on) => {
+      if(!el) return;
+      if(on){ el.setAttribute('contenteditable','true'); el.classList.add('editable-highlight'); }
+      else { el.removeAttribute('contenteditable'); el.classList.remove('editable-highlight'); }
+    };
+    setNode(roofMain, enabled);
+    setNode(roofSubtitle, enabled);
+    pillars.forEach(n => { setNode(n.title, enabled); setNode(n.content, enabled); setNode(n.detail, enabled); });
+    foundations.forEach(layer => layer.forEach(n => { setNode(n.title, enabled); setNode(n.content, enabled); }));
+    document.getElementById('editorBar').hidden = !enabled;
+  }
+
+  // 初始：如有本地存储，应用
+  try {
+    const saved = localStorage.getItem(LS_KEY);
+    if(saved){
+      const model = JSON.parse(saved);
+      applyModelToDOM(model);
+    }
+  } catch(e) { /* ignore */ }
+
+  // 绑定 UI
+  const toggle = document.getElementById('editorToggle');
+  const btnSave = document.getElementById('btnSave');
+  const btnReset = document.getElementById('btnReset');
+  const btnExport = document.getElementById('btnExport');
+  const btnImport = document.getElementById('btnImport');
+  const fileImport = document.getElementById('fileImport');
+
+  let editing = false;
+
+  toggle.addEventListener('click', () => {
+    editing = !editing;
+    setEditing(editing);
+    toggle.textContent = editing ? '✓ 编辑中' : '✎ 编辑';
+  });
+
+  document.getElementById('btnExit').addEventListener('click', () => {
+    editing = false;
+    setEditing(false);
+    toggle.textContent = '✎ 编辑';
+  });
+
+  btnSave.addEventListener('click', () => {
+    const model = buildModelFromDOM();
+    try {
+      localStorage.setItem(LS_KEY, JSON.stringify(model));
+      alert('已保存到本地浏览器（localStorage）。');
+    } catch(e) {
+      alert('保存失败：' + e.message);
+    }
+  });
+
+  btnReset.addEventListener('click', () => {
+    if(!confirm('确认重置为默认内容？此操作不会删除本地文件，但会覆盖浏览器中保存的内容。')) return;
+    try { localStorage.removeItem(LS_KEY); } catch(e) {}
+    // 以当前页面出厂内容为“默认”，可刷新恢复；此处直接刷新页面最稳妥
+    location.reload();
+  });
+
+  btnExport.addEventListener('click', () => {
+    const model = buildModelFromDOM();
+    const blob = new Blob([JSON.stringify(model, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = 'brandhouse-content.json'; a.click();
+    URL.revokeObjectURL(url);
+  });
+
+  btnImport.addEventListener('click', () => fileImport.click());
+  fileImport.addEventListener('change', (e) => {
+    const file = e.target.files && e.target.files[0];
+    if(!file) return;
+    const reader = new FileReader();
+    reader.onload = () => {
+      try {
+        const data = JSON.parse(reader.result);
+        applyModelToDOM(data);
+        localStorage.setItem(LS_KEY, JSON.stringify(data));
+        alert('导入并保存成功');
+      } catch(err){
+        alert('导入失败：JSON 格式不正确');
+      }
+    };
+    reader.readAsText(file);
+  });
+})();
+</script>
+</html>
