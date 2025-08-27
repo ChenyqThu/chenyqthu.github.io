@@ -35,13 +35,13 @@ class QRCodeAPI {
         const memberID = customMemberID || "MBR15222587";
         
         return {
+            "MB": memberID,
+            "OS": "iOS",
+            "DI": "7811C33A-CE21-4FAC-9FA4-08D449FC7B09",
             "DT": this.generateTimestamp(),
-            "AP": "1.78.2",
-            "OS": "iOS", 
             "TP": "P",
             "SR": "24GO",
-            "DI": "252AF98D-E54C-4DDC-8C62-52B52EA0E795",
-            "MB": memberID
+            "AP": "1.78.2"
         };
     }
     

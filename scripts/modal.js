@@ -140,6 +140,11 @@ class QRModal {
             });
         });
         
+        // Clear cache to ensure fresh QR code generation
+        if (this.qrAPI) {
+            this.qrAPI.clearCache();
+        }
+        
         // Generate QR code automatically when modal opens
         this.generateQR();
     }
@@ -212,6 +217,9 @@ class QRModal {
                 this.qrAPI = new QRCodeAPI();
             }
             
+            // Clear cache to ensure fresh data
+            this.qrAPI.clearCache();
+            
             // Show loading state
             this.showLoading();
             
@@ -256,13 +264,13 @@ class QRModal {
     
     getCheckInData() {
         return {
-            "DT": this.generateTimestamp(),
-            "AP": "1.78.2",
+            "MB": "MBR15222587",
             "OS": "iOS",
+            "DI": "7811C33A-CE21-4FAC-9FA4-08D449FC7B09",
+            "DT": this.generateTimestamp(),
             "TP": "P",
             "SR": "24GO",
-            "DI": "252AF98D-E54C-4DDC-8C62-52B52EA0E795",
-            "MB": "MBR15222587"
+            "AP": "1.78.2"
         };
     }
 }
