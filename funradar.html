@@ -1,210 +1,468 @@
 <!DOCTYPE html>
-<html lang="en" style="height: 100%">
+<html lang="en">
 <head>
   <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      background: #f5f5f5;
+      padding: 20px;
+    }
+    .container {
+      max-width: 1600px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      overflow: hidden;
+    }
+    .chart-container {
+      height: 600px;
+      padding: 20px;
+    }
+    .controls-container {
+      border-top: 2px solid #f0f0f0;
+      padding: 30px;
+    }
+    .export-section {
+      margin-bottom: 30px;
+      text-align: center;
+    }
+    .export-btn {
+      padding: 12px 30px;
+      font-size: 16px;
+      background: #5470c6;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    .export-btn:hover {
+      background: #4060b6;
+    }
+    .data-controls {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+    .product-section {
+      border: 1px solid #e0e0e0;
+      border-radius: 8px;
+      padding: 20px;
+      background: #fafafa;
+    }
+    .product-title {
+      font-size: 18px;
+      font-weight: bold;
+      margin-bottom: 15px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid #ddd;
+    }
+    .product-title.unifi { color: #5470c6; }
+    .product-title.reyee { color: #91cc75; }
+    .product-title.omada { color: #fac858; }
+    .dimension-group {
+      margin-bottom: 20px;
+    }
+    .dimension-label {
+      font-weight: 600;
+      font-size: 14px;
+      margin-bottom: 8px;
+      color: #333;
+    }
+    .dimension-row {
+      display: flex;
+      align-items: center;
+      margin-bottom: 12px;
+      padding: 8px;
+      background: white;
+      border-radius: 4px;
+    }
+    .dimension-name {
+      flex: 1;
+      font-size: 14px;
+      color: #666;
+    }
+    .number-input-container {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .number-input {
+      width: 60px;
+      padding: 6px 4px;
+      font-size: 14px;
+      border: 1px solid #d0d0d0;
+      border-radius: 4px;
+      text-align: right;
+    }
+    /* 移除number类型input的默认spinner */
+    .number-input::-webkit-inner-spin-button,
+    .number-input::-webkit-outer-spin-button {
+      margin: 0;
+    }
+    .number-input:focus {
+      outline: none;
+      border-color: #5470c6;
+    }
+    .control-btn {
+      width: 28px;
+      height: 28px;
+      border: 1px solid #d0d0d0;
+      background: white;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+    .control-btn:hover {
+      background: #f0f0f0;
+      border-color: #999;
+    }
+    .control-btn:active {
+      background: #e0e0e0;
+    }
+    .control-btn:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+  </style>
 </head>
-<body style="height: 100%; margin: 0">
-  <div id="container" style="height: 100%"></div>
+<body>
+  <div class="container">
+    <div id="chart" class="chart-container"></div>
+
+    <div class="controls-container">
+      <div class="export-section">
+        <button class="export-btn" onclick="exportChart()">导出图片</button>
+      </div>
+
+      <div class="data-controls" id="controls"></div>
+    </div>
+  </div>
 
   <script type="text/javascript" src="https://registry.npmmirror.com/echarts/5.5.1/files/dist/echarts.min.js"></script>
 
   <script type="text/javascript">
-    var dom = document.getElementById('container');
+    var dom = document.getElementById('chart');
     var myChart = echarts.init(dom, null, {
       renderer: 'canvas',
       useDirtyRect: false
     });
-    var option;
 
-    option = {
-      title: [
-        {
-          text: 'Controller差异对比',
-          left: 'center',
-          top: 20,
-          textStyle: {
-            fontSize: 20
-          }
-        },
-        {
-          text: '功能体验评估',
-          left: '22.5%',
-          top: '80%',
-          textStyle: {
-            fontSize: 16
-          }
-        },
-        {
-          text: '平台能力评估',
-          left: '72.5%',
-          top: '80%',
-          textStyle: {
-            fontSize: 16
-          }
-        }
-      ],
-      tooltip: {
-        trigger: 'item',
-        formatter: function(params) {
-          const isFirstRadar = params.seriesIndex < 3;
-          const dimensionNames = isFirstRadar ? 
-            [
-              { text: '操作体验', desc: 'UI美观度、操作流畅度、功能引导等' },
-              { text: '项目管理', desc: '多站点管理、MSP功能、项目模板等' },
-              { text: '开局配置', desc: '配置向导、模板管理、批量配置等' },
-              { text: '网络配置', desc: '各类网络功能配置的完整性和易用性' },
-              { text: '日常运维', desc: '监控工具、运维效率、可视化程度' },
-              { text: '告警排障', desc: '告警机制、排障工具、问题定位能力' }
-            ] : 
-            [
-              { text: '生态联动', desc: '网规工具/APP/排障工具/其他应用服务的联动能力' },
-              { text: '开放能力', desc: 'API完整度、SDK支持、二次开发友好度' },
-              { text: '部署灵活性', desc: '本地部署、云部署、混合部署支持' },
-              { text: '场景适应性', desc: '不同行业、规模、应用场景的适配能力' },
-              { text: '商业模式', desc: '许可证模式、增值服务、商业化能力' }
-            ];
-
-          let result = params.seriesName + ' ';
-          const values = params.value;
-          
-          // 计算平均分
-          const average = values.reduce((a, b) => a + b, 0) / values.length;
-          result += '<span style="color:#666;font-weight:bold">平均分：' + average.toFixed(1) + '</span><br/>';
-          
-          for (let i = 0; i < values.length; i++) {
-            result += dimensionNames[i].text + ': ' + values[i] + '<br/>';
-            result += '<span style="color:#999;font-size:12px;padding-left:10px">' + 
-                      dimensionNames[i].desc + '</span><br/>';
-          }
-          return result;
+    // 数据存储
+    const radarData = {
+      products: ['Omada', 'Unifi', 'Reyee'],
+      colors: ['#fac858', '#5470c6', '#91cc75'],
+      radar1: {
+        name: '功能体验评估',
+        dimensions: [
+          { text: '操作体验', desc: 'UI美观度、操作流畅度、功能引导等' },
+          { text: '项目管理', desc: '多站点管理、MSP功能、项目模板等' },
+          { text: '开局配置', desc: '配置向导、模板管理、批量配置等' },
+          { text: '网络配置', desc: '各类网络功能配置的完整性和易用性' },
+          { text: '日常运维', desc: '监控工具、运维效率、可视化程度' },
+          { text: '告警排障', desc: '告警机制、排障工具、问题定位能力' }
+        ],
+        values: {
+          'Unifi': [5, 4, 4, 3, 4.5, 4],
+          'Reyee': [4, 3, 4.5, 4, 4, 4.5],
+          'Omada': [4, 4.5, 3, 3.5, 4, 3.5]
         }
       },
-      legend: {
-        top: 'bottom',
-        data: ['Unifi', 'Reyee', 'Omada'],
-        textStyle: {
-          fontSize: 14
-        },
-        itemWidth: 15,
-        itemHeight: 15
-      },
-      radar: [
-        {
-          indicator: [
-            { text: '操作体验', max: 5},
-            { text: '项目管理', max: 5},
-            { text: '开局配置', max: 5},
-            { text: '网络配置', max: 5},
-            { text: '日常运维', max: 5},
-            { text: '告警排障', max: 5}
-          ],
-          center: ['25%', '45%'],
-          radius: '45%',
-          name: {
-            textStyle: {
-              color: '#666',
-              fontSize: 14
-            }
-          }
-        },
-        {
-          indicator: [
-            { text: '生态联动', max: 5},
-            { text: '开放能力', max: 5},
-            { text: '部署灵活性', max: 5},
-            { text: '场景适应性', max: 5},
-            { text: '商业模式', max: 5}
-          ],
-          center: ['75%', '45%'],
-          radius: '45%',
-          name: {
-            textStyle: {
-              color: '#666',
-              fontSize: 14
-            }
-          }
+      radar2: {
+        name: '平台能力评估',
+        dimensions: [
+          { text: '生态联动', desc: '网规工具/APP/排障工具/其他应用服务的联动能力' },
+          { text: '开放能力', desc: 'API完整度、SDK支持、二次开发友好度' },
+          { text: '部署灵活性', desc: '本地部署、云部署、混合部署支持' },
+          { text: '场景适应性', desc: '不同行业、规模、应用场景的适配能力' },
+          { text: '商业模式', desc: '许可证模式、增值服务、商业化能力' }
+        ],
+        values: {
+          'Unifi': [5, 3.5, 4, 3.5, 3.5],
+          'Reyee': [3, 3, 2, 4.5, 3],
+          'Omada': [4, 4, 4.5, 3, 4]
         }
-      ],
-      series: [
-        {
-          name: 'Unifi',
-          type: 'radar',
-          radarIndex: 0,
-          data: [{
-            value: [5, 4, 4, 3, 4.5, 4],
-            name: 'Unifi'
-          }],
-          itemStyle: { color: '#5470c6' },
-          areaStyle: { color: '#5470c6', opacity: 0.3 },
-          lineStyle: { color: '#5470c6' }
-        },
-        {
-          name: 'Reyee',
-          type: 'radar',
-          radarIndex: 0,
-          data: [{
-            value: [4, 3, 4.5, 4, 4, 4.5],
-            name: 'Reyee'
-          }],
-          itemStyle: { color: '#91cc75' },
-          areaStyle: { color: '#91cc75', opacity: 0.3 },
-          lineStyle: { color: '#91cc75' }
-        },
-        {
-          name: 'Omada',
-          type: 'radar',
-          radarIndex: 0,
-          data: [{
-            value: [3.5, 4.5, 3, 3, 3.5, 3.5],
-            name: 'Omada'
-          }],
-          itemStyle: { color: '#fac858' },
-          areaStyle: { color: '#fac858', opacity: 0.3 },
-          lineStyle: { color: '#fac858' }
-        },
-        {
-          name: 'Unifi',
-          type: 'radar',
-          radarIndex: 1,
-          data: [{
-            value: [5, 3.5, 4, 3.5, 3.5],
-            name: 'Unifi'
-          }],
-          itemStyle: { color: '#5470c6' },
-          areaStyle: { color: '#5470c6', opacity: 0.3 },
-          lineStyle: { color: '#5470c6' }
-        },
-        {
-          name: 'Reyee',
-          type: 'radar',
-          radarIndex: 1,
-          data: [{
-            value: [3, 3, 2, 4.5, 3],
-            name: 'Reyee'
-          }],
-          itemStyle: { color: '#91cc75' },
-          areaStyle: { color: '#91cc75', opacity: 0.3 },
-          lineStyle: { color: '#91cc75' }
-        },
-        {
-          name: 'Omada',
-          type: 'radar',
-          radarIndex: 1,
-          data: [{
-            value: [4, 4, 4.5, 3, 4],
-            name: 'Omada'
-          }],
-          itemStyle: { color: '#fac858' },
-          areaStyle: { color: '#fac858', opacity: 0.3 },
-          lineStyle: { color: '#fac858' }
-        }
-      ]
+      }
     };
 
-    if (option && typeof option === 'object') {
-      myChart.setOption(option);
+    var option;
+
+    function getOption() {
+      return {
+        title: [
+          {
+            text: 'Controller差异对比',
+            left: 'center',
+            top: 20,
+            textStyle: {
+              fontSize: 20
+            }
+          },
+          {
+            text: radarData.radar1.name,
+            left: '22.5%',
+            top: '80%',
+            textStyle: {
+              fontSize: 16
+            }
+          },
+          {
+            text: radarData.radar2.name,
+            left: '72.5%',
+            top: '80%',
+            textStyle: {
+              fontSize: 16
+            }
+          }
+        ],
+        tooltip: {
+          trigger: 'item',
+          formatter: function(params) {
+            const isFirstRadar = params.seriesIndex < 3;
+            const dimensionNames = isFirstRadar ? radarData.radar1.dimensions : radarData.radar2.dimensions;
+
+            let result = params.seriesName + ' ';
+            const values = params.value;
+
+            // 计算平均分
+            const average = values.reduce((a, b) => a + b, 0) / values.length;
+            result += '<span style="color:#666;font-weight:bold">平均分：' + average.toFixed(1) + '</span><br/>';
+
+            for (let i = 0; i < values.length; i++) {
+              result += dimensionNames[i].text + ': ' + values[i] + '<br/>';
+              result += '<span style="color:#999;font-size:12px;padding-left:10px">' +
+                        dimensionNames[i].desc + '</span><br/>';
+            }
+            return result;
+          }
+        },
+        legend: {
+          top: 'bottom',
+          data: radarData.products,
+          textStyle: {
+            fontSize: 14
+          },
+          itemWidth: 15,
+          itemHeight: 15
+        },
+        radar: [
+          {
+            indicator: radarData.radar1.dimensions.map(d => ({ text: d.text, max: 5 })),
+            center: ['25%', '45%'],
+            radius: '45%',
+            name: {
+              textStyle: {
+                color: '#666',
+                fontSize: 14
+              }
+            }
+          },
+          {
+            indicator: radarData.radar2.dimensions.map(d => ({ text: d.text, max: 5 })),
+            center: ['75%', '45%'],
+            radius: '45%',
+            name: {
+              textStyle: {
+                color: '#666',
+                fontSize: 14
+              }
+            }
+          }
+        ],
+        series: [
+          ...radarData.products.map((product, idx) => ({
+            name: product,
+            type: 'radar',
+            radarIndex: 0,
+            data: [{
+              value: radarData.radar1.values[product],
+              name: product
+            }],
+            itemStyle: { color: radarData.colors[idx] },
+            areaStyle: { color: radarData.colors[idx], opacity: 0.3 },
+            lineStyle: { color: radarData.colors[idx] }
+          })),
+          ...radarData.products.map((product, idx) => ({
+            name: product,
+            type: 'radar',
+            radarIndex: 1,
+            data: [{
+              value: radarData.radar2.values[product],
+              name: product
+            }],
+            itemStyle: { color: radarData.colors[idx] },
+            areaStyle: { color: radarData.colors[idx], opacity: 0.3 },
+            lineStyle: { color: radarData.colors[idx] }
+          }))
+        ]
+      };
     }
 
+    // 更新图表
+    function updateChart() {
+      option = getOption();
+      myChart.setOption(option, true);
+    }
+
+    // 更新数值
+    function updateValue(product, radarType, dimensionIndex, newValue) {
+      newValue = Math.max(0, Math.min(5, parseFloat(newValue) || 0));
+      newValue = Math.round(newValue * 2) / 2; // 确保是0.5的倍数
+
+      if (radarType === 'radar1') {
+        radarData.radar1.values[product][dimensionIndex] = newValue;
+      } else {
+        radarData.radar2.values[product][dimensionIndex] = newValue;
+      }
+
+      updateChart();
+      return newValue;
+    }
+
+    // 生成控件
+    function generateControls() {
+      const controlsContainer = document.getElementById('controls');
+      controlsContainer.innerHTML = '';
+
+      radarData.products.forEach((product, productIdx) => {
+        const section = document.createElement('div');
+        section.className = 'product-section';
+
+        const title = document.createElement('div');
+        title.className = `product-title ${product.toLowerCase()}`;
+        title.textContent = product;
+        section.appendChild(title);
+
+        // 雷达图1
+        const group1 = document.createElement('div');
+        group1.className = 'dimension-group';
+        const label1 = document.createElement('div');
+        label1.className = 'dimension-label';
+        label1.textContent = radarData.radar1.name;
+        group1.appendChild(label1);
+
+        radarData.radar1.dimensions.forEach((dim, dimIdx) => {
+          const row = createDimensionRow(product, 'radar1', dimIdx, dim.text, radarData.radar1.values[product][dimIdx]);
+          group1.appendChild(row);
+        });
+        section.appendChild(group1);
+
+        // 雷达图2
+        const group2 = document.createElement('div');
+        group2.className = 'dimension-group';
+        const label2 = document.createElement('div');
+        label2.className = 'dimension-label';
+        label2.textContent = radarData.radar2.name;
+        group2.appendChild(label2);
+
+        radarData.radar2.dimensions.forEach((dim, dimIdx) => {
+          const row = createDimensionRow(product, 'radar2', dimIdx, dim.text, radarData.radar2.values[product][dimIdx]);
+          group2.appendChild(row);
+        });
+        section.appendChild(group2);
+
+        controlsContainer.appendChild(section);
+      });
+    }
+
+    // 创建维度行
+    function createDimensionRow(product, radarType, dimensionIndex, dimensionName, currentValue) {
+      const row = document.createElement('div');
+      row.className = 'dimension-row';
+
+      const name = document.createElement('div');
+      name.className = 'dimension-name';
+      name.textContent = dimensionName;
+      row.appendChild(name);
+
+      const inputContainer = document.createElement('div');
+      inputContainer.className = 'number-input-container';
+
+      const decreaseBtn = document.createElement('button');
+      decreaseBtn.className = 'control-btn';
+      decreaseBtn.textContent = '−';
+      decreaseBtn.onclick = () => {
+        const input = inputContainer.querySelector('.number-input');
+        const newValue = Math.max(0, parseFloat(input.value) - 0.5);
+        const actualValue = updateValue(product, radarType, dimensionIndex, newValue);
+        input.value = actualValue.toFixed(1);
+        updateButtonStates(inputContainer, actualValue);
+      };
+
+      const input = document.createElement('input');
+      input.type = 'number';
+      input.className = 'number-input';
+      input.value = currentValue.toFixed(1);
+      input.min = 0;
+      input.max = 5;
+      input.step = 0.5;
+      input.onchange = (e) => {
+        const actualValue = updateValue(product, radarType, dimensionIndex, e.target.value);
+        e.target.value = actualValue.toFixed(1);
+        updateButtonStates(inputContainer, actualValue);
+      };
+      input.oninput = (e) => {
+        updateButtonStates(inputContainer, parseFloat(e.target.value) || 0);
+      };
+
+      const increaseBtn = document.createElement('button');
+      increaseBtn.className = 'control-btn';
+      increaseBtn.textContent = '+';
+      increaseBtn.onclick = () => {
+        const input = inputContainer.querySelector('.number-input');
+        const newValue = Math.min(5, parseFloat(input.value) + 0.5);
+        const actualValue = updateValue(product, radarType, dimensionIndex, newValue);
+        input.value = actualValue.toFixed(1);
+        updateButtonStates(inputContainer, actualValue);
+      };
+
+      inputContainer.appendChild(decreaseBtn);
+      inputContainer.appendChild(input);
+      inputContainer.appendChild(increaseBtn);
+      row.appendChild(inputContainer);
+
+      updateButtonStates(inputContainer, currentValue);
+
+      return row;
+    }
+
+    // 更新按钮状态
+    function updateButtonStates(container, value) {
+      const decreaseBtn = container.querySelector('.control-btn:first-child');
+      const increaseBtn = container.querySelector('.control-btn:last-child');
+      decreaseBtn.disabled = value <= 0;
+      increaseBtn.disabled = value >= 5;
+    }
+
+    // 导出图片
+    function exportChart() {
+      const url = myChart.getDataURL({
+        type: 'png',
+        pixelRatio: 2,
+        backgroundColor: '#fff'
+      });
+
+      const link = document.createElement('a');
+      link.download = 'controller-radar-chart.png';
+      link.href = url;
+      link.click();
+    }
+
+    // 初始化
+    updateChart();
+    generateControls();
     window.addEventListener('resize', myChart.resize);
   </script>
 </body>
