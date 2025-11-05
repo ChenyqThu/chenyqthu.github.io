@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Speed Test Demo</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @keyframes breathe {
+            0%, 100% { opacity: 0.6; }
+            50% { opacity: 1; }
+        }
+        
+        @keyframes pulse-ring {
+            0% { transform: scale(0.8); opacity: 1; }
+            100% { transform: scale(1.2); opacity: 0; }
+        }
+        
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        @keyframes switchAnimation {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        
+        .breathe { animation: breathe 2s ease-in-out infinite; }
+        .pulse-ring { animation: pulse-ring 1.5s ease-out infinite; }
+        .rotating { animation: rotate 2s linear infinite; }
+        .switch-anim { animation: switchAnimation 0.3s ease-in-out; }
+        
+        .gauge-bg {
+            background: conic-gradient(from 0deg, #10b981, #34d399, #6ee7b7, #10b981);
+        }
+        
+        .wan-container {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .wan-main {
+            transform: scale(1);
+        }
+        
+        .wan-secondary {
+            transform: scale(0.8);
+            opacity: 0.7;
+        }
+    </style>
+</head>
+<body class="bg-gray-900 flex items-center justify-center min-h-screen p-4">
+    <div class="w-[460px] h-[115px] bg-black rounded-lg overflow-hidden relative">
+        <!-- 主界面 -->
+        <div id="mainView" class="w-full h-full flex items-center justify-between px-4">
+            <!-- 左侧主WAN -->
+            <div id="wan1Container" class="wan-container wan-main flex items-center space-x-3 cursor-pointer" onclick="switchToPrimary('WAN1')">
+                <div class="relative">
+                    <!-- 主WAN外环动效 -->
+                    <div id="wan1Ring" class="absolute inset-0 rounded-full border-2 border-emerald-400 pulse-ring"></div>
+                    <!-- 主测试按钮 -->
+                    <button onclick="startTest('WAN1')" class="relative w-16 h-16 rounded-full border-2 border-emerald-400 bg-black flex flex-col items-center justify-center text-emerald-400 hover:bg-emerald-400 hover:text-black transition-all duration-300 breathe z-10">
+                        <span class="text-xs font-semibold">Test</span>
+                        <span class="text-[10px] opacity-80">WAN 1</span>
+                    </button>
+                </div>
+                
+                <!-- WAN1速度显示 -->
+                <div class="text-white">
+                    <div class="flex items-center space-x-1 mb-1">
+                        <span class="text-blue-400 text-sm">↑</span>
+                        <span class="text-lg font-semibold">963 Mbps</span>
+                    </div>
+                    <div class="flex items-center space-x-1">
+                        <span class="text-purple-400 text-sm">↓</span>
+                        <span class="text-lg font-semibold">631 Mbps</span>
+                    </div>
+                </div>
+                
+                <!-- 主标识 -->
+                <div id="wan1Badge" class="text-emerald-400 text-sm font-medium bg-emerald-400/20 px-2 py-1 rounded">主</div>
+            </div>
+            
+            <!-- 右侧次WAN -->
+            <div id="wan2Container" class="wan-container wan-secondary flex items-center space-x-2 cursor-pointer" onclick="switchToPrimary('WAN2')">
+                <div class="relative">
+                    <!-- 次测试按钮 -->
+                    <button onclick="startTest('WAN2')" class="relative w-12 h-12 rounded-full border-2 border-gray-500 bg-black flex flex-col items-center justify-center text-gray-400 hover:border-emerald-400 hover:text-emerald-400 transition-all duration-300 z-10">
+                        <span class="text-[10px] font-semibold">Test</span>
+                        <span class="text-[8px] opacity-80">WAN 2</span>
+                    </button>
+                </div>
+                
+                <!-- WAN2速度显示 -->
+                <div class="text-gray-300">
+                    <div class="flex items-center space-x-1 mb-1">
+                        <span class="text-blue-400 text-xs">↑</span>
+                        <span class="text-sm font-semibold">963 Mbps</span>
+                    </div>
+                    <div class="flex items-center space-x-1">
+                        <span class="text-purple-400 text-xs">↓</span>
+                        <span class="text-sm font-semibold">631 Mbps</span>
+                    </div>
+                </div>
+                
+                <!-- 备标识 -->
+                <div id="wan2Badge" class="text-gray-400 text-xs font-medium bg-gray-600/30 px-1.5 py-0.5 rounded">备</div>
+            </div>
+            
+            <!-- 返回按钮 -->
+            <button id="homeBtn" class="absolute top-3 right-3 w-6 h-6 rounded-full bg-gray-700 flex items-center justify-center text-gray-300 hover:bg-gray-600 transition-colors duration-200">
+                <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"></path>
+                </svg>
+            </button>
+        </div>
+        
+        <!-- 测速仪表盘 -->
+        <div id="testView" class="w-full h-full absolute top-0 left-0 bg-black transform translate-y-full transition-transform duration-500 ease-in-out">
+            <div class="flex items-center justify-between h-full px-6">
+                <!-- 左侧信息 -->
+                <div class="text-white">
+                    <div class="flex items-center space-x-1 mb-1">
+                        <span class="text-blue-400 text-sm">↑</span>
+                        <span id="uploadSpeed" class="text-lg font-semibold">963 Mbps</span>
+                    </div>
+                    <div class="flex items-center space-x-1">
+                        <span class="text-purple-400 text-sm">↓</span>
+                        <span id="downloadSpeed" class="text-lg font-semibold">631 Mbps</span>
+                    </div>
+                    <div id="testWanLabel" class="text-xs text-gray-400 mt-1">WAN 1</div>
+                </div>
+                
+                <!-- 中间仪表盘 -->
+                <div class="relative">
+                    <div class="w-20 h-20 relative">
+                        <!-- 仪表盘背景 -->
+                        <div class="absolute inset-0 rounded-full border-4 border-gray-700"></div>
+                        <!-- 进度环 -->
+                        <div id="progressRing" class="absolute inset-0 rounded-full border-4 border-transparent gauge-bg rotating" style="clip-path: polygon(50% 50%, 50% 0%, 100% 0%, 100% 50%);">
+                        </div>
+                        <!-- 中心数值 -->
+                        <div class="absolute inset-0 flex flex-col items-center justify-center text-white">
+                            <div id="currentSpeed" class="text-xs font-bold">↑180</div>
+                            <div id="currentWanLabel" class="text-[8px] text-gray-400">WAN 1</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 右侧速度 -->
+                <div class="text-white">
+                    <div class="flex items-center space-x-1 mb-1">
+                        <span class="text-blue-400 text-sm">↑</span>
+                        <span class="text-lg font-semibold">963 Mbps</span>
+                    </div>
+                    <div class="flex items-center space-x-1">
+                        <span class="text-purple-400 text-sm">↓</span>
+                        <span class="text-lg font-semibold">631 Mbps</span>
+                    </div>
+                </div>
+                
+                <!-- 返回按钮 -->
+                <button onclick="backToMain()" class="absolute top-4 right-4 w-8 h-8 rounded-full bg-gray-700 flex items-center justify-center text-gray-300 hover:bg-gray-600 transition-colors duration-200">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let isTestingActive = false;
+        let primaryWAN = 'WAN1'; // 当前主WAN
+        
+        // 切换主次WAN
+        function switchToPrimary(wan) {
+            if (wan === primaryWAN || isTestingActive) return;
+            
+            primaryWAN = wan;
+            
+            const wan1Container = document.getElementById('wan1Container');
+            const wan2Container = document.getElementById('wan2Container');
+            const wan1Ring = document.getElementById('wan1Ring');
+            const wan2Ring = document.getElementById('wan2Ring');
+            const wan1Badge = document.getElementById('wan1Badge');
+            const wan2Badge = document.getElementById('wan2Badge');
+            
+            // 添加切换动画
+            wan1Container.classList.add('switch-anim');
+            wan2Container.classList.add('switch-anim');
+            
+            if (wan === 'WAN1') {
+                // WAN1成为主
+                wan1Container.className = 'wan-container wan-main flex items-center space-x-3 cursor-pointer switch-anim';
+                wan2Container.className = 'wan-container wan-secondary flex items-center space-x-2 cursor-pointer switch-anim';
+                
+                // 更新WAN1按钮样式
+                const wan1Button = wan1Container.querySelector('button');
+                wan1Button.className = 'relative w-16 h-16 rounded-full border-2 border-emerald-400 bg-black flex flex-col items-center justify-center text-emerald-400 hover:bg-emerald-400 hover:text-black transition-all duration-300 breathe z-10';
+                wan1Button.innerHTML = '<span class="text-xs font-semibold">Test</span><span class="text-[10px] opacity-80">WAN 1</span>';
+                
+                // 更新WAN2按钮样式
+                const wan2Button = wan2Container.querySelector('button');
+                wan2Button.className = 'relative w-12 h-12 rounded-full border-2 border-gray-500 bg-black flex flex-col items-center justify-center text-gray-400 hover:border-emerald-400 hover:text-emerald-400 transition-all duration-300 z-10';
+                wan2Button.innerHTML = '<span class="text-[10px] font-semibold">Test</span><span class="text-[8px] opacity-80">WAN 2</span>';
+                
+                // 显示/隐藏脉冲环
+                wan1Ring.style.display = 'block';
+                if (wan2Ring) wan2Ring.style.display = 'none';
+                
+                // 更新标识
+                wan1Badge.className = 'text-emerald-400 text-sm font-medium bg-emerald-400/20 px-2 py-1 rounded';
+                wan1Badge.textContent = '主';
+                wan2Badge.className = 'text-gray-400 text-xs font-medium bg-gray-600/30 px-1.5 py-0.5 rounded';
+                wan2Badge.textContent = '备';
+                
+                // 更新速度显示颜色
+                wan1Container.querySelector('.text-white').className = 'text-white';
+                wan2Container.querySelector('.text-gray-300').className = 'text-gray-300';
+                
+            } else {
+                // WAN2成为主
+                wan1Container.className = 'wan-container wan-secondary flex items-center space-x-2 cursor-pointer switch-anim';
+                wan2Container.className = 'wan-container wan-main flex items-center space-x-3 cursor-pointer switch-anim';
+                
+                // 更新WAN2按钮样式
+                const wan2Button = wan2Container.querySelector('button');
+                wan2Button.className = 'relative w-16 h-16 rounded-full border-2 border-emerald-400 bg-black flex flex-col items-center justify-center text-emerald-400 hover:bg-emerald-400 hover:text-black transition-all duration-300 breathe z-10';
+                wan2Button.innerHTML = '<span class="text-xs font-semibold">Test</span><span class="text-[10px] opacity-80">WAN 2</span>';
+                
+                // 更新WAN1按钮样式
+                const wan1Button = wan1Container.querySelector('button');
+                wan1Button.className = 'relative w-12 h-12 rounded-full border-2 border-gray-500 bg-black flex flex-col items-center justify-center text-gray-400 hover:border-emerald-400 hover:text-emerald-400 transition-all duration-300 z-10';
+                wan1Button.innerHTML = '<span class="text-[10px] font-semibold">Test</span><span class="text-[8px] opacity-80">WAN 1</span>';
+                
+                // 创建并显示WAN2的脉冲环
+                if (!wan2Ring) {
+                    const ring = document.createElement('div');
+                    ring.id = 'wan2Ring';
+                    ring.className = 'absolute inset-0 rounded-full border-2 border-emerald-400 pulse-ring';
+                    wan2Container.querySelector('.relative').appendChild(ring);
+                } else {
+                    wan2Ring.style.display = 'block';
+                }
+                wan1Ring.style.display = 'none';
+                
+                // 更新标识
+                wan2Badge.className = 'text-emerald-400 text-sm font-medium bg-emerald-400/20 px-2 py-1 rounded';
+                wan2Badge.textContent = '主';
+                wan1Badge.className = 'text-gray-400 text-xs font-medium bg-gray-600/30 px-1.5 py-0.5 rounded';
+                wan1Badge.textContent = '备';
+                
+                // 更新速度显示颜色
+                wan2Container.querySelector('.text-gray-300').className = 'text-white';
+                wan1Container.querySelector('.text-white').className = 'text-gray-300';
+            }
+            
+            // 移除动画类
+            setTimeout(() => {
+                wan1Container.classList.remove('switch-anim');
+                wan2Container.classList.remove('switch-anim');
+            }, 300);
+        }
+        
+        // 开始测速
+        function startTest(wan, event) {
+            if (event) event.stopPropagation();
+            if (isTestingActive) return;
+            
+            isTestingActive = true;
+            const mainView = document.getElementById('mainView');
+            const testView = document.getElementById('testView');
+            const testWanLabel = document.getElementById('testWanLabel');
+            const currentWanLabel = document.getElementById('currentWanLabel');
+            const currentSpeed = document.getElementById('currentSpeed');
+            
+            // 更新WAN标识
+            testWanLabel.textContent = wan;
+            currentWanLabel.textContent = wan;
+            
+            // 切换到测速界面
+            mainView.style.transform = 'translateY(-100%)';
+            testView.style.transform = 'translateY(0)';
+            
+            // 模拟测速过程
+            let progress = 0;
+            let speed = 0;
+            const maxSpeed = 963;
+            
+            const testInterval = setInterval(() => {
+                progress += 2;
+                speed = Math.floor(Math.random() * maxSpeed * (progress / 100));
+                
+                currentSpeed.innerHTML = `↑${speed}`;
+                
+                // 更新进度环
+                const progressRing = document.getElementById('progressRing');
+                const rotation = (progress / 100) * 360;
+                progressRing.style.transform = `rotate(${rotation}deg)`;
+                
+                if (progress >= 100) {
+                    clearInterval(testInterval);
+                    setTimeout(() => {
+                        currentSpeed.innerHTML = `↑180`;
+                        isTestingActive = false;
+                    }, 1000);
+                }
+            }, 50);
+        }
+        
+        // 返回主界面
+        function backToMain() {
+            const mainView = document.getElementById('mainView');
+            const testView = document.getElementById('testView');
+            
+            mainView.style.transform = 'translateY(0)';
+            testView.style.transform = 'translateY(100%)';
+            
+            // 重置测速状态
+            setTimeout(() => {
+                updateSpeedometer(171.4);
+                isTestingActive = false;
+            }, 500);
+        }
+        
+        // 防止事件冒泡
+        document.querySelectorAll('button').forEach(button => {
+            button.addEventListener('click', (e) => e.stopPropagation());
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>优化后的 Controller Restore 流程图</title>
+
+  <!-- TailwindCSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Ant Design CSS -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/antd/5.12.8/antd.min.css" rel="stylesheet">
+
+  <!-- Mermaid -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.6.1/mermaid.min.js"></script>
+</head>
+<body class="bg-gray-50 text-gray-800">
+  <div class="max-w-7xl mx-auto p-6">
+    <h1 class="text-2xl md:text-3xl font-semibold text-slate-800 text-center mb-6">优化后的 Controller Restore 流程图</h1>
+    <p class="text-center text-slate-600 mb-8">基于加密文件无法前端预解析的技术约束，采用后端智能检测与拦截机制</p>
+
+    <!-- 流程图 -->
+    <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-4 md:p-6">
+      <div class="mermaid">
+        flowchart TD
+            Start([用户点击 Restore]) --> Upload[选择并上传备份文件]
+            Upload --> Warning[通用风险提示弹窗]
+            Warning --> BackupOption[提供快捷备份选项]
+            BackupOption --> UserChoice{用户选择}
+            UserChoice -->|下载备份| Download[下载当前配置]
+            UserChoice -->|跳过备份| Continue[继续 Restore]
+            Download --> Continue
+            UserChoice -->|取消| Cancel([取消操作])
+            
+            Continue --> ServerProcess[后端解密并解析文件]
+            ServerProcess --> ParseCheck{文件解析状态}
+            ParseCheck -->|解析失败| ParseError[显示解析错误]
+            ParseError --> Cancel
+            
+            ParseCheck -->|解析成功| IDCheck[Controller ID 比对]
+            IDCheck --> RiskAssess{风险评估}
+            
+            RiskAssess -->|相同Controller| SafeRestore[执行安全恢复]
+            SafeRestore --> SafeProgress[显示恢复进度]
+            SafeProgress --> Complete([操作完成])
+            
+            RiskAssess -->|不同Controller<br/>且有管理设备| Interrupt[🚨 中断进程]
+            Interrupt --> StrongWarning[强风险警告页面]
+            StrongWarning --> DeviceInfo[显示设备数量和影响]
+            DeviceInfo --> TextInput[要求手动输入确认文本]
+            TextInput --> Verify[验证确认文本]
+            Verify --> TextMatch{文本匹配?}
+            TextMatch -->|不匹配| Retry[重新输入提示]
+            Retry --> TextInput
+            TextMatch -->|匹配| FinalConfirm[最终确认页面]
+            FinalConfirm --> FinalDecision{用户最终确认?}
+            FinalDecision -->|是| DangerousRestore[执行危险迁移]
+            FinalDecision -->|否| Cancel
+            
+            RiskAssess -->|不同Controller<br/>但无管理设备| LowRisk[低风险迁移提示]
+            LowRisk --> SimpleConfirm[简单二次确认]
+            SimpleConfirm --> SimpleDecision{用户确认?}
+            SimpleDecision -->|是| SafeMigration[执行安全迁移]
+            SimpleDecision -->|否| Cancel
+            
+            DangerousRestore --> DangerProgress[显示迁移进度]
+            SafeMigration --> SafeProgress
+            DangerProgress --> Complete
+            
+            classDef safe fill:#e8f5e8,stroke:#4caf50,stroke-width:2px
+            classDef warning fill:#fff3cd,stroke:#ffc107,stroke-width:2px
+            classDef danger fill:#f8d7da,stroke:#dc3545,stroke-width:2px
+            classDef process fill:#e3f2fd,stroke:#2196f3,stroke-width:2px
+            classDef decision fill:#f3e5f5,stroke:#9c27b0,stroke-width:2px
+            classDef startEnd fill:#e1f5fe,stroke:#0277bd,stroke-width:3px
+            
+            class SafeRestore,SafeProgress,SafeMigration safe
+            class Warning,BackupOption,LowRisk,SimpleConfirm warning
+            class Interrupt,StrongWarning,DeviceInfo,TextInput,DangerousRestore,DangerProgress danger
+            class ServerProcess,IDCheck,Verify process
+            class UserChoice,ParseCheck,RiskAssess,TextMatch,FinalDecision,SimpleDecision decision
+            class Start,Cancel,Complete startEnd
+      </div>
+    </div>
+
+    <!-- 流程说明 -->
+    <div class="mt-6">
+      <h3 class="text-slate-700 font-medium mb-3">流程阶段说明</h3>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
+        <!-- 安全操作 -->
+        <div class="flex items-start gap-3 rounded-lg border border-slate-200 bg-slate-50 p-3">
+          <div class="w-5 h-5 rounded-sm border border-slate-300" style="background-color:#e8f5e8"></div>
+          <div class="min-w-0">
+            <div class="text-sm font-semibold text-slate-800">安全操作</div>
+            <div class="text-xs text-slate-500 leading-snug">相同Controller或无设备影响</div>
+          </div>
+        </div>
+        <!-- 通用警告 -->
+        <div class="flex items-start gap-3 rounded-lg border border-slate-200 bg-slate-50 p-3">
+          <div class="w-5 h-5 rounded-sm border border-slate-300" style="background-color:#fff3cd"></div>
+          <div class="min-w-0">
+            <div class="text-sm font-semibold text-slate-800">通用警告</div>
+            <div class="text-xs text-slate-500 leading-snug">前端统一风险提示</div>
+          </div>
+        </div>
+        <!-- 高危操作 -->
+        <div class="flex items-start gap-3 rounded-lg border border-slate-200 bg-slate-50 p-3">
+          <div class="w-5 h-5 rounded-sm border border-slate-300" style="background-color:#f8d7da"></div>
+          <div class="min-w-0">
+            <div class="text-sm font-semibold text-slate-800">高危操作</div>
+            <div class="text-xs text-slate-500 leading-snug">跨Controller且有管理设备</div>
+          </div>
+        </div>
+        <!-- 后端处理 -->
+        <div class="flex items-start gap-3 rounded-lg border border-slate-200 bg-slate-50 p-3">
+          <div class="w-5 h-5 rounded-sm border border-slate-300" style="background-color:#e3f2fd"></div>
+          <div class="min-w-0">
+            <div class="text-sm font-semibold text-slate-800">后端处理</div>
+            <div class="text-xs text-slate-500 leading-snug">解密分析与智能检测</div>
+          </div>
+        </div>
+        <!-- 决策节点 -->
+        <div class="flex items-start gap-3 rounded-lg border border-slate-200 bg-slate-50 p-3">
+          <div class="w-5 h-5 rounded-sm border border-slate-300" style="background-color:#f3e5f5"></div>
+          <div class="min-w-0">
+            <div class="text-sm font-semibold text-slate-800">决策节点</div>
+            <div class="text-xs text-slate-500 leading-snug">用户选择与系统判断</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 第一阶段：通用风险提示 -->
+    <div class="mt-10 rounded-xl border border-slate-200 bg-white p-5 md:p-6">
+      <h2 class="text-xl font-semibold text-slate-800 mb-4">第一阶段：通用风险提示弹窗</h2>
+
+      <div class="bg-slate-50 rounded-lg p-6 md:p-8">
+        <div class="flex justify-center items-center">
+          <div class="relative w-[680px] max-w-[92vw] bg-white rounded-lg shadow-xl border border-slate-200">
+            <!-- Header -->
+            <div class="px-5 py-3 border-b border-slate-100 flex items-center gap-3">
+              <div class="text-xl">⚠️</div>
+              <h3 class="m-0 text-base font-semibold text-orange-600">Configuration Restore Warning</h3>
+            </div>
+
+            <!-- Body -->
+            <div class="p-5">
+              <!-- 警示信息 -->
+              <div class="rounded-md border border-orange-200 bg-orange-50 p-4 mb-4">
+                <p class="m-0 text-sm font-medium text-orange-800 mb-2">
+                  You are about to restore a configuration backup. This operation will:
+                </p>
+                <ul class="mt-2 text-sm text-orange-800 space-y-1 ml-4">
+                  <li>• Overwrite current controller configuration</li>
+                  <li>• Potentially affect managed devices</li>
+                  <li>• Cannot be undone without a backup</li>
+                </ul>
+              </div>
+
+              <!-- 备份推荐 -->
+              <div class="rounded-md border border-blue-200 bg-blue-50 p-4">
+                <div class="flex items-center gap-2 mb-3 text-blue-700 text-sm font-medium">
+                  <span>💾</span><span>Recommended: Download current backup first</span>
+                </div>
+                <button
+                  class="ant-btn ant-btn-primary w-full mb-2 inline-flex items-center justify-center gap-2 rounded-md shadow-sm
+                         bg-blue-600 text-white border border-blue-600 hover:bg-blue-500 hover:border-blue-500
+                         focus:outline-none focus:ring-2 focus:ring-blue-400 h-10"
+                >
+                  <span class="text-base">📥</span>
+                  <span>Download Current Backup</span>
+                </button>
+                <p class="m-0 text-xs text-slate-500 text-center">Save current configuration before proceeding</p>
+              </div>
+            </div>
+
+            <!-- Footer -->
+            <div class="px-5 py-3 border-t border-slate-100 flex justify-end gap-2">
+              <button
+                class="ant-btn ant-btn-default inline-flex items-center justify-center px-4 py-2 rounded-md
+                       border border-slate-300 bg-white text-slate-700 shadow-sm
+                       hover:bg-slate-50 hover:border-slate-400
+                       focus:outline-none focus:ring-2 focus:ring-blue-400"
+              >
+                Cancel
+              </button>
+
+              <button
+                class="ant-btn ant-btn-default inline-flex items-center justify-center px-4 py-2 rounded-md
+                       border border-slate-300 bg-white text-slate-700 shadow-sm
+                       hover:bg-slate-50 hover:border-slate-400
+                       focus:outline-none focus:ring-2 focus:ring-blue-400"
+              >
+                Skip Backup
+              </button>
+
+              <button
+                class="ant-btn ant-btn-primary inline-flex items-center justify-center px-4 py-2 rounded-md
+                       border border-orange-600 bg-orange-600 text-white shadow-sm
+                       hover:bg-orange-500 hover:border-orange-500
+                       focus:outline-none focus:ring-2 focus:ring-orange-400"
+              >
+                Continue Restore
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 第二阶段：强风险警告（跨Controller + 有管理设备） -->
+    <div class="mt-10 rounded-xl border border-slate-200 bg-white p-5 md:p-6">
+      <h2 class="text-xl font-semibold text-slate-800 mb-4">第二阶段：强风险警告弹窗（后端检测触发）</h2>
+
+      <div class="bg-slate-50 rounded-lg p-6 md:p-8">
+        <div class="flex justify-center items-center">
+          <div class="relative w-[800px] max-w-[92vw] bg-white rounded-lg shadow-2xl border border-red-200">
+            <!-- Header -->
+            <div class="px-5 py-3 border-b border-red-100 flex items-center gap-3 bg-red-50">
+              <div class="text-xl">🚨</div>
+              <h3 class="m-0 text-base font-semibold text-red-600">Critical Migration Warning</h3>
+            </div>
+
+            <!-- Body -->
+            <div class="p-5">
+              <!-- 危险警告 -->
+              <div class="rounded-md border border-red-300 bg-red-50 p-4 mb-4">
+                <div class="flex items-start gap-3">
+                  <div class="text-red-500 text-lg mt-0.5">⚠️</div>
+                  <div>
+                    <p class="m-0 text-sm font-bold text-red-800 mb-2">DANGER: Cross-Controller Migration Detected</p>
+                    <div class="text-sm text-red-700 space-y-1">
+                      <div>• <strong>Source:</strong> Controller-AAA-1234</div>
+                      <div>• <strong>Target:</strong> Controller-BBB-5678</div>
+                      <div>• <strong>Impact:</strong> This will FORGET all <strong class="text-red-800">23 currently managed devices</strong></div>
+                      <div>• <strong>Result:</strong> Immediate network disruption will occur</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 手动确认输入 -->
+              <div class="rounded-md border border-slate-300 p-4 bg-slate-50">
+                <label for="confirmText" class="block mb-3 text-sm font-medium text-slate-700">
+                  To proceed, type the following text exactly (case-sensitive):
+                </label>
+
+                <div class="rounded-md border border-dashed border-slate-400 bg-white px-3 py-3 text-center font-mono text-sm text-slate-800 mb-3 select-all border-2">
+                  I understand the risks and confirm migration
+                </div>
+
+                <input
+                  id="confirmTextDanger"
+                  type="text"
+                  autocomplete="off"
+                  spellcheck="false"
+                  class="ant-input w-full mb-3 rounded-md border border-slate-300 bg-white text-slate-800 h-11 px-3 text-sm
+                         placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-red-400 focus:border-red-500"
+                  placeholder="Type the confirmation text exactly as shown above"
+                />
+
+                <div id="confirmStatusDanger" class="text-xs text-slate-500 flex items-center gap-2">
+                  <span class="w-2 h-2 rounded-full bg-slate-400"></span>
+                  <span>Text verification pending</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Footer -->
+            <div class="px-5 py-3 border-t border-slate-100 flex justify-end gap-2">
+              <button
+                class="ant-btn ant-btn-default inline-flex items-center justify-center px-4 py-2 rounded-md
+                       border border-slate-300 bg-white text-slate-700 shadow-sm
+                       hover:bg-slate-50 hover:border-slate-400
+                       focus:outline-none focus:ring-2 focus:ring-blue-400"
+              >
+                Cancel Migration
+              </button>
+
+              <button
+                class="ant-btn ant-btn-primary ant-btn-dangerous inline-flex items-center justify-center px-4 py-2 rounded-md
+                       border border-red-600 bg-red-600 text-white shadow-sm
+                       hover:bg-red-500 hover:border-red-500
+                       focus:outline-none focus:ring-2 focus:ring-red-400
+                       disabled:bg-slate-200 disabled:border-slate-300 disabled:text-slate-400"
+                id="btnConfirmDangerMigration"
+                disabled
+              >
+                Confirm Migration
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 第三阶段：低风险迁移提示（跨Controller但无管理设备） -->
+    <div class="mt-10 rounded-xl border border-slate-200 bg-white p-5 md:p-6">
+      <h2 class="text-xl font-semibold text-slate-800 mb-4">第三阶段：低风险迁移提示（无管理设备场景）</h2>
+
+      <div class="bg-slate-50 rounded-lg p-6 md:p-8">
+        <div class="flex justify-center items-center">
+          <div class="relative w-[600px] max-w-[92vw] bg-white rounded-lg shadow-lg border border-slate-200">
+            <!-- Header -->
+            <div class="px-5 py-3 border-b border-slate-100 flex items-center gap-3">
+              <div class="text-xl">ℹ️</div>
+              <h3 class="m-0 text-base font-semibold text-blue-600">Cross-Controller Migration</h3>
+            </div>
+
+            <!-- Body -->
+            <div class="p-5">
+              <!-- 信息提示 -->
+              <div class="rounded-md border border-blue-200 bg-blue-50 p-4 mb-4">
+                <p class="m-0 text-sm font-medium text-blue-800 mb-2">
+                  Migrating configuration between different controllers:
+                </p>
+                <div class="text-sm text-blue-700 space-y-1">
+                  <div>• <strong>Source:</strong> Controller-AAA-1234</div>
+                  <div>• <strong>Target:</strong> Controller-BBB-5678</div>
+                  <div>• <strong>Status:</strong> No managed devices detected</div>
+                  <div>• <strong>Impact:</strong> Configuration will be safely migrated</div>
+                </div>
+              </div>
+
+              <p class="text-sm text-slate-600">
+                Since there are no currently managed devices, this migration poses minimal risk. 
+                The configuration will be applied to the current controller.
+              </p>
+            </div>
+
+            <!-- Footer -->
+            <div class="px-5 py-3 border-t border-slate-100 flex justify-end gap-2">
+              <button
+                class="ant-btn ant-btn-default inline-flex items-center justify-center px-4 py-2 rounded-md
+                       border border-slate-300 bg-white text-slate-700 shadow-sm
+                       hover:bg-slate-50 hover:border-slate-400
+                       focus:outline-none focus:ring-2 focus:ring-blue-400"
+              >
+                Cancel
+              </button>
+
+              <button
+                class="ant-btn ant-btn-primary inline-flex items-center justify-center px-4 py-2 rounded-md
+                       border border-blue-600 bg-blue-600 text-white shadow-sm
+                       hover:bg-blue-500 hover:border-blue-500
+                       focus:outline-none focus:ring-2 focus:ring-blue-400"
+              >
+                Confirm Migration
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: 'base',
+      themeVariables: {
+        background: '#ffffff',
+        primaryColor: '#ffffff',
+        primaryTextColor: '#333333',
+        primaryBorderColor: '#666666',
+        lineColor: '#666666',
+        secondaryColor: '#f8f9fa',
+        tertiaryColor: '#ffffff',
+        fontFamily: 'Segoe UI, Tahoma, Geneva, Verdana, sans-serif',
+        fontSize: '13px'
+      },
+      flowchart: {
+        nodeSpacing: 50,
+        rankSpacing: 70,
+        curve: 'basis',
+        padding: 12
+      }
+    });
+  </script>
+  <script>
+    // 危险确认文本验证
+    (function () {
+      const REQUIRED_TEXT = 'I understand the risks and confirm migration';
+      const input = document.getElementById('confirmTextDanger');
+      const status = document.getElementById('confirmStatusDanger');
+      const confirmBtn = document.getElementById('btnConfirmDangerMigration');
+
+      if (!input || !status || !confirmBtn) return;
+
+      function updateState() {
+        const val = (input.value || '').trim();
+        if (!val) {
+          status.innerHTML = '<span class="w-2 h-2 rounded-full bg-slate-400"></span><span>Text verification pending</span>';
+          confirmBtn.disabled = true;
+          return;
+        }
+        if (val === REQUIRED_TEXT) {
+          status.innerHTML = '<span class="w-2 h-2 rounded-full bg-green-500"></span><span class="text-green-600">✅ Text matched</span>';
+          confirmBtn.disabled = false;
+        } else {
+          status.innerHTML = '<span class="w-2 h-2 rounded-full bg-red-500"></span><span class="text-red-600">❌ Text does not match</span>';
+          confirmBtn.disabled = true;
+        }
+      }
+
+      input.addEventListener('input', updateState);
+      updateState();
+    })();
+  </script>
+</body>
+</html>

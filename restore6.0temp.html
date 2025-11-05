@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>6.0临时版本 Controller Restore 流程图</title>
+
+  <!-- TailwindCSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Ant Design CSS -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/antd/5.12.8/antd.min.css" rel="stylesheet">
+
+  <!-- Mermaid -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.6.1/mermaid.min.js"></script>
+</head>
+<body class="bg-gray-50 text-gray-800">
+  <div class="max-w-7xl mx-auto p-6">
+    <h1 class="text-2xl md:text-3xl font-semibold text-slate-800 text-center mb-6">6.0 临时版本 Controller Restore 流程图</h1>
+    <p class="text-center text-slate-600 mb-8">简化版本：移除复杂确认流程，迁移合并场景暂不支持</p>
+
+    <!-- 流程图 -->
+    <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-4 md:p-6">
+      <div class="mermaid">
+        flowchart TD
+            Start([用户点击 Restore]) --> Upload[选择并上传备份文件]
+            Upload --> Warning[通用风险提示弹窗<br/>含备份下载选项]
+            Warning --> UserChoice{用户选择}
+            UserChoice -->|下载备份后继续| Continue[继续 Restore]
+            UserChoice -->|直接继续| Continue
+            UserChoice -->|取消| Cancel([取消操作])
+            
+            Continue --> ServerProcess[后端解密并解析文件]
+            ServerProcess --> ParseCheck{文件解析状态}
+            ParseCheck -->|解析失败| ParseError[显示解析错误]
+            ParseError --> Cancel
+            
+            ParseCheck -->|解析成功| IDCheck[Controller ID 比对]
+            IDCheck --> RiskAssess{风险评估}
+            
+            RiskAssess -->|【Controller 回滚场景】<br/>相同Controller| Rollback[Controller 回滚]
+            Rollback --> RollbackProgress[显示回滚进度]
+            RollbackProgress --> Complete([操作完成])
+            
+            RiskAssess -->|【Controller 迁移合并场景】<br/>不同Controller<br/>且有管理设备| MergeBlock[🚫 迁移合并暂不支持]
+            MergeBlock --> BlockWarning[强制中断警告弹窗]
+            BlockWarning --> Cancel
+            
+            RiskAssess -->|【Controller 全新迁移场景】<br/>不同Controller<br/>且无管理设备| FreshMigration[Controller 全新迁移]
+            FreshMigration --> MigrationProgress[显示迁移进度]
+            MigrationProgress --> Complete
+            
+            classDef safe fill:#e8f5e8,stroke:#4caf50,stroke-width:2px
+            classDef warning fill:#fff3cd,stroke:#ffc107,stroke-width:2px
+            classDef blocked fill:#f8d7da,stroke:#dc3545,stroke-width:2px
+            classDef process fill:#e3f2fd,stroke:#2196f3,stroke-width:2px
+            classDef decision fill:#f3e5f5,stroke:#9c27b0,stroke-width:2px
+            classDef startEnd fill:#e1f5fe,stroke:#0277bd,stroke-width:3px
+            
+            class Rollback,RollbackProgress,FreshMigration,MigrationProgress safe
+            class Warning warning
+            class MergeBlock,BlockWarning blocked
+            class ServerProcess,IDCheck process
+            class UserChoice,ParseCheck,RiskAssess decision
+            class Start,Cancel,Complete startEnd
+      </div>
+    </div>
+
+    <!-- 流程说明 -->
+    <div class="mt-6">
+      <h3 class="text-slate-700 font-medium mb-3">三种场景说明</h3>
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <!-- Controller 回滚 -->
+        <div class="rounded-lg border border-green-200 bg-green-50 p-4">
+          <div class="flex items-center gap-2 mb-2">
+            <div class="w-4 h-4 rounded-sm bg-green-400"></div>
+            <div class="text-sm font-semibold text-green-800">Controller 回滚</div>
+          </div>
+          <div class="text-xs text-green-700 leading-relaxed">
+            相同Controller ID，安全的配置恢复操作
+          </div>
+        </div>
+        
+        <!-- Controller 全新迁移 -->
+        <div class="rounded-lg border border-blue-200 bg-blue-50 p-4">
+          <div class="flex items-center gap-2 mb-2">
+            <div class="w-4 h-4 rounded-sm bg-blue-400"></div>
+            <div class="text-sm font-semibold text-blue-800">Controller 全新迁移</div>
+          </div>
+          <div class="text-xs text-blue-700 leading-relaxed">
+            不同Controller ID，但当前无管理设备，可直接迁移
+          </div>
+        </div>
+        
+        <!-- Controller 迁移合并 -->
+        <div class="rounded-lg border border-red-200 bg-red-50 p-4">
+          <div class="flex items-center gap-2 mb-2">
+            <div class="w-4 h-4 rounded-sm bg-red-400"></div>
+            <div class="text-sm font-semibold text-red-800">Controller 迁移合并</div>
+          </div>
+          <div class="text-xs text-red-700 leading-relaxed">
+            不同Controller ID，且当前有管理设备，6.0版本暂不支持
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 简化版通用风险提示 -->
+    <div class="mt-10 rounded-xl border border-slate-200 bg-white p-5 md:p-6">
+      <h2 class="text-xl font-semibold text-slate-800 mb-4">简化版通用风险提示弹窗</h2>
+
+      <div class="bg-slate-50 rounded-lg p-6 md:p-8">
+        <div class="flex justify-center items-center">
+          <div class="relative w-[680px] max-w-[92vw] bg-white rounded-lg shadow-xl border border-slate-200">
+            <!-- Header -->
+            <div class="px-5 py-3 border-b border-slate-100 flex items-center gap-3">
+              <div class="text-xl">⚠️</div>
+              <h3 class="m-0 text-base font-semibold text-orange-600">Configuration Restore Warning</h3>
+            </div>
+
+            <!-- Body -->
+            <div class="p-5">
+              <!-- 警示信息 -->
+              <div class="rounded-md border border-orange-200 bg-orange-50 p-4 mb-4">
+                <p class="m-0 text-sm font-medium text-orange-800 mb-2">
+                  You are about to restore a configuration backup. This operation will:
+                </p>
+                <ul class="mt-2 text-sm text-orange-800 space-y-1 ml-4">
+                  <li>• Overwrite current controller configuration</li>
+                  <li>• Potentially affect managed devices</li>
+                  <li>• Cannot be undone without a backup</li>
+                </ul>
+              </div>
+
+              <!-- 备份推荐 -->
+              <div class="rounded-md border border-blue-200 bg-blue-50 p-4">
+                <div class="flex items-center gap-2 mb-3 text-blue-700 text-sm font-medium">
+                  <span>💾</span><span>Recommended: Download current backup first</span>
+                </div>
+                <button
+                  class="ant-btn ant-btn-primary w-full mb-2 inline-flex items-center justify-center gap-2 rounded-md shadow-sm
+                         bg-blue-600 text-white border border-blue-600 hover:bg-blue-500 hover:border-blue-500
+                         focus:outline-none focus:ring-2 focus:ring-blue-400 h-10"
+                >
+                  <span class="text-base">📥</span>
+                  <span>Download Current Backup</span>
+                </button>
+                <p class="m-0 text-xs text-slate-500 text-center">Save current configuration before proceeding</p>
+              </div>
+            </div>
+
+            <!-- Footer -->
+            <div class="px-5 py-3 border-t border-slate-100 flex justify-end gap-2">
+              <button
+                class="ant-btn ant-btn-default inline-flex items-center justify-center px-4 py-2 rounded-md
+                       border border-slate-300 bg-white text-slate-700 shadow-sm
+                       hover:bg-slate-50 hover:border-slate-400
+                       focus:outline-none focus:ring-2 focus:ring-blue-400"
+              >
+                Cancel
+              </button>
+
+              <button
+                class="ant-btn ant-btn-primary inline-flex items-center justify-center px-4 py-2 rounded-md
+                       border border-orange-600 bg-orange-600 text-white shadow-sm
+                       hover:bg-orange-500 hover:border-orange-500
+                       focus:outline-none focus:ring-2 focus:ring-orange-400"
+              >
+                Continue Restore
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 迁移合并阻止警告弹窗 -->
+    <div class="mt-10 rounded-xl border border-slate-200 bg-white p-5 md:p-6">
+      <h2 class="text-xl font-semibold text-slate-800 mb-4">迁移合并阻止警告弹窗</h2>
+
+      <div class="bg-slate-50 rounded-lg p-6 md:p-8">
+        <div class="flex justify-center items-center">
+          <div class="relative w-[720px] max-w-[92vw] bg-white rounded-lg shadow-2xl border border-red-200">
+            <!-- Header -->
+            <div class="px-5 py-3 border-b border-red-100 flex items-center gap-3 bg-red-50">
+              <div class="text-xl">🚫</div>
+              <h3 class="m-0 text-base font-semibold text-red-600">Controller Migration Not Supported</h3>
+            </div>
+
+            <!-- Body -->
+            <div class="p-5">
+              <!-- 阻止信息 -->
+              <div class="rounded-md border border-red-300 bg-red-50 p-4 mb-4">
+                <div class="flex items-start gap-3">
+                  <div class="text-red-500 text-lg mt-0.5">⚠️</div>
+                  <div>
+                    <p class="m-0 text-sm font-bold text-red-800 mb-2">Operation Blocked: Controller Migration with Managed Devices</p>
+                    <div class="text-sm text-red-700 space-y-1">
+                      <div>• <strong>Source Controller:</strong> Controller-AAA-1234</div>
+                      <div>• <strong>Target Controller:</strong> Controller-BBB-5678</div>
+                      <div>• <strong>Managed Devices:</strong> <strong class="text-red-800">23 devices currently managed</strong></div>
+                      <div>• <strong>Status:</strong> Migration between different controllers with existing managed devices is not supported in this version</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 解决方案建议 -->
+              <div class="rounded-md border border-blue-200 bg-blue-50 p-4">
+                <div class="flex items-start gap-3">
+                  <div class="text-blue-500 text-lg mt-0.5">💡</div>
+                  <div>
+                    <p class="m-0 text-sm font-medium text-blue-800 mb-2">To perform controller migration:</p>
+                    <div class="text-sm text-blue-700 space-y-1">
+                      <div>1. Forget all managed devices from the current controller</div>
+                      <div>2. Ensure the controller has no managed devices</div>
+                      <div>3. Then retry the restore operation</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Footer -->
+            <div class="px-5 py-3 border-t border-slate-100 flex justify-end gap-2">
+              <button
+                class="ant-btn ant-btn-primary inline-flex items-center justify-center px-4 py-2 rounded-md
+                       border border-blue-600 bg-blue-600 text-white shadow-sm
+                       hover:bg-blue-500 hover:border-blue-500
+                       focus:outline-none focus:ring-2 focus:ring-blue-400"
+              >
+                OK
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 技术实现说明 -->
+    <div class="mt-10 rounded-xl border border-slate-200 bg-white p-5 md:p-6">
+      <h2 class="text-xl font-semibold text-slate-800 mb-4">6.0 版本技术实现要点</h2>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div>
+          <h3 class="text-lg font-medium text-slate-700 mb-3">后端风险评估逻辑</h3>
+          <div class="bg-slate-100 rounded-md p-4 font-mono text-sm">
+            <div class="text-green-600">// 简化的风险评估</div>
+            <div class="text-slate-800">if (source_id === current_id) {</div>
+            <div class="text-slate-800 ml-4">return "ROLLBACK";</div>
+            <div class="text-slate-800">} else if (managed_devices > 0) {</div>
+            <div class="text-slate-800 ml-4">return "BLOCKED";</div>
+            <div class="text-slate-800">} else {</div>
+            <div class="text-slate-800 ml-4">return "FRESH_MIGRATION";</div>
+            <div class="text-slate-800">}</div>
+          </div>
+        </div>
+        
+        <div>
+          <h3 class="text-lg font-medium text-slate-700 mb-3">UI 交互简化</h3>
+          <ul class="text-sm text-slate-600 space-y-2">
+            <li>• 移除复杂的二次确认流程</li>
+            <li>• 移除手动输入确认文本</li>
+            <li>• 迁移合并场景直接阻止</li>
+            <li>• 全新迁移场景无需额外确认</li>
+            <li>• 统一的备份下载入口</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: 'base',
+      themeVariables: {
+        background: '#ffffff',
+        primaryColor: '#ffffff',
+        primaryTextColor: '#333333',
+        primaryBorderColor: '#666666',
+        lineColor: '#666666',
+        secondaryColor: '#f8f9fa',
+        tertiaryColor: '#ffffff',
+        fontFamily: 'Segoe UI, Tahoma, Geneva, Verdana, sans-serif',
+        fontSize: '13px'
+      },
+      flowchart: {
+        nodeSpacing: 50,
+        rankSpacing: 70,
+        curve: 'basis',
+        padding: 12
+      }
+    });
+  </script>
+</body>
+</html>

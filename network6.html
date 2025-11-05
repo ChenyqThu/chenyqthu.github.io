@@ -1,0 +1,1037 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Network 6.0 | GTM Marketing Highlights</title>
+    <script src="https://cdn.tailwindcss.com/3.4.3"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&display=swap');
+        body {
+            font-family: 'Noto Sans SC', sans-serif;
+            background-color: #F8FAFC; /* Light gray background like Feishu */
+        }
+        .feishu-blue {
+            color: #1664FF;
+        }
+        .bg-feishu-blue {
+            background-color: #1664FF;
+        }
+        .bg-feishu-blue-light {
+            background-color: #E8F3FF;
+        }
+        .feishu-section-title {
+            font-size: 2.25rem; /* 36px */
+            font-weight: 700;
+            color: #1F2329;
+            letter-spacing: 0.05em;
+        }
+        .feishu-card {
+            background-color: white;
+            border-radius: 12px;
+            border: 1px solid #E5E7EB;
+            transition: all 0.3s ease-in-out;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+        .feishu-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.07), 0 4px 6px -4px rgb(0 0 0 / 0.07);
+        }
+        .feishu-card .content {
+            flex-grow: 1;
+        }
+        .filter-btn {
+            padding: 8px 20px;
+            border-radius: 9999px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: 1px solid transparent;
+        }
+        .filter-btn.active {
+            background-color: #1664FF;
+            color: white;
+            border-color: #1664FF;
+        }
+        .filter-btn.inactive {
+            background-color: white;
+            color: #374151;
+            border-color: #D1D5DB;
+        }
+        .feature-tag {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 16px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+        .star-rating {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            display: flex;
+            gap: 2px;
+        }
+        .star {
+            color: #FFD700;
+            font-size: 14px;
+        }
+        .star.empty {
+            color: #E5E7EB;
+        }
+        .sort-controls {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+        }
+        .sort-btn {
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: 1px solid #D1D5DB;
+            background-color: white;
+            color: #374151;
+        }
+        .sort-btn.active {
+            background-color: #1664FF;
+            color: white;
+            border-color: #1664FF;
+        }
+        .sort-btn:hover {
+            background-color: #F3F4F6;
+        }
+        .sort-btn.active:hover {
+            background-color: #1664FF;
+        }
+        .card-footer-icon {
+            width: 16px;
+            text-align: center;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            flex-shrink: 0;
+        }
+        .feature-icon {
+            width: 16px;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            flex-shrink: 0;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="w-full">
+        <header class="py-20 lg:py-32 bg-white">
+            <div class="max-w-7xl mx-auto px-6 text-center">
+                <h1 class="text-5xl md:text-7xl font-bold text-gray-900">
+                    Network <span class="feishu-blue">6.0</span>
+                </h1>
+                <p class="mt-4 text-xl md:text-2xl text-gray-600 tracking-wider">GTM MARKETING HIGHLIGHTS</p>
+                <p class="mt-8 max-w-3xl mx-auto text-lg text-gray-800">
+                    版本定位：全新交互框架大改版，搭载诸多新功能，改善配置和运维体验。
+                </p>
+            </div>
+        </header>
+
+        <section class="py-16">
+            <div class="max-w-7xl mx-auto px-6">
+                <div class="grid md:grid-cols-2 gap-8 text-center">
+                    <div class="bg-feishu-blue-light p-8 rounded-xl">
+                        <h3 class="text-xl font-bold feishu-blue">核心价值</h3>
+                        <p class="mt-2 text-gray-700 text-lg">更直观的运维体验，更易用的交互界面，更强大的功能覆盖。</p>
+                    </div>
+                    <div class="bg-feishu-blue-light p-8 rounded-xl">
+                        <h3 class="text-xl font-bold feishu-blue">目标用户</h3>
+                        <p class="mt-2 text-gray-700 text-lg">中小企业、连锁商超、酒店等商用网络场景。</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="py-16" id="features">
+            <div class="max-w-7xl mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h2 class="feishu-section-title">版本功能亮点</h2>
+                    <p class="mt-4 text-lg text-gray-600">可交互筛选，快速定位不同类别的核心功能</p>
+                </div>
+                
+                <div class="flex flex-wrap justify-center gap-3 mb-8" id="filter-container">
+                    <button class="filter-btn active" data-filter="all">全部功能</button>
+                    <button class="filter-btn inactive" data-filter="new-feature">新功能类</button>
+                    <button class="filter-btn inactive" data-filter="ux-enhancement">体验升级类</button>
+                    <button class="filter-btn inactive" data-filter="config-enhancement">配置优化类</button>
+                    <button class="filter-btn inactive" data-filter="hardware-support">新硬件支持</button>
+                    <button class="filter-btn inactive" data-filter="analytics-enhancement">数据分析增强</button>
+                    <button class="filter-btn inactive" data-filter="pro-feature">专业功能类</button>
+                </div>
+
+                <div class="sort-controls">
+                    <button class="sort-btn" data-sort="default">默认排序</button>
+                    <button class="sort-btn" data-sort="rating-desc">星级从高到低</button>
+                    <button class="sort-btn" data-sort="rating-asc">星级从低到高</button>
+                    <button class="sort-btn" data-sort="name">按名称排序</button>
+                </div>
+
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8" id="features-grid">
+                    <div class="feishu-card feature-card" data-category="new-feature" data-rating="5" data-name="健康度监控">
+                        <div class="star-rating">
+                            <i class="fa-solid fa-star star"></i>
+                            <i class="fa-solid fa-star star"></i>
+                            <i class="fa-solid fa-star star"></i>
+                            <i class="fa-solid fa-star star"></i>
+                            <i class="fa-solid fa-star star"></i>
+                        </div>
+                        <div class="p-6 content">
+                            <span class="feature-tag bg-blue-100 text-blue-800">新功能</span>
+                            <h3 class="mt-4 text-xl font-bold text-gray-900">健康度监控 <span class="text-red-500 text-sm">*(仅CBC支持)</span></h3>
+                            <p class="mt-2 text-gray-600">支持设备、客户端、WLAN及站点的健康度评估，便于主动式运维，提前发现网络问题，降低故障影响。</p>
+                            <div class="mt-3 space-y-1">
+                                <div class="flex items-center text-sm text-gray-600">
+                                    <i class="fa-solid fa-server mr-2 text-blue-500 feature-icon"></i>
+                                    <span>设备健康度评估</span>
+                                </div>
+                                <div class="flex items-center text-sm text-gray-600">
+                                    <i class="fa-solid fa-users mr-2 text-green-500 feature-icon"></i>
+                                    <span>客户端健康度监控</span>
+                                </div>
+                                <div class="flex items-center text-sm text-gray-600">
+                                    <i class="fa-solid fa-wifi mr-2 text-purple-500 feature-icon"></i>
+                                    <span>WLAN健康度分析</span>
+                                </div>
+                                <div class="flex items-center text-sm text-gray-600">
+                                    <i class="fa-solid fa-building mr-2 text-orange-500 feature-icon"></i>
+                                    <span>站点整体健康评估</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-gray-50 p-4 text-sm text-gray-500 border-t">
+                            <div class="flex items-center">
+                                <i class="fa-solid fa-chart-pie mr-2 card-footer-icon"></i>
+                                <span>配图建议: 健康度 Dashboard</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="feishu-card feature-card" data-category="new-feature" data-rating="4" data-name="Isolated Networks">
+                        <div class="star-rating">
+                            <i class="fa-solid fa-star star"></i>
+                            <i class="fa-solid fa-star star"></i>
+                            <i class="fa-solid fa-star star"></i>
+                            <i class="fa-solid fa-star star"></i>
+                            <i class="fa-regular fa-star star empty"></i>
+                        </div>
+                        <div class="p-6 content">
+                            <span class="feature-tag bg-blue-100 text-blue-800">新功能</span>
+                            <h3 class="mt-4 text-xl font-bold text-gray-900">Isolated Networks (VLAN隔离)</h3>
+                            <p class="mt-2 text-gray-600">新增VLAN配置项，支持网段隔离，可视化展示隔离和连通网段，增强网络安全性，防止横向攻击。</p>
+                            <div class="mt-3 space-y-1">
+                                <div class="flex items-center text-sm text-gray-600">
+                                    <i class="fa-solid fa-shield-halved mr-2 text-blue-500 feature-icon"></i>
+                                    <span>网段隔离配置</span>
+                                </div>
+                                <div class="flex items-center text-sm text-gray-600">
+                                    <i class="fa-solid fa-eye mr-2 text-green-500 feature-icon"></i>
+                                    <span>可视化拓扑展示</span>
+                                </div>
+                                <div class="flex items-center text-sm text-gray-600">
+                                    <i class="fa-solid fa-user-shield mr-2 text-purple-500 feature-icon"></i>
+                                    <span>访客网络安全</span>
+                                </div>
+                                <div class="flex items-center text-sm text-gray-600">
+                                    <i class="fa-solid fa-ban mr-2 text-red-500 feature-icon"></i>
+                                    <span>防止横向攻击</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-gray-50 p-4 text-sm text-gray-500 border-t">
+                            <div class="flex items-center">
+                                <i class="fa-solid fa-diagram-project mr-2 card-footer-icon"></i>
+                                <span>配图建议: 网络隔离拓扑图</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="feishu-card feature-card" data-category="new-feature" data-rating="3" data-name="EAP GRE Tunnel">
+                        <div class="star-rating">
+                            <i class="fa-solid fa-star star"></i>
+                            <i class="fa-solid fa-star star"></i>
+                            <i class="fa-solid fa-star star"></i>
+                            <i class="fa-regular fa-star star empty"></i>
+                            <i class="fa-regular fa-star star empty"></i>
+                        </div>
+                        <div class="p-6 content">
+                            <span class="feature-tag bg-blue-100 text-blue-800">新功能</span>
+                            <h3 class="mt-4 text-xl font-bold text-gray-900">EAP GRE Tunnel</h3>
+                            <p class="mt-2 text-gray-600">支持GRE隧道配置，增强网络连接灵活性，扩展网络连接方案，支持复杂网络环境部署。</p>
+                            <div class="mt-3 space-y-1">
+                                <div class="flex items-center text-sm text-gray-600">
+                                    <i class="fa-solid fa-route mr-2 text-blue-500 feature-icon"></i>
+                                    <span>GRE隧道配置</span>
+                                </div>
+                                <div class="flex items-center text-sm text-gray-600">
+                                    <i class="fa-solid fa-network-wired mr-2 text-green-500 feature-icon"></i>
+                                    <span>网络连接扩展</span>
+                                </div>
+                                <div class="flex items-center text-sm text-gray-600">
+                                    <i class="fa-solid fa-cogs mr-2 text-purple-500 feature-icon"></i>
+                                    <span>复杂环境支持</span>
+                                </div>
+                                <div class="flex items-center text-sm text-gray-600">
+                                    <i class="fa-solid fa-expand-arrows-alt mr-2 text-orange-500 feature-icon"></i>
+                                    <span>连接灵活性</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-gray-50 p-4 text-sm text-gray-500 border-t">
+                            <div class="flex items-center">
+                                <i class="fa-solid fa-route mr-2 card-footer-icon"></i>
+                                <span>配图建议: GRE隧道配置界面</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="feishu-card feature-card" data-category="ux-enhancement" data-rating="5" data-name="Dashboard 重构">
+                        <div class="star-rating">
+                            <i class="fa-solid fa-star star"></i>
+                            <i class="fa-solid fa-star star"></i>
+                            <i class="fa-solid fa-star star"></i>
+                            <i class="fa-solid fa-star star"></i>
+                            <i class="fa-solid fa-star star"></i>
+                        </div>
+                        <div class="p-6 content">
+                            <span class="feature-tag bg-green-100 text-green-800">体验升级</span>
+                            <h3 class="mt-4 text-xl font-bold text-gray-900">Dashboard 重构</h3>
+                            <p class="mt-2 text-gray-600">分为Overview、Topology、Client、Traffic四个Tab，新增AP密度、网络活跃度等图表，关键信息分类展示，运维效率显著提升。</p>
+                            <div class="mt-3 space-y-1">
+                                <div class="flex items-center text-sm text-gray-600">
+                                    <i class="fa-solid fa-chart-pie mr-2 text-blue-500 feature-icon"></i>
+                                    <span>Overview总览</span>
+                                </div>
+                                <div class="flex items-center text-sm text-gray-600">
+                                    <i class="fa-solid fa-network-wired mr-2 text-green-500 feature-icon"></i>
+                                    <span>Topology拓扑</span>
+                                </div>
+                                <div class="flex items-center text-sm text-gray-600">
+                                    <i class="fa-solid fa-users mr-2 text-purple-500 feature-icon"></i>
+                                    <span>Client客户端</span>
+                                </div>
+                                <div class="flex items-center text-sm text-gray-600">
+                                    <i class="fa-solid fa-chart-line mr-2 text-orange-500 feature-icon"></i>
+                                    <span>Traffic流量</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-gray-50 p-4 text-sm text-gray-500 border-t">
+                            <div class="flex items-center">
+                                <i class="fa-solid fa-table-columns mr-2 card-footer-icon"></i>
+                                <span>配图建议: 新版 Dashboard 界面</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="feishu-card feature-card" data-category="ux-enhancement" data-rating="5" data-name="智能拓扑图">
+                        <div class="star-rating">
+                            <i class="fa-solid fa-star star"></i>
+                            <i class="fa-solid fa-star star"></i>
+                            <i class="fa-solid fa-star star"></i>
+                            <i class="fa-solid fa-star star"></i>
+                            <i class="fa-solid fa-star star"></i>
+                        </div>
+                        <div class="p-6 content">
+                            <span class="feature-tag bg-green-100 text-green-800">体验升级</span>
+                            <h3 class="mt-4 text-xl font-bold text-gray-900">智能拓扑图</h3>
+                            <p class="mt-2 text-gray-600">支持显示离线设备、VLAN信息、隔离设备等，一目了然掌握网络全貌，快速定位问题设备。</p>
+                            <div class="mt-3 space-y-1">
+                                <div class="flex items-center text-sm text-gray-600">
+                                    <i class="fa-solid fa-circle-xmark mr-2 text-red-500 feature-icon"></i>
+                                    <span>离线设备显示</span>
+                                </div>
+                                <div class="flex items-center text-sm text-gray-600">
+                                    <i class="fa-solid fa-tags mr-2 text-blue-500 feature-icon"></i>
+                                    <span>VLAN信息展示</span>
+                                </div>
+                                <div class="flex items-center text-sm text-gray-600">
+                                    <i class="fa-solid fa-shield-halved mr-2 text-purple-500 feature-icon"></i>
+                                    <span>隔离设备标识</span>
+                                </div>
+                                <div class="flex items-center text-sm text-gray-600">
+                                    <i class="fa-solid fa-search mr-2 text-green-500 feature-icon"></i>
+                                    <span>链路查询API</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-gray-50 p-4 text-sm text-gray-500 border-t">
+                            <div class="flex items-center">
+                                <i class="fa-solid fa-network-wired mr-2 card-footer-icon"></i>
+                                <span>配图建议: 新版拓扑图界面</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="feishu-card feature-card" data-category="ux-enhancement" data-rating="4" data-name="终端识别">
+                        <div class="star-rating">
+                            <i class="fa-solid fa-star star"></i>
+                            <i class="fa-solid fa-star star"></i>
+                            <i class="fa-solid fa-star star"></i>
+                            <i class="fa-solid fa-star star"></i>
+                            <i class="fa-regular fa-star star empty"></i>
+                        </div>
+                        <div class="p-6 content">
+                            <span class="feature-tag bg-green-100 text-green-800">体验升级</span>
+                            <h3 class="mt-4 text-xl font-bold text-gray-900">终端识别</h3>
+                            <p class="mt-2 text-gray-600">自动识别连接设备的类型、厂商、型号、操作系统版本，显示在客户端列表中，提升网络安全性和管理效率。</p>
+                            <div class="mt-3 space-y-1">
+                                <div class="flex items-center text-sm text-gray-600">
+                                    <i class="fa-solid fa-mobile-screen-button mr-2 text-blue-500 feature-icon"></i>
+                                    <span>设备类型识别</span>
+                                </div>
+                                <div class="flex items-center text-sm text-gray-600">
+                                    <i class="fa-solid fa-industry mr-2 text-green-500 feature-icon"></i>
+                                    <span>厂商型号识别</span>
+                                </div>
+                                <div class="flex items-center text-sm text-gray-600">
+                                    <i class="fa-solid fa-desktop mr-2 text-purple-500 feature-icon"></i>
+                                    <span>操作系统识别</span>
+                                </div>
+                                <div class="flex items-center text-sm text-gray-600">
+                                    <i class="fa-solid fa-exclamation-triangle mr-2 text-orange-500 feature-icon"></i>
+                                    <span>异常设备快速识别</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-gray-50 p-4 text-sm text-gray-500 border-t">
+                            <div class="flex items-center">
+                                <i class="fa-solid fa-mobile-screen-button mr-2 card-footer-icon"></i>
+                                <span>配图建议: 客户端列表显示设备详细信息</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="feishu-card feature-card" data-category="ux-enhancement" data-rating="4" data-name="设备详情升级">
+                        <div class="star-rating">
+                            <i class="fa-solid fa-star star"></i>
+                            <i class="fa-solid fa-star star"></i>
+                            <i class="fa-solid fa-star star"></i>
+                            <i class="fa-solid fa-star star"></i>
+                            <i class="fa-regular fa-star star empty"></i>
+                        </div>
+                        <div class="p-6 content">
+                            <span class="feature-tag bg-green-100 text-green-800">体验升级</span>
+                            <h3 class="mt-4 text-xl font-bold text-gray-900">设备详情升级</h3>
+                            <p class="mt-2 text-gray-600">新增设备链路图、上下线时间轴、日志模块集成，设备状态一目了然，故障排查更高效。</p>
+                            <div class="mt-3 space-y-1">
+                                <div class="flex items-center text-sm text-gray-600">
+                                    <i class="fa-solid fa-link mr-2 text-blue-500 feature-icon"></i>
+                                    <span>设备链路图可视化</span>
+                                </div>
+                                <div class="flex items-center text-sm text-gray-600">
+                                    <i class="fa-solid fa-clock mr-2 text-green-500 feature-icon"></i>
+                                    <span>上下线时间轴追踪</span>
+                                </div>
+                                <div class="flex items-center text-sm text-gray-600">
+                                    <i class="fa-solid fa-file-lines mr-2 text-purple-500 feature-icon"></i>
+                                    <span>日志模块深度集成</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-gray-50 p-4 text-sm text-gray-500 border-t">
+                            <div class="flex items-center">
+                                <i class="fa-solid fa-server mr-2 card-footer-icon"></i>
+                                <span>配图建议: 设备详情页链路图</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="feishu-card feature-card" data-category="ux-enhancement" data-rating="4" data-name="客户端管理增强">
+                        <div class="star-rating">
+                            <i class="fa-solid fa-star star"></i>
+                            <i class="fa-solid fa-star star"></i>
+                            <i class="fa-solid fa-star star"></i>
+                            <i class="fa-solid fa-star star"></i>
+                            <i class="fa-regular fa-star star empty"></i>
+                        </div>
+                        <div class="p-6 content">
+                            <span class="feature-tag bg-green-100 text-green-800">体验升级</span>
+                            <h3 class="mt-4 text-xl font-bold text-gray-900">客户端管理增强</h3>
+                            <p class="mt-2 text-gray-600">全方位客户端生命周期管理，支持离线客户端显示、在线时间轴可视化、事件追踪等，问题追溯更精准。</p>
+                            <div class="mt-3 space-y-1">
+                                <div class="flex items-center text-sm text-gray-600">
+                                    <i class="fa-solid fa-users mr-2 text-blue-500 feature-icon"></i>
+                                    <span>离线客户端显示</span>
+                                </div>
+                                <div class="flex items-center text-sm text-gray-600">
+                                    <i class="fa-solid fa-chart-line mr-2 text-green-500 feature-icon"></i>
+                                    <span>在线时间轴可视化</span>
+                                </div>
+                                <div class="flex items-center text-sm text-gray-600">
+                                    <i class="fa-solid fa-history mr-2 text-purple-500 feature-icon"></i>
+                                    <span>Connection Timeline事件追踪</span>
+                                </div>
+                                <div class="flex items-center text-sm text-gray-600">
+                                    <i class="fa-solid fa-signal mr-2 text-orange-500 feature-icon"></i>
+                                    <span>RSSI/流量趋势图表</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-gray-50 p-4 text-sm text-gray-500 border-t">
+                            <div class="flex items-center">
+                                <i class="fa-solid fa-user-clock mr-2 card-footer-icon"></i>
+                                <span>配图建议: 客户端详情页时间轴</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="feishu-card feature-card" data-category="config-enhancement" data-rating="5" data-name="VLAN 配置优化">
+                        <div class="star-rating">
+                            <i class="fa-solid fa-star star"></i>
+                            <i class="fa-solid fa-star star"></i>
+                            <i class="fa-solid fa-star star"></i>
+                            <i class="fa-solid fa-star star"></i>
+                            <i class="fa-solid fa-star star"></i>
+                        </div>
+                        <div class="p-6 content">
+                            <span class="feature-tag bg-purple-100 text-purple-800">配置优化</span>
+                            <h3 class="mt-4 text-xl font-bold text-gray-900">VLAN 配置优化</h3>
+                            <p class="mt-2 text-gray-600">四步式配置流程：网络参数→端口绑定→添加SSID→确认应用，配置流程标准化，降低配置错误率。</p>
+                            <div class="mt-3 space-y-1">
+                                <div class="flex items-center text-sm text-gray-600">
+                                    <i class="fa-solid fa-cog mr-2 text-blue-500 feature-icon"></i>
+                                    <span>网络参数配置</span>
+                                </div>
+                                <div class="flex items-center text-sm text-gray-600">
+                                    <i class="fa-solid fa-plug mr-2 text-green-500 feature-icon"></i>
+                                    <span>端口绑定设置</span>
+                                </div>
+                                <div class="flex items-center text-sm text-gray-600">
+                                    <i class="fa-solid fa-wifi mr-2 text-purple-500 feature-icon"></i>
+                                    <span>SSID添加配置</span>
+                                </div>
+                                <div class="flex items-center text-sm text-gray-600">
+                                    <i class="fa-solid fa-check-circle mr-2 text-orange-500 feature-icon"></i>
+                                    <span>确认应用部署</span>
+                                </div>
+                            </div>
+                        </div>
+                         <div class="bg-gray-50 p-4 text-sm text-gray-500 border-t">
+                             <div class="flex items-center">
+                                 <i class="fa-solid fa-wand-magic-sparkles mr-2 card-footer-icon"></i>
+                                 <span>配图建议: VLAN配置向导</span>
+                             </div>
+                         </div>
+                    </div>
+                    <div class="feishu-card feature-card" data-category="config-enhancement" data-rating="4" data-name="Switch Port 配置">
+                        <div class="star-rating">
+                            <i class="fa-solid fa-star star"></i>
+                            <i class="fa-solid fa-star star"></i>
+                            <i class="fa-solid fa-star star"></i>
+                            <i class="fa-solid fa-star star"></i>
+                            <i class="fa-regular fa-star star empty"></i>
+                        </div>
+                        <div class="p-6 content">
+                            <span class="feature-tag bg-purple-100 text-purple-800">配置优化</span>
+                            <h3 class="mt-4 text-xl font-bold text-gray-900">Switch Port 配置</h3>
+                            <p class="mt-2 text-gray-600">新增Port Settings统一管理页面，支持跨设备批量配置，搜索、筛选、排序功能，大规模端口管理效率大幅提升。</p>
+                            <div class="mt-3 space-y-1">
+                                <div class="flex items-center text-sm text-gray-600">
+                                    <i class="fa-solid fa-table mr-2 text-blue-500 feature-icon"></i>
+                                    <span>统一管理页面</span>
+                                </div>
+                                <div class="flex items-center text-sm text-gray-600">
+                                    <i class="fa-solid fa-layer-group mr-2 text-green-500 feature-icon"></i>
+                                    <span>跨设备批量配置</span>
+                                </div>
+                                <div class="flex items-center text-sm text-gray-600">
+                                    <i class="fa-solid fa-search mr-2 text-purple-500 feature-icon"></i>
+                                    <span>搜索筛选排序</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-gray-50 p-4 text-sm text-gray-500 border-t">
+                            <div class="flex items-center">
+                                <i class="fa-solid fa-ethernet mr-2 card-footer-icon"></i>
+                                <span>配图建议: Port Settings批量管理界面</span>
+                            </div>
+                        </div>
+                    </div>
+                     <div class="feishu-card feature-card" data-category="config-enhancement" data-rating="3" data-name="干扰检测升级">
+                        <div class="star-rating">
+                            <i class="fa-solid fa-star star"></i>
+                            <i class="fa-solid fa-star star"></i>
+                            <i class="fa-solid fa-star star"></i>
+                            <i class="fa-regular fa-star star empty"></i>
+                            <i class="fa-regular fa-star star empty"></i>
+                        </div>
+                        <div class="p-6 content">
+                            <span class="feature-tag bg-purple-100 text-purple-800">配置优化</span>
+                            <h3 class="mt-4 text-xl font-bold text-gray-900">干扰检测升级</h3>
+                            <p class="mt-2 text-gray-600">Rogue AP功能升级为Interference Detection，支持批量设备检测，Wi-Fi环境优化更精准，网络性能更稳定。</p>
+                            <div class="mt-3 space-y-1">
+                                <div class="flex items-center text-sm text-gray-600">
+                                    <i class="fa-solid fa-tower-cell mr-2 text-blue-500 feature-icon"></i>
+                                    <span>Interference Detection</span>
+                                </div>
+                                <div class="flex items-center text-sm text-gray-600">
+                                    <i class="fa-solid fa-layer-group mr-2 text-green-500 feature-icon"></i>
+                                    <span>批量设备检测</span>
+                                </div>
+                                <div class="flex items-center text-sm text-gray-600">
+                                    <i class="fa-solid fa-wifi mr-2 text-purple-500 feature-icon"></i>
+                                    <span>Wi-Fi环境优化</span>
+                                </div>
+                            </div>
+                        </div>
+                         <div class="bg-gray-50 p-4 text-sm text-gray-500 border-t">
+                             <div class="flex items-center">
+                                 <i class="fa-solid fa-tower-cell mr-2 card-footer-icon"></i>
+                                 <span>配图建议: 干扰检测结果页面</span>
+                             </div>
+                         </div>
+                    </div>
+                    
+                    <div class="feishu-card feature-card" data-category="hardware-support" data-rating="4" data-name="Wi-Fi 7 AP 支持">
+                        <div class="star-rating">
+                            <i class="fa-solid fa-star star"></i>
+                            <i class="fa-solid fa-star star"></i>
+                            <i class="fa-solid fa-star star"></i>
+                            <i class="fa-solid fa-star star"></i>
+                            <i class="fa-regular fa-star star empty"></i>
+                        </div>
+                        <div class="p-6 content">
+                            <span class="feature-tag bg-orange-100 text-orange-800">新硬件支持</span>
+                            <h3 class="mt-4 text-xl font-bold text-gray-900">Wi-Fi 7 AP 支持</h3>
+                            <p class="mt-2 text-gray-600">新增EAP787 1.0机型，支持频谱扫描、干扰检测、空口抓包等最新Wi-Fi 7标准，实现网络性能跃升。</p>
+                            <div class="mt-3 space-y-1">
+                                <div class="flex items-center text-sm text-gray-600">
+                                    <i class="fa-solid fa-wifi mr-2 text-blue-500 feature-icon"></i>
+                                    <span>EAP787 1.0机型</span>
+                                </div>
+                                <div class="flex items-center text-sm text-gray-600">
+                                    <i class="fa-solid fa-chart-line mr-2 text-green-500 feature-icon"></i>
+                                    <span>频谱扫描功能</span>
+                                </div>
+                                <div class="flex items-center text-sm text-gray-600">
+                                    <i class="fa-solid fa-tower-cell mr-2 text-purple-500 feature-icon"></i>
+                                    <span>干扰检测增强</span>
+                                </div>
+                                <div class="flex items-center text-sm text-gray-600">
+                                    <i class="fa-solid fa-network-wired mr-2 text-orange-500 feature-icon"></i>
+                                    <span>空口抓包分析</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-gray-50 p-4 text-sm text-gray-500 border-t">
+                            <div class="flex items-center">
+                                <i class="fa-solid fa-wifi mr-2 card-footer-icon"></i>
+                                <span>技术亮点: Wi-Fi 7</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="feishu-card feature-card" data-category="hardware-support" data-rating="3" data-name="5G 网关支持">
+                        <div class="star-rating">
+                            <i class="fa-solid fa-star star"></i>
+                            <i class="fa-solid fa-star star"></i>
+                            <i class="fa-solid fa-star star"></i>
+                            <i class="fa-regular fa-star star empty"></i>
+                            <i class="fa-regular fa-star star empty"></i>
+                        </div>
+                        <div class="p-6 content">
+                            <span class="feature-tag bg-orange-100 text-orange-800">新硬件支持</span>
+                            <h3 class="mt-4 text-xl font-bold text-gray-900">5G 网关支持</h3>
+                            <p class="mt-2 text-gray-600">新增ER701-5G-Outdoor v1.0，支持5G ODU和IP Passthrough模式，满足户外5G高速接入需求。</p>
+                            <div class="mt-3 space-y-1">
+                                <div class="flex items-center text-sm text-gray-600">
+                                    <i class="fa-solid fa-tower-broadcast mr-2 text-blue-500 feature-icon"></i>
+                                    <span>ER701-5G-Outdoor v1.0</span>
+                                </div>
+                                <div class="flex items-center text-sm text-gray-600">
+                                    <i class="fa-solid fa-satellite mr-2 text-green-500 feature-icon"></i>
+                                    <span>5G ODU支持</span>
+                                </div>
+                                <div class="flex items-center text-sm text-gray-600">
+                                    <i class="fa-solid fa-network-wired mr-2 text-purple-500 feature-icon"></i>
+                                    <span>IP Passthrough模式</span>
+                                </div>
+                                <div class="flex items-center text-sm text-gray-600">
+                                    <i class="fa-solid fa-mountain mr-2 text-orange-500 feature-icon"></i>
+                                    <span>户外高速接入</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-gray-50 p-4 text-sm text-gray-500 border-t">
+                            <div class="flex items-center">
+                                <i class="fa-solid fa-tower-broadcast mr-2 card-footer-icon"></i>
+                                <span>技术亮点: 5G ODU支持</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="feishu-card feature-card" data-category="hardware-support" data-rating="2" data-name="OLT 设备支持">
+                        <div class="star-rating">
+                            <i class="fa-solid fa-star star"></i>
+                            <i class="fa-solid fa-star star"></i>
+                            <i class="fa-regular fa-star star empty"></i>
+                            <i class="fa-regular fa-star star empty"></i>
+                            <i class="fa-regular fa-star star empty"></i>
+                        </div>
+                        <div class="p-6 content">
+                            <span class="feature-tag bg-orange-100 text-orange-800">新硬件支持</span>
+                            <h3 class="mt-4 text-xl font-bold text-gray-900">OLT 设备支持</h3>
+                            <p class="mt-2 text-gray-600">新增DS-MCUA X2新机型，支持多通道配置与集群支持，扩展光纤接入解决方案。</p>
+                            <div class="mt-3 space-y-1">
+                                <div class="flex items-center text-sm text-gray-600">
+                                    <i class="fa-solid fa-plug mr-2 text-blue-500 feature-icon"></i>
+                                    <span>DS-MCUA X2新机型</span>
+                                </div>
+                                <div class="flex items-center text-sm text-gray-600">
+                                    <i class="fa-solid fa-layer-group mr-2 text-green-500 feature-icon"></i>
+                                    <span>多通道配置</span>
+                                </div>
+                                <div class="flex items-center text-sm text-gray-600">
+                                    <i class="fa-solid fa-network-wired mr-2 text-purple-500 feature-icon"></i>
+                                    <span>集群支持</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-gray-50 p-4 text-sm text-gray-500 border-t">
+                            <div class="flex items-center">
+                                <i class="fa-solid fa-plug mr-2 card-footer-icon"></i>
+                                <span>技术亮点: 多通道配置</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="feishu-card feature-card" data-category="analytics-enhancement" data-rating="2" data-name="Reports 重构">
+                        <div class="star-rating">
+                            <i class="fa-solid fa-star star"></i>
+                            <i class="fa-solid fa-star star"></i>
+                            <i class="fa-regular fa-star star empty"></i>
+                            <i class="fa-regular fa-star star empty"></i>
+                            <i class="fa-regular fa-star star empty"></i>
+                        </div>
+                        <div class="p-6 content">
+                            <span class="feature-tag bg-yellow-100 text-yellow-800">数据分析</span>
+                            <h3 class="mt-4 text-xl font-bold text-gray-900">Reports 重构</h3>
+                            <p class="mt-2 text-gray-600">支持自定义Tab、Tab显隐和排序、多Tab打包导出，实现个性化报表，决策支持更精准。</p>
+                            <div class="mt-3 space-y-1">
+                                <div class="flex items-center text-sm text-gray-600">
+                                    <i class="fa-solid fa-table mr-2 text-blue-500 feature-icon"></i>
+                                    <span>自定义Tab</span>
+                                </div>
+                                <div class="flex items-center text-sm text-gray-600">
+                                    <i class="fa-solid fa-eye-slash mr-2 text-green-500 feature-icon"></i>
+                                    <span>Tab显隐排序</span>
+                                </div>
+                                <div class="flex items-center text-sm text-gray-600">
+                                    <i class="fa-solid fa-download mr-2 text-purple-500 feature-icon"></i>
+                                    <span>多Tab打包导出</span>
+                                </div>
+                                <div class="flex items-center text-sm text-gray-600">
+                                    <i class="fa-solid fa-chart-line mr-2 text-orange-500 feature-icon"></i>
+                                    <span>个性化报表</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-gray-50 p-4 text-sm text-gray-500 border-t">
+                            <div class="flex items-center">
+                                <i class="fa-solid fa-file-invoice mr-2 card-footer-icon"></i>
+                                <span>配图建议: Reports 定制界面</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="feishu-card feature-card" data-category="analytics-enhancement" data-rating="3" data-name="Logs 优化">
+                        <div class="star-rating">
+                            <i class="fa-solid fa-star star"></i>
+                            <i class="fa-solid fa-star star"></i>
+                            <i class="fa-solid fa-star star"></i>
+                            <i class="fa-regular fa-star star empty"></i>
+                            <i class="fa-regular fa-star star empty"></i>
+                        </div>
+                        <div class="p-6 content">
+                            <span class="feature-tag bg-yellow-100 text-yellow-800">数据分析</span>
+                            <h3 class="mt-4 text-xl font-bold text-gray-900">Logs 优化</h3>
+                            <p class="mt-2 text-gray-600">支持30天历史数据查看、设备类型筛选、Audit Logs集成，合规审计更便捷，问题追溯更全面。</p>
+                            <div class="mt-3 space-y-1">
+                                <div class="flex items-center text-sm text-gray-600">
+                                    <i class="fa-solid fa-calendar mr-2 text-blue-500 feature-icon"></i>
+                                    <span>30天历史数据</span>
+                                </div>
+                                <div class="flex items-center text-sm text-gray-600">
+                                    <i class="fa-solid fa-filter mr-2 text-green-500 feature-icon"></i>
+                                    <span>设备类型筛选</span>
+                                </div>
+                                <div class="flex items-center text-sm text-gray-600">
+                                    <i class="fa-solid fa-clipboard-check mr-2 text-purple-500 feature-icon"></i>
+                                    <span>Audit Logs集成</span>
+                                </div>
+                                <div class="flex items-center text-sm text-gray-600">
+                                    <i class="fa-solid fa-search mr-2 text-orange-500 feature-icon"></i>
+                                    <span>问题追溯全面</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-gray-50 p-4 text-sm text-gray-500 border-t">
+                            <div class="flex items-center">
+                                <i class="fa-solid fa-clock-rotate-left mr-2 card-footer-icon"></i>
+                                <span>配图建议: 日志查询界面</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="feishu-card feature-card" data-category="analytics-enhancement" data-rating="2" data-name="客户端统计">
+                        <div class="star-rating">
+                            <i class="fa-solid fa-star star"></i>
+                            <i class="fa-solid fa-star star"></i>
+                            <i class="fa-regular fa-star star empty"></i>
+                            <i class="fa-regular fa-star star empty"></i>
+                            <i class="fa-regular fa-star star empty"></i>
+                        </div>
+                        <div class="p-6 content">
+                            <span class="feature-tag bg-yellow-100 text-yellow-800">数据分析</span>
+                            <h3 class="mt-4 text-xl font-bold text-gray-900">客户端统计</h3>
+                            <p class="mt-2 text-gray-600">新增打点统计开关，控制RSSI、流量等趋势数据收集，按需统计，存储优化，性能更佳。</p>
+                            <div class="mt-3 space-y-1">
+                                <div class="flex items-center text-sm text-gray-600">
+                                    <i class="fa-solid fa-toggle-on mr-2 text-blue-500 feature-icon"></i>
+                                    <span>打点统计开关</span>
+                                </div>
+                                <div class="flex items-center text-sm text-gray-600">
+                                    <i class="fa-solid fa-signal mr-2 text-green-500 feature-icon"></i>
+                                    <span>RSSI趋势数据</span>
+                                </div>
+                                <div class="flex items-center text-sm text-gray-600">
+                                    <i class="fa-solid fa-chart-line mr-2 text-purple-500 feature-icon"></i>
+                                    <span>流量趋势图表</span>
+                                </div>
+                                <div class="flex items-center text-sm text-gray-600">
+                                    <i class="fa-solid fa-database mr-2 text-orange-500 feature-icon"></i>
+                                    <span>存储优化性能</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-gray-50 p-4 text-sm text-gray-500 border-t">
+                            <div class="flex items-center">
+                                <i class="fa-solid fa-chart-bar mr-2 card-footer-icon"></i>
+                                <span>配图建议: 统计配置界面</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="feishu-card feature-card" data-category="pro-feature" data-rating="2" data-name="Switch 增强">
+                        <div class="star-rating">
+                            <i class="fa-solid fa-star star"></i>
+                            <i class="fa-solid fa-star star"></i>
+                            <i class="fa-regular fa-star star empty"></i>
+                            <i class="fa-regular fa-star star empty"></i>
+                            <i class="fa-regular fa-star star empty"></i>
+                        </div>
+                        <div class="p-6 content">
+                            <span class="feature-tag bg-red-100 text-red-800">专业功能</span>
+                            <h3 class="mt-4 text-xl font-bold text-gray-900">Switch 增强</h3>
+                            <p class="mt-2 text-gray-600">支持STP BPDU Guard、31位子网掩码、Storm Control比率配置，显著提升网络健壮性与安全性。</p>
+                            <div class="mt-3 space-y-1">
+                                <div class="flex items-center text-sm text-gray-600">
+                                    <i class="fa-solid fa-shield-halved mr-2 text-blue-500 feature-icon"></i>
+                                    <span>STP BPDU Guard</span>
+                                </div>
+                                <div class="flex items-center text-sm text-gray-600">
+                                    <i class="fa-solid fa-network-wired mr-2 text-green-500 feature-icon"></i>
+                                    <span>31位子网掩码</span>
+                                </div>
+                                <div class="flex items-center text-sm text-gray-600">
+                                    <i class="fa-solid fa-chart-line mr-2 text-purple-500 feature-icon"></i>
+                                    <span>Storm Control比率</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-gray-50 p-4 text-sm text-gray-500 border-t">
+                            <div class="flex items-center">
+                                <i class="fa-solid fa-shield-halved mr-2 card-footer-icon"></i>
+                                <span>适用场景: 企业核心网络</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="feishu-card feature-card" data-category="pro-feature" data-rating="3" data-name="IPTV 优化">
+                        <div class="star-rating">
+                            <i class="fa-solid fa-star star"></i>
+                            <i class="fa-solid fa-star star"></i>
+                            <i class="fa-solid fa-star star"></i>
+                            <i class="fa-regular fa-star star empty"></i>
+                            <i class="fa-regular fa-star star empty"></i>
+                        </div>
+                        <div class="p-6 content">
+                            <span class="feature-tag bg-red-100 text-red-800">专业功能</span>
+                            <h3 class="mt-4 text-xl font-bold text-gray-900">IPTV 优化</h3>
+                            <p class="mt-2 text-gray-600">Switch组播配置优化，支持VLAN/设备/端口关联，优化组播性能，提升用户体验。</p>
+                            <div class="mt-3 space-y-1">
+                                <div class="flex items-center text-sm text-gray-600">
+                                    <i class="fa-solid fa-tv mr-2 text-blue-500 feature-icon"></i>
+                                    <span>组播配置优化</span>
+                                </div>
+                                <div class="flex items-center text-sm text-gray-600">
+                                    <i class="fa-solid fa-tags mr-2 text-green-500 feature-icon"></i>
+                                    <span>VLAN设备端口关联</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-gray-50 p-4 text-sm text-gray-500 border-t">
+                            <div class="flex items-center">
+                                <i class="fa-solid fa-tv mr-2 card-footer-icon"></i>
+                                <span>适用场景: 酒店、教育IPTV</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="feishu-card feature-card" data-category="pro-feature" data-rating="4" data-name="UC IP-Phone">
+                        <div class="star-rating">
+                            <i class="fa-solid fa-star star"></i>
+                            <i class="fa-solid fa-star star"></i>
+                            <i class="fa-solid fa-star star"></i>
+                            <i class="fa-solid fa-star star"></i>
+                            <i class="fa-regular fa-star star empty"></i>
+                        </div>
+                        <div class="p-6 content">
+                            <span class="feature-tag bg-red-100 text-red-800">专业功能</span>
+                            <h3 class="mt-4 text-xl font-bold text-gray-900">UC IP-Phone</h3>
+                            <p class="mt-2 text-gray-600">支持OUI-Based VLAN、Custom DHCP Option，IP电话部署更简便，兼容性更强。</p>
+                            <div class="mt-3 space-y-1">
+                                <div class="flex items-center text-sm text-gray-600">
+                                    <i class="fa-solid fa-phone mr-2 text-blue-500 feature-icon"></i>
+                                    <span>OUI-Based VLAN</span>
+                                </div>
+                                <div class="flex items-center text-sm text-gray-600">
+                                    <i class="fa-solid fa-cog mr-2 text-green-500 feature-icon"></i>
+                                    <span>Custom DHCP Option</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-gray-50 p-4 text-sm text-gray-500 border-t">
+                            <div class="flex items-center">
+                                <i class="fa-solid fa-phone mr-2 card-footer-icon"></i>
+                                <span>适用场景: 企业统一通信</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="py-16 bg-white">
+            <div class="max-w-7xl mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h2 class="feishu-section-title">重点宣传建议</h2>
+                    <p class="mt-4 text-lg text-gray-600">为市场营销活动提炼的核心卖点与宣传优先级</p>
+                </div>
+                <div class="grid lg:grid-cols-2 gap-12 items-start">
+                    <div>
+                        <h3 class="text-2xl font-bold text-gray-800 mb-6"><i class="fa-solid fa-bullseye mr-3 feishu-blue"></i>核心卖点提炼</h3>
+                        <ul class="space-y-4">
+                            <li class="flex items-start"><span class="bg-feishu-blue text-white rounded-full w-8 h-8 text-center leading-8 font-bold mr-4">1</span><span class="flex-1 text-lg text-gray-700"><strong>全新UI框架</strong> - 交互体验革命性升级</span></li>
+                            <li class="flex items-start"><span class="bg-feishu-blue text-white rounded-full w-8 h-8 text-center leading-8 font-bold mr-4">2</span><span class="flex-1 text-lg text-gray-700"><strong>智能运维</strong> - AI加持的网络健康管理</span></li>
+                            <li class="flex items-start"><span class="bg-feishu-blue text-white rounded-full w-8 h-8 text-center leading-8 font-bold mr-4">3</span><span class="flex-1 text-lg text-gray-700"><strong>可视化增强</strong> - 网络状态一目了然</span></li>
+                            <li class="flex items-start"><span class="bg-feishu-blue text-white rounded-full w-8 h-8 text-center leading-8 font-bold mr-4">4</span><span class="flex-1 text-lg text-gray-700"><strong>配置简化</strong> - 向导式操作降低门槛</span></li>
+                            <li class="flex items-start"><span class="bg-feishu-blue text-white rounded-full w-8 h-8 text-center leading-8 font-bold mr-4">5</span><span class="flex-1 text-lg text-gray-700"><strong>硬件支持</strong> - Wi-Fi 7等最新技术加持</span></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 class="text-2xl font-bold text-gray-800 mb-6"><i class="fa-solid fa-arrow-up-wide-short mr-3 feishu-blue"></i>宣传重点排序</h3>
+                        <ul class="space-y-4">
+                           <li class="bg-gray-50 p-4 rounded-lg border-l-4 border-blue-500"><strong>TOP 1 (体验升级):</strong> 全新Dashboard + 设备详情+客户端详情</li>
+                           <li class="bg-gray-50 p-4 rounded-lg border-l-4 border-green-500"><strong>TOP 2 (管理可视):</strong> 智能拓扑图+终端识别</li>
+                           <li class="bg-gray-50 p-4 rounded-lg border-l-4 border-yellow-500"><strong>TOP 3 (智能运维):</strong> 健康度监控+干扰检测</li>
+                           <li class="bg-gray-50 p-4 rounded-lg border-l-4 border-purple-500"><strong>TOP 4 (配置效率):</strong> VLAN配置优化+Port批量管理</li>
+                           <li class="bg-gray-50 p-4 rounded-lg border-l-4 border-orange-500"><strong>TOP 5 (硬件领先):</strong> Wi-Fi 7支持+5G网关</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer class="py-6 bg-gray-800 text-center">
+            <p class="text-gray-400">Generated by Gemini for Network 6.0 GTM Team</p>
+            <p class="text-xs text-gray-500 mt-1">Created by Lucien Chen, Last updated @July 30, 2025 3:40 PM</p>
+            <p class="text-xs text-gray-500 mt-2"><span class="text-red-500">*</span> 表示仅支持CBC版本</p>
+        </footer>
+    </div>
+
+    <script>
+        const filterContainer = document.getElementById('filter-container');
+        const filterButtons = filterContainer.querySelectorAll('.filter-btn');
+        const featuresGrid = document.getElementById('features-grid');
+        const featureCards = featuresGrid.querySelectorAll('.feature-card');
+        const sortButtons = document.querySelectorAll('.sort-btn');
+
+        let currentFilter = 'all';
+        let currentSort = 'default';
+
+        // Filter functionality
+        filterContainer.addEventListener('click', (event) => {
+            const targetButton = event.target.closest('.filter-btn');
+            if (!targetButton) return;
+
+            // Update button styles
+            filterButtons.forEach(button => {
+                button.classList.remove('active', 'bg-feishu-blue', 'text-white');
+                button.classList.add('inactive', 'bg-white', 'text-gray-700');
+            });
+            targetButton.classList.add('active', 'bg-feishu-blue', 'text-white');
+            targetButton.classList.remove('inactive', 'bg-white', 'text-gray-700');
+
+            currentFilter = targetButton.getAttribute('data-filter');
+            applyFilterAndSort();
+        });
+
+        // Sort functionality
+        sortButtons.forEach(button => {
+            button.addEventListener('click', (event) => {
+                sortButtons.forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+                currentSort = button.getAttribute('data-sort');
+                applyFilterAndSort();
+            });
+        });
+
+        function applyFilterAndSort() {
+            // First filter
+            featureCards.forEach(card => {
+                const category = card.getAttribute('data-category');
+                if (currentFilter === 'all' || currentFilter === category) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+
+            // Then sort visible cards
+            const visibleCards = Array.from(featureCards).filter(card => 
+                card.style.display !== 'none'
+            );
+
+            visibleCards.sort((a, b) => {
+                switch (currentSort) {
+                    case 'rating-desc':
+                        return parseInt(b.getAttribute('data-rating')) - parseInt(a.getAttribute('data-rating'));
+                    case 'rating-asc':
+                        return parseInt(a.getAttribute('data-rating')) - parseInt(b.getAttribute('data-rating'));
+                    case 'name':
+                        return a.getAttribute('data-name').localeCompare(b.getAttribute('data-name'), 'zh-CN');
+                    default:
+                        return 0;
+                }
+            });
+
+            // Reorder cards in DOM
+            visibleCards.forEach(card => {
+                featuresGrid.appendChild(card);
+            });
+        }
+
+        // Initialize with default filter and sort
+        applyFilterAndSort();
+    </script>
+</body>
+</html>
