@@ -1,0 +1,1030 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Omada License 销量分析仪表板 (2021-2025)</title>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 32px;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+        
+        .header p {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+        
+        .controls {
+            padding: 25px 30px;
+            background: #f8f9fa;
+            border-bottom: 2px solid #e9ecef;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            align-items: flex-start;
+        }
+        
+        .control-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        .control-group.year-filter {
+            min-width: 200px;
+        }
+        
+        .control-group label {
+            font-size: 13px;
+            font-weight: 600;
+            color: #495057;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .year-checkboxes {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            padding: 7px 12px;
+            background: white;
+            border: 2px solid #dee2e6;
+            border-radius: 8px;
+        }
+        
+        .year-checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+            user-select: none;
+            padding: 4px 8px;
+            border-radius: 4px;
+            transition: background 0.2s;
+        }
+        
+        .year-checkbox-item:hover {
+            background: #f8f9fa;
+        }
+        
+        .year-checkbox-item input[type="checkbox"] {
+            cursor: pointer;
+            width: 16px;
+            height: 16px;
+        }
+        
+        .year-checkbox-item span {
+            font-size: 13px;
+            font-weight: 500;
+            color: #495057;
+        }
+        
+        .control-group select,
+        .control-group button {
+            padding: 10px 16px;
+            border: 2px solid #dee2e6;
+            border-radius: 8px;
+            font-size: 14px;
+            background: white;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+        
+        .control-group select:hover,
+        .control-group select:focus {
+            border-color: #667eea;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        
+        .control-group button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            font-weight: 600;
+        }
+        
+        .control-group button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+        
+        .stats-bar {
+            display: flex;
+            justify-content: space-around;
+            padding: 20px 30px;
+            background: white;
+            border-bottom: 1px solid #e9ecef;
+        }
+        
+        .stat-item {
+            text-align: center;
+            flex: 1;
+        }
+        
+        .stat-value {
+            font-size: 28px;
+            font-weight: 700;
+            color: #667eea;
+            margin-bottom: 5px;
+        }
+        
+        .stat-label {
+            font-size: 13px;
+            color: #6c757d;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .charts-container {
+            display: flex;
+            padding: 20px;
+            gap: 20px;
+        }
+        
+        .chart-wrapper {
+            flex: 1;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            overflow: hidden;
+        }
+        
+        .chart-wrapper.main {
+            flex: 2;
+        }
+        
+        .chart-wrapper.pie {
+            flex: 1;
+            min-width: 400px;
+        }
+        
+        .chart-title {
+            padding: 15px 20px;
+            background: #f8f9fa;
+            border-bottom: 2px solid #e9ecef;
+            font-weight: 600;
+            color: #2c3e50;
+            font-size: 14px;
+            text-align: center;
+        }
+        
+        #mainChart {
+            width: 100%;
+            height: 550px;
+        }
+        
+        #pieChart {
+            width: 100%;
+            height: 550px;
+        }
+        
+        .footer {
+            padding: 20px 30px;
+            background: #f8f9fa;
+            text-align: center;
+            color: #6c757d;
+            font-size: 13px;
+            border-top: 1px solid #e9ecef;
+        }
+        
+        .pie-hint {
+            padding: 15px 20px;
+            background: #e7f3ff;
+            border-left: 4px solid #3498db;
+            margin: 0 20px 20px;
+            border-radius: 6px;
+            font-size: 13px;
+            color: #2c3e50;
+        }
+        
+        @media (max-width: 1200px) {
+            .charts-container {
+                flex-direction: column;
+            }
+            
+            .chart-wrapper.pie {
+                min-width: auto;
+            }
+            
+            #mainChart,
+            #pieChart {
+                height: 400px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .controls {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .stats-bar {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚀 Omada License 销量分析仪表板</h1>
+            <p>TP-Link 商用网络解决方案 | 完整数据: 2021-2025 | 交互式数据可视化</p>
+        </div>
+        
+        <div class="controls">
+            <div class="control-group year-filter">
+                <label>📆 年份筛选</label>
+                <div class="year-checkboxes" id="yearCheckboxes">
+                    <!-- 动态生成年份选择框 -->
+                </div>
+            </div>
+            
+            <div class="control-group">
+                <label>📅 时间维度</label>
+                <select id="timeSelect">
+                    <option value="monthly">按月 (Monthly)</option>
+                    <option value="quarterly">按季度 (Quarterly)</option>
+                    <option value="yearly">按年 (Yearly)</option>
+                </select>
+            </div>
+            
+            <div class="control-group">
+                <label>📊 图表类型</label>
+                <select id="chartTypeSelect">
+                    <option value="bar">分组柱状图</option>
+                    <option value="stack-bar">堆叠柱状图</option>
+                    <option value="line">折线图</option>
+                    <option value="area">堆叠面积图</option>
+                </select>
+            </div>
+            
+            <div class="control-group">
+                <label>🏪 购买类型</label>
+                <select id="typeFilterSelect">
+                    <option value="all">汇总(线上+线下)</option>
+                    <option value="线上购买">仅线上购买</option>
+                    <option value="线下购买">仅线下购买</option>
+                </select>
+            </div>
+
+            <div class="control-group">
+                <label>🎯 数据视图</label>
+                <select id="dataViewSelect">
+                    <option value="region">按区域显示</option>
+                    <option value="type">按购买类型显示</option>
+                    <option value="region-type">按区域+类型显示</option>
+                    <option value="total">显示总量</option>
+                </select>
+            </div>
+            
+            <div class="control-group">
+                <label>🏷️ 数据标签</label>
+                <select id="labelSelect">
+                    <option value="auto">自动显示</option>
+                    <option value="show">全部显示</option>
+                    <option value="hide">隐藏</option>
+                </select>
+            </div>
+            
+            <div class="control-group">
+                <label>💾 导出</label>
+                <button id="exportBtn">导出主图</button>
+            </div>
+        </div>
+        
+        <div class="stats-bar" id="statsBar">
+            <!-- 统计数据将动态插入 -->
+        </div>
+        
+        <div class="charts-container">
+            <div class="chart-wrapper main">
+                <div class="chart-title">📈 销量趋势图</div>
+                <div id="mainChart"></div>
+            </div>
+            
+            <div class="chart-wrapper pie">
+                <div class="chart-title">🥧 区域占比分析</div>
+                <div id="pieChart"></div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>© 2025 TP-Link Omada Business Unit | 数据时间范围: 2021.03 - 2025.10 | 产品负责人: Lucien Chen</p>
+        </div>
+    </div>
+
+    <script>
+        // 完整数据 (2021-2025) - 包含线上线下购买类型
+        const fullLicenseData = {"monthly":{"categories":["2021-03","2021-04","2021-05","2021-06","2021-07","2021-08","2021-09","2021-12","2022-01","2022-04","2022-05","2022-06","2022-07","2022-08","2022-09","2022-10","2022-11","2022-12","2023-01","2023-02","2023-03","2023-04","2023-05","2023-06","2023-07","2023-08","2023-09","2023-10","2023-11","2023-12","2024-01","2024-02","2024-03","2024-04","2024-05","2024-06","2024-07","2024-08","2024-09","2024-10","2024-11","2024-12","2025-01","2025-02","2025-03","2025-04","2025-05","2025-06","2025-07","2025-08","2025-09","2025-10"],"regions":["ap-southeast-1","eu-west-1","us-east-1"],"types":["线上购买","线下购买"],"data":{"ap-southeast-1_线上购买":[40.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,14.0,11.0,49.0,207.0,120.0,156.0,167.0,184.0,240.0,359.0,210.0,315.0,248.0,241.0,210.0,344.0,403.0,193.0,241.0,277.0,243.0,212.0,230.0,180.0,216.0,302.0,251.0,247.0,380.0,351.0,185.0,392.0,354.0,347.0,300.0],"ap-southeast-1_线下购买":[756.0,80.0,20.0,1.0,1300.0,0.0,0.0,5.0,1.0,3.0,2.0,0.0,0.0,292.0,10013.0,124.0,186.0,2315.0,9325.0,418.0,534.0,3341.0,161.0,5179.0,7314.0,211.0,18673.0,393.0,18417.0,7929.0,6279.0,14449.0,1035.0,1595.0,1379.0,968.0,4372.0,1970.0,16084.0,6229.0,1718.0,2920.0,925.0,4472.0,6374.0,4587.0,10700.0,1471.0,6283.0,780.0,14467.0,2514.0],"eu-west-1_线上购买":[370.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,6.0,32.0,26.0,67.0,46.0,28.0,130.0,125.0,78.0,104.0,117.0,115.0,103.0,98.0,148.0,172.0,220.0,201.0,140.0,206.0,112.0,167.0,175.0,208.0,156.0,165.0,202.0,273.0,254.0,363.0,267.0,272.0,270.0,319.0,223.0],"eu-west-1_线下购买":[41.0,0.0,0.0,0.0,3.0,0.0,0.0,1.0,3.0,7.0,8.0,50.0,250.0,5.0,3.0,191.0,1028.0,108.0,306.0,83.0,915.0,1322.0,503.0,255.0,382.0,596.0,466.0,1537.0,1359.0,411.0,304.0,1484.0,884.0,3486.0,306.0,531.0,3124.0,471.0,674.0,1110.0,2544.0,353.0,765.0,2777.0,1290.0,2894.0,4017.0,1212.0,3091.0,884.0,1595.0,511.0],"us-east-1_线上购买":[40.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,293.0,486.0,555.0,1126.0,749.0,683.0,1309.0,644.0,732.0,948.0,1204.0,1256.0,920.0,863.0,1375.0,1016.0,1179.0,1321.0,1889.0,1585.0,1183.0,1331.0,1350.0,1743.0,1093.0,1485.0,1351.0,1937.0,1581.0,1745.0,1519.0,2146.0,1834.0,1655.0,950.0],"us-east-1_线下购买":[350.0,1.0,11.0,1.0,2.0,5.0,2.0,0.0,6.0,16.0,19.0,0.0,17.0,403.0,564.0,648.0,629.0,89.0,1.0,14.0,0.0,368.0,0.0,504.0,1.0,16.0,131.0,50.0,23.0,30.0,221.0,139.0,158.0,110.0,121.0,94.0,483.0,746.0,260.0,885.0,444.0,1335.0,602.0,82990.0,1673.0,4081.0,615.0,1527.0,1087.0,5450.0,7000.0,3957.0]}},"quarterly":{"categories":["2021Q1","2021Q2","2021Q3","2021Q4","2022Q1","2022Q2","2022Q3","2022Q4","2023Q1","2023Q2","2023Q3","2023Q4","2024Q1","2024Q2","2024Q3","2024Q4","2025Q1","2025Q2","2025Q3","2025Q4"],"regions":["ap-southeast-1","eu-west-1","us-east-1"],"types":["线上购买","线下购买"],"data":{"ap-southeast-1_线上购买":[40.0,0.0,0.0,0.0,0.0,0.0,0.0,14.0,267.0,443.0,783.0,773.0,795.0,837.0,732.0,626.0,800.0,916.0,1093.0,300.0],"ap-southeast-1_线下购买":[756.0,101.0,1300.0,5.0,1.0,5.0,10305.0,2625.0,10277.0,8681.0,26198.0,26739.0,21763.0,3942.0,22426.0,10867.0,11771.0,16758.0,21530.0,2514.0],"eu-west-1_线上购买":[370.0,0.0,0.0,0.0,0.0,0.0,0.0,6.0,125.0,204.0,307.0,335.0,418.0,561.0,485.0,539.0,640.0,884.0,861.0,223.0],"eu-west-1_线下购买":[41.0,0.0,3.0,1.0,3.0,65.0,258.0,1327.0,1304.0,2080.0,1444.0,3307.0,2672.0,4323.0,4269.0,4007.0,4832.0,8123.0,5570.0,511.0],"us-east-1_线上购买":[40.0,0.0,0.0,0.0,0.0,0.0,0.0,293.0,2167.0,2741.0,2324.0,3380.0,3254.0,4389.0,4099.0,4186.0,4773.0,4845.0,5635.0,950.0],"us-east-1_线下购买":[350.0,13.0,9.0,0.0,6.0,35.0,984.0,1366.0,15.0,872.0,148.0,103.0,518.0,325.0,1489.0,2664.0,85265.0,6223.0,13537.0,3957.0]}},"yearly":{"categories":["2021","2022","2023","2024","2025"],"regions":["ap-southeast-1","eu-west-1","us-east-1"],"types":["线上购买","线下购买"],"data":{"ap-southeast-1_线上购买":[40.0,14.0,2266.0,2990.0,3109.0],"ap-southeast-1_线下购买":[2162.0,12936.0,71895.0,58998.0,52573.0],"eu-west-1_线上购买":[370.0,6.0,971.0,2003.0,2608.0],"eu-west-1_线下购买":[45.0,1653.0,8135.0,15271.0,19036.0],"us-east-1_线上购买":[40.0,293.0,10612.0,15928.0,16203.0],"us-east-1_线下购买":[372.0,2391.0,1138.0,4996.0,108982.0]}}};
+
+        // 初始化图表
+        const mainChart = echarts.init(document.getElementById('mainChart'));
+        const pieChart = echarts.init(document.getElementById('pieChart'));
+        
+        // 颜色方案 - 区域
+        const regionColors = {
+            'ap-southeast-1': '#3498db',
+            'eu-west-1': '#2ecc71',
+            'us-east-1': '#e74c3c'
+        };
+
+        // 颜色方案 - 购买类型
+        const typeColors = {
+            '线上购买': '#9b59b6',
+            '线下购买': '#f39c12'
+        };
+
+        // 颜色方案 - 区域+类型组合
+        const combinedColors = {
+            'ap-southeast-1_线上购买': '#5DADE2',
+            'ap-southeast-1_线下购买': '#2471A3',
+            'eu-west-1_线上购买': '#58D68D',
+            'eu-west-1_线下购买': '#1E8449',
+            'us-east-1_线上购买': '#EC7063',
+            'us-east-1_线下购买': '#943126'
+        };
+
+        // 区域中文名称
+        const regionNames = {
+            'ap-southeast-1': '亚太东南 (AP-Southeast)',
+            'eu-west-1': '欧洲西部 (EU-West)',
+            'us-east-1': '美国东部 (US-East)'
+        };
+
+        // 购买类型中文名称
+        const typeNames = {
+            '线上购买': '线上购买',
+            '线下购买': '线下购买'
+        };
+
+        // 选中的年份
+        let selectedYears = new Set();
+        
+        // 当前选中的时间点索引
+        let currentTimeIndex = 0;
+
+        // 初始化年份选择框
+        function initYearCheckboxes() {
+            const years = fullLicenseData.yearly.categories;
+            const container = document.getElementById('yearCheckboxes');
+            
+            years.forEach(year => {
+                selectedYears.add(year);
+                
+                const item = document.createElement('div');
+                item.className = 'year-checkbox-item';
+                
+                const checkbox = document.createElement('input');
+                checkbox.type = 'checkbox';
+                checkbox.id = `year-${year}`;
+                checkbox.value = year;
+                checkbox.checked = true;
+                checkbox.addEventListener('change', handleYearChange);
+                
+                const label = document.createElement('span');
+                label.textContent = year;
+                label.addEventListener('click', () => checkbox.click());
+                
+                item.appendChild(checkbox);
+                item.appendChild(label);
+                container.appendChild(item);
+            });
+        }
+
+        // 处理年份变化
+        function handleYearChange(e) {
+            const year = e.target.value;
+            if (e.target.checked) {
+                selectedYears.add(year);
+            } else {
+                selectedYears.delete(year);
+            }
+            
+            // 至少要选择一个年份
+            if (selectedYears.size === 0) {
+                e.target.checked = true;
+                selectedYears.add(year);
+                alert('至少需要选择一个年份');
+                return;
+            }
+            
+            renderMainChart();
+        }
+
+        // 根据选中的年份和类型过滤数据
+        function filterDataByYears(timeDimension) {
+            const data = fullLicenseData[timeDimension];
+            const typeFilter = document.getElementById('typeFilterSelect').value;
+            const filteredCategories = [];
+            const filteredData = {};
+
+            // 初始化数据数组
+            const keys = Object.keys(data.data);
+            keys.forEach(key => {
+                filteredData[key] = [];
+            });
+
+            // 过滤数据
+            data.categories.forEach((category, index) => {
+                const year = category.toString().split('-')[0].replace('Q', '').slice(0, 4);
+
+                if (selectedYears.has(year)) {
+                    filteredCategories.push(category);
+                    keys.forEach(key => {
+                        filteredData[key].push(data.data[key][index]);
+                    });
+                }
+            });
+
+            // 根据类型过滤进行聚合
+            let processedData = { ...filteredData };
+            if (typeFilter !== 'all') {
+                // 只保留指定类型的数据
+                const newData = {};
+                keys.forEach(key => {
+                    if (key.includes(typeFilter)) {
+                        // 移除类型后缀，只保留区域
+                        const region = key.replace(`_${typeFilter}`, '');
+                        newData[region] = filteredData[key];
+                    }
+                });
+                processedData = newData;
+            }
+
+            return {
+                categories: filteredCategories,
+                regions: data.regions,
+                types: data.types,
+                data: processedData,
+                typeFilter: typeFilter
+            };
+        }
+
+        // 更新统计栏
+        function updateStats(data) {
+            const statsBar = document.getElementById('statsBar');
+            const typeFilter = data.typeFilter;
+
+            // 计算总量
+            const totals = {};
+            let grandTotal = 0;
+
+            Object.keys(data.data).forEach(key => {
+                const sum = data.data[key].reduce((a, b) => a + b, 0);
+                totals[key] = sum;
+                grandTotal += sum;
+            });
+
+            // 生成HTML
+            let html = `
+                <div class="stat-item">
+                    <div class="stat-value">${grandTotal.toLocaleString()}</div>
+                    <div class="stat-label">总销量</div>
+                </div>
+            `;
+
+            // 根据类型过滤显示不同的统计
+            if (typeFilter === 'all') {
+                // 按区域汇总（线上+线下）
+                const regionTotals = {};
+                data.regions.forEach(region => {
+                    let total = 0;
+                    data.types.forEach(type => {
+                        const key = `${region}_${type}`;
+                        if (totals[key]) total += totals[key];
+                    });
+                    regionTotals[region] = total;
+                });
+
+                data.regions.forEach(region => {
+                    const percentage = grandTotal > 0 ? ((regionTotals[region] / grandTotal) * 100).toFixed(1) : 0;
+                    html += `
+                        <div class="stat-item">
+                            <div class="stat-value" style="color: ${regionColors[region]}">${regionTotals[region].toLocaleString()}</div>
+                            <div class="stat-label">${regionNames[region]} (${percentage}%)</div>
+                        </div>
+                    `;
+                });
+            } else {
+                // 显示特定类型的区域统计
+                data.regions.forEach(region => {
+                    if (totals[region]) {
+                        const percentage = grandTotal > 0 ? ((totals[region] / grandTotal) * 100).toFixed(1) : 0;
+                        html += `
+                            <div class="stat-item">
+                                <div class="stat-value" style="color: ${regionColors[region]}">${totals[region].toLocaleString()}</div>
+                                <div class="stat-label">${regionNames[region]} (${percentage}%)</div>
+                            </div>
+                        `;
+                    }
+                });
+            }
+
+            statsBar.innerHTML = html;
+        }
+
+        // 更新饼图
+        function updatePieChart(data, timeIndex, groupBy) {
+            const timeLabel = data.categories[timeIndex];
+            let pieData = [];
+
+            if (groupBy === 'region') {
+                // 按区域分组
+                const typeFilter = data.typeFilter;
+                if (typeFilter === 'all') {
+                    // 汇总线上线下
+                    data.regions.forEach(region => {
+                        let value = 0;
+                        data.types.forEach(type => {
+                            const key = `${region}_${type}`;
+                            if (data.data[key]) {
+                                value += data.data[key][timeIndex];
+                            }
+                        });
+                        pieData.push({
+                            name: regionNames[region],
+                            value: value,
+                            itemStyle: { color: regionColors[region] }
+                        });
+                    });
+                } else {
+                    // 特定类型的区域分布
+                    data.regions.forEach(region => {
+                        if (data.data[region]) {
+                            pieData.push({
+                                name: regionNames[region],
+                                value: data.data[region][timeIndex],
+                                itemStyle: { color: regionColors[region] }
+                            });
+                        }
+                    });
+                }
+            } else if (groupBy === 'type') {
+                // 按购买类型分组
+                data.types.forEach(type => {
+                    let value = 0;
+                    data.regions.forEach(region => {
+                        const key = `${region}_${type}`;
+                        if (data.data[key]) {
+                            value += data.data[key][timeIndex];
+                        }
+                    });
+                    pieData.push({
+                        name: typeNames[type],
+                        value: value,
+                        itemStyle: { color: typeColors[type] }
+                    });
+                });
+            } else if (groupBy === 'region-type') {
+                // 按区域+类型分组
+                data.regions.forEach(region => {
+                    data.types.forEach(type => {
+                        const key = `${region}_${type}`;
+                        if (data.data[key]) {
+                            pieData.push({
+                                name: `${regionNames[region]} - ${typeNames[type]}`,
+                                value: data.data[key][timeIndex],
+                                itemStyle: { color: combinedColors[key] }
+                            });
+                        }
+                    });
+                });
+            }
+
+            const total = pieData.reduce((sum, item) => sum + item.value, 0);
+
+            const pieOption = {
+                title: {
+                    text: `${timeLabel}`,
+                    subtext: `总计: ${total.toLocaleString()}`,
+                    left: 'center',
+                    top: 10,
+                    textStyle: {
+                        fontSize: 18,
+                        fontWeight: 'bold',
+                        color: '#2c3e50'
+                    },
+                    subtextStyle: {
+                        fontSize: 14,
+                        color: '#7f8c8d'
+                    }
+                },
+                tooltip: {
+                    trigger: 'item',
+                    formatter: function(params) {
+                        const percentage = total > 0 ? ((params.value / total) * 100).toFixed(1) : 0;
+                        return `<strong>${params.name}</strong><br/>
+                                销量: <strong>${params.value.toLocaleString()}</strong><br/>
+                                占比: <strong>${percentage}%</strong>`;
+                    }
+                },
+                legend: {
+                    orient: 'vertical',
+                    left: 'middle',
+                    top: 'bottom',
+                    textStyle: {
+                        fontSize: 11
+                    }
+                },
+                series: [
+                    {
+                        type: 'pie',
+                        radius: ['45%', '65%'],
+                        center: ['50%', '55%'],
+                        avoidLabelOverlap: true,
+                        itemStyle: {
+                            borderRadius: 8,
+                            borderColor: '#fff',
+                            borderWidth: 3
+                        },
+                        label: {
+                            show: true,
+                            formatter: function(params) {
+                                const percentage = total > 0 ? ((params.value / total) * 100).toFixed(1) : 0;
+                                return `${percentage}%`;
+                            },
+                            fontSize: 13,
+                            fontWeight: 'bold'
+                        },
+                        emphasis: {
+                            label: {
+                                show: true,
+                                fontSize: 15,
+                                fontWeight: 'bold'
+                            },
+                            itemStyle: {
+                                shadowBlur: 10,
+                                shadowOffsetX: 0,
+                                shadowColor: 'rgba(0, 0, 0, 0.5)'
+                            }
+                        },
+                        data: pieData
+                    }
+                ]
+            };
+
+            pieChart.setOption(pieOption, true);
+        }
+
+        // 渲染主图表
+        function renderMainChart() {
+            const timeDimension = document.getElementById('timeSelect').value;
+            const chartType = document.getElementById('chartTypeSelect').value;
+            const dataView = document.getElementById('dataViewSelect').value;
+            const labelOption = document.getElementById('labelSelect').value;
+            const typeFilter = document.getElementById('typeFilterSelect').value;
+
+            // 根据选中的年份过滤数据
+            const data = filterDataByYears(timeDimension);
+
+            if (data.categories.length === 0) {
+                mainChart.clear();
+                mainChart.setOption({
+                    title: {
+                        text: '请至少选择一个年份',
+                        left: 'center',
+                        top: 'middle',
+                        textStyle: {
+                            fontSize: 16,
+                            color: '#95a5a6'
+                        }
+                    }
+                });
+                return;
+            }
+
+            let series = [];
+            let legendData = [];
+
+            if (dataView === 'region') {
+                // 按区域显示 (根据类型过滤汇总)
+                if (typeFilter === 'all') {
+                    // 汇总线上线下，按区域显示
+                    data.regions.forEach(region => {
+                        const regionData = data.categories.map((_, index) => {
+                            let sum = 0;
+                            data.types.forEach(type => {
+                                const key = `${region}_${type}`;
+                                if (data.data[key]) sum += data.data[key][index];
+                            });
+                            return sum;
+                        });
+
+                        const config = {
+                            name: regionNames[region],
+                            type: chartType.includes('line') || chartType.includes('area') ? 'line' : 'bar',
+                            data: regionData,
+                            itemStyle: { color: regionColors[region] },
+                            label: {
+                                show: labelOption === 'show' || (labelOption === 'auto' && timeDimension === 'yearly'),
+                                position: 'top',
+                                formatter: (params) => params.value > 1000 ? (params.value / 1000).toFixed(1) + 'K' : params.value
+                            }
+                        };
+
+                        if (chartType === 'stack-bar' || chartType === 'area') config.stack = 'total';
+                        if (chartType === 'area') { config.areaStyle = { opacity: 0.7 }; config.smooth = true; }
+                        if (chartType.includes('line')) { config.smooth = true; config.symbol = 'circle'; config.symbolSize = 6; }
+
+                        series.push(config);
+                        legendData.push(regionNames[region]);
+                    });
+                } else {
+                    // 特定类型的区域分布
+                    data.regions.forEach(region => {
+                        if (data.data[region]) {
+                            const config = {
+                                name: regionNames[region],
+                                type: chartType.includes('line') || chartType.includes('area') ? 'line' : 'bar',
+                                data: data.data[region],
+                                itemStyle: { color: regionColors[region] },
+                                label: {
+                                    show: labelOption === 'show' || (labelOption === 'auto' && timeDimension === 'yearly'),
+                                    position: 'top',
+                                    formatter: (params) => params.value > 1000 ? (params.value / 1000).toFixed(1) + 'K' : params.value
+                                }
+                            };
+
+                            if (chartType === 'stack-bar' || chartType === 'area') config.stack = 'total';
+                            if (chartType === 'area') { config.areaStyle = { opacity: 0.7 }; config.smooth = true; }
+                            if (chartType.includes('line')) { config.smooth = true; config.symbol = 'circle'; config.symbolSize = 6; }
+
+                            series.push(config);
+                            legendData.push(regionNames[region]);
+                        }
+                    });
+                }
+            } else if (dataView === 'type') {
+                // 按购买类型显示
+                data.types.forEach(type => {
+                    const typeData = data.categories.map((_, index) => {
+                        let sum = 0;
+                        data.regions.forEach(region => {
+                            const key = `${region}_${type}`;
+                            if (data.data[key]) sum += data.data[key][index];
+                        });
+                        return sum;
+                    });
+
+                    const config = {
+                        name: typeNames[type],
+                        type: chartType.includes('line') || chartType.includes('area') ? 'line' : 'bar',
+                        data: typeData,
+                        itemStyle: { color: typeColors[type] },
+                        label: {
+                            show: labelOption === 'show' || (labelOption === 'auto' && timeDimension === 'yearly'),
+                            position: 'top',
+                            formatter: (params) => params.value > 1000 ? (params.value / 1000).toFixed(1) + 'K' : params.value
+                        }
+                    };
+
+                    if (chartType === 'stack-bar' || chartType === 'area') config.stack = 'total';
+                    if (chartType === 'area') { config.areaStyle = { opacity: 0.7 }; config.smooth = true; }
+                    if (chartType.includes('line')) { config.smooth = true; config.symbol = 'circle'; config.symbolSize = 6; }
+
+                    series.push(config);
+                    legendData.push(typeNames[type]);
+                });
+            } else if (dataView === 'region-type') {
+                // 按区域+类型组合显示
+                data.regions.forEach(region => {
+                    data.types.forEach(type => {
+                        const key = `${region}_${type}`;
+                        if (data.data[key]) {
+                            const config = {
+                                name: `${regionNames[region]} - ${typeNames[type]}`,
+                                type: chartType.includes('line') || chartType.includes('area') ? 'line' : 'bar',
+                                data: data.data[key],
+                                itemStyle: { color: combinedColors[key] },
+                                label: {
+                                    show: labelOption === 'show' || (labelOption === 'auto' && timeDimension === 'yearly'),
+                                    position: 'top',
+                                    formatter: (params) => params.value > 1000 ? (params.value / 1000).toFixed(1) + 'K' : params.value
+                                }
+                            };
+
+                            if (chartType === 'stack-bar' || chartType === 'area') config.stack = 'total';
+                            if (chartType === 'area') { config.areaStyle = { opacity: 0.7 }; config.smooth = true; }
+                            if (chartType.includes('line')) { config.smooth = true; config.symbol = 'circle'; config.symbolSize = 6; }
+
+                            series.push(config);
+                            legendData.push(`${regionNames[region]} - ${typeNames[type]}`);
+                        }
+                    });
+                });
+            } else {
+                // 显示总量
+                const totalData = data.categories.map((_, index) => {
+                    let sum = 0;
+                    Object.keys(data.data).forEach(key => {
+                        sum += data.data[key][index];
+                    });
+                    return sum;
+                });
+
+                series.push({
+                    name: '总销量',
+                    type: chartType.includes('line') || chartType.includes('area') ? 'line' : 'bar',
+                    data: totalData,
+                    itemStyle: {
+                        color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                            { offset: 0, color: '#667eea' },
+                            { offset: 1, color: '#764ba2' }
+                        ])
+                    },
+                    label: {
+                        show: labelOption === 'show' || (labelOption === 'auto' && timeDimension === 'yearly'),
+                        position: 'top',
+                        formatter: (params) => params.value > 1000 ? (params.value / 1000).toFixed(1) + 'K' : params.value
+                    },
+                    smooth: chartType.includes('line') || chartType.includes('area'),
+                    areaStyle: chartType === 'area' ? { opacity: 0.7 } : undefined
+                });
+                legendData.push('总销量');
+            }
+
+            const option = {
+                tooltip: {
+                    trigger: 'axis',
+                    axisPointer: { type: 'shadow' },
+                    formatter: function(params) {
+                        let result = `<strong>${params[0].axisValue}</strong><br/>`;
+                        let total = 0;
+                        params.forEach(item => {
+                            result += `${item.marker} ${item.seriesName}: <strong>${item.value.toLocaleString()}</strong><br/>`;
+                            total += item.value;
+                        });
+                        if (dataView !== 'total') {
+                            result += `<hr style="margin: 5px 0"/>总计: <strong>${total.toLocaleString()}</strong>`;
+                        }
+                        return result;
+                    }
+                },
+                legend: {
+                    data: legendData,
+                    top: 10,
+                    textStyle: { fontSize: 11 }
+                },
+                grid: {
+                    left: '3%',
+                    right: '4%',
+                    bottom: timeDimension === 'monthly' ? '18%' : '10%',
+                    top: '12%',
+                    containLabel: true
+                },
+                toolbox: {
+                    feature: {
+                        dataZoom: {
+                            yAxisIndex: 'none',
+                            title: { zoom: '区域缩放', back: '还原' }
+                        },
+                        restore: { title: '还原' },
+                        saveAsImage: {
+                            title: '保存为图片',
+                            name: `Omada_License_${timeDimension}_${new Date().getTime()}`
+                        }
+                    },
+                    right: 20,
+                    top: 10
+                },
+                dataZoom: [
+                    {
+                        type: 'slider',
+                        show: timeDimension === 'monthly' && data.categories.length > 12,
+                        xAxisIndex: [0],
+                        start: 0,
+                        end: 100,
+                        bottom: 30
+                    }
+                ],
+                xAxis: {
+                    type: 'category',
+                    data: data.categories,
+                    axisLabel: {
+                        rotate: timeDimension === 'monthly' ? 45 : 0,
+                        fontSize: 11
+                    },
+                    axisLine: {
+                        lineStyle: { color: '#95a5a6' }
+                    }
+                },
+                yAxis: {
+                    type: 'value',
+                    name: 'License 数量',
+                    nameTextStyle: {
+                        fontSize: 12,
+                        fontWeight: 'bold'
+                    },
+                    axisLabel: {
+                        formatter: (value) => value >= 1000 ? (value / 1000) + 'K' : value
+                    },
+                    splitLine: {
+                        lineStyle: {
+                            type: 'dashed',
+                            opacity: 0.3
+                        }
+                    }
+                },
+                series: series
+            };
+
+            mainChart.setOption(option, true);
+            updateStats(data);
+
+            // 根据数据视图初始化饼图
+            if (data.categories.length > 0) {
+                if (dataView === 'total') {
+                    pieChart.clear();
+                    pieChart.setOption({
+                        title: {
+                            text: '切换到其他视图查看占比',
+                            left: 'center',
+                            top: 'middle',
+                            textStyle: { fontSize: 16, color: '#95a5a6' }
+                        }
+                    });
+                } else {
+                    updatePieChart(data, 0, dataView);
+                }
+            }
+        }
+
+        // 监听主图表的鼠标悬停事件
+        mainChart.on('mouseover', function(params) {
+            const timeDimension = document.getElementById('timeSelect').value;
+            const dataView = document.getElementById('dataViewSelect').value;
+
+            // 在非总量视图时更新饼图
+            if (dataView !== 'total' && params.componentType === 'series') {
+                currentTimeIndex = params.dataIndex;
+                const data = filterDataByYears(timeDimension);
+                updatePieChart(data, params.dataIndex, dataView);
+            }
+        });
+
+        // 事件监听
+        document.getElementById('timeSelect').addEventListener('change', renderMainChart);
+        document.getElementById('chartTypeSelect').addEventListener('change', renderMainChart);
+        document.getElementById('typeFilterSelect').addEventListener('change', renderMainChart);
+        document.getElementById('dataViewSelect').addEventListener('change', renderMainChart);
+        document.getElementById('labelSelect').addEventListener('change', renderMainChart);
+        
+        document.getElementById('exportBtn').addEventListener('click', function() {
+            const url = mainChart.getDataURL({
+                type: 'png',
+                pixelRatio: 2,
+                backgroundColor: '#fff'
+            });
+            const link = document.createElement('a');
+            link.download = `Omada_License_${new Date().getTime()}.png`;
+            link.href = url;
+            link.click();
+        });
+
+        // 响应式
+        window.addEventListener('resize', function() {
+            mainChart.resize();
+            pieChart.resize();
+        });
+
+        // 初始化
+        initYearCheckboxes();
+        renderMainChart();
+    </script>
+</body>
+</html>
