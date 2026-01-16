@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Omada License 销量分析仪表板 (2021-2026)</title>
+    <title>Omada License 销量分析仪表板 (2024-2026)</title>
     <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
     <style>
         * {
@@ -20,7 +20,7 @@
         }
 
         .container {
-            max-width: 1600px;
+            max-width: 1800px;
             margin: 0 auto;
             background: white;
             border-radius: 20px;
@@ -46,102 +46,150 @@
             opacity: 0.9;
         }
 
-        .controls {
-            padding: 25px 30px;
+        /* Filter Section */
+        .filter-section {
+            padding: 20px 30px;
             background: #f8f9fa;
             border-bottom: 2px solid #e9ecef;
+        }
+
+        .filter-row {
             display: flex;
             flex-wrap: wrap;
-            gap: 20px;
+            gap: 15px;
+            margin-bottom: 15px;
             align-items: flex-start;
         }
 
-        .control-group {
+        .filter-row:last-child {
+            margin-bottom: 0;
+        }
+
+        .filter-group {
             display: flex;
             flex-direction: column;
-            gap: 8px;
+            gap: 6px;
         }
 
-        .control-group.year-filter {
-            min-width: 200px;
-        }
-
-        .control-group label {
-            font-size: 13px;
+        .filter-group label {
+            font-size: 12px;
             font-weight: 600;
             color: #495057;
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
 
-        .year-checkboxes {
+        .filter-checkboxes {
             display: flex;
-            gap: 12px;
+            gap: 8px;
             flex-wrap: wrap;
-            padding: 7px 12px;
+            padding: 8px 12px;
             background: white;
             border: 2px solid #dee2e6;
             border-radius: 8px;
+            max-width: 600px;
         }
 
-        .year-checkbox-item {
+        .filter-checkbox-item {
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 4px;
             cursor: pointer;
             user-select: none;
-            padding: 4px 8px;
+            padding: 3px 6px;
             border-radius: 4px;
             transition: background 0.2s;
+            font-size: 12px;
         }
 
-        .year-checkbox-item:hover {
-            background: #f8f9fa;
+        .filter-checkbox-item:hover {
+            background: #f0f0f0;
         }
 
-        .year-checkbox-item input[type="checkbox"] {
+        .filter-checkbox-item input[type="checkbox"] {
             cursor: pointer;
-            width: 16px;
-            height: 16px;
+            width: 14px;
+            height: 14px;
         }
 
-        .year-checkbox-item span {
-            font-size: 13px;
+        .filter-checkbox-item span {
             font-weight: 500;
             color: #495057;
         }
 
-        .control-group select,
-        .control-group button {
-            padding: 10px 16px;
+        .filter-group select {
+            padding: 8px 12px;
             border: 2px solid #dee2e6;
             border-radius: 8px;
-            font-size: 14px;
+            font-size: 13px;
             background: white;
             cursor: pointer;
             transition: all 0.3s;
             font-weight: 500;
+            min-width: 150px;
         }
 
-        .control-group select:hover,
-        .control-group select:focus {
+        .filter-group select:hover,
+        .filter-group select:focus {
             border-color: #667eea;
             outline: none;
             box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
         }
 
-        .control-group button {
+        .filter-group button {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 8px;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
-            border: none;
-            font-weight: 600;
         }
 
-        .control-group button:hover {
+        .filter-group button:hover {
             transform: translateY(-2px);
             box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
         }
 
+        .filter-group button.secondary {
+            background: #6c757d;
+        }
+
+        .filter-group button.secondary:hover {
+            box-shadow: 0 4px 12px rgba(108, 117, 125, 0.4);
+        }
+
+        .quick-filters {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .quick-filter-btn {
+            padding: 6px 12px;
+            border: 2px solid #dee2e6;
+            border-radius: 6px;
+            font-size: 12px;
+            background: white;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-weight: 500;
+        }
+
+        .quick-filter-btn:hover {
+            border-color: #667eea;
+            background: #f8f9fa;
+        }
+
+        .quick-filter-btn.active {
+            border-color: #667eea;
+            background: #667eea;
+            color: white;
+        }
+
+        /* Stats Bar */
         .stats-bar {
             display: flex;
             justify-content: space-around;
@@ -155,23 +203,24 @@
         .stat-item {
             text-align: center;
             flex: 1;
-            min-width: 150px;
+            min-width: 140px;
         }
 
         .stat-value {
-            font-size: 28px;
+            font-size: 26px;
             font-weight: 700;
             color: #667eea;
             margin-bottom: 5px;
         }
 
         .stat-label {
-            font-size: 13px;
+            font-size: 12px;
             color: #6c757d;
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
 
+        /* Charts */
         .charts-container {
             display: flex;
             padding: 20px;
@@ -192,7 +241,7 @@
 
         .chart-wrapper.pie {
             flex: 1;
-            min-width: 400px;
+            min-width: 380px;
         }
 
         .chart-title {
@@ -207,24 +256,15 @@
 
         #mainChart {
             width: 100%;
-            height: 550px;
+            height: 500px;
         }
 
         #pieChart {
             width: 100%;
-            height: 550px;
+            height: 500px;
         }
 
-        .footer {
-            padding: 20px 30px;
-            background: #f8f9fa;
-            text-align: center;
-            color: #6c757d;
-            font-size: 13px;
-            border-top: 1px solid #e9ecef;
-        }
-
-        /* Data Table Styles */
+        /* Data Table */
         .data-table-section {
             padding: 20px;
             background: white;
@@ -312,7 +352,7 @@
         .data-table {
             width: 100%;
             border-collapse: collapse;
-            font-size: 13px;
+            font-size: 12px;
         }
 
         .data-table thead {
@@ -324,7 +364,7 @@
         .data-table th {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
-            padding: 12px 10px;
+            padding: 10px 8px;
             text-align: left;
             font-weight: 600;
             white-space: nowrap;
@@ -333,11 +373,11 @@
 
         .data-table th:first-child {
             text-align: center;
-            width: 50px;
+            width: 40px;
         }
 
         .data-table td {
-            padding: 10px;
+            padding: 8px;
             border-bottom: 1px solid #e9ecef;
             white-space: nowrap;
         }
@@ -365,8 +405,8 @@
         }
 
         .data-table input[type="checkbox"] {
-            width: 16px;
-            height: 16px;
+            width: 14px;
+            height: 14px;
             cursor: pointer;
         }
 
@@ -377,24 +417,45 @@
 
         .region-badge {
             display: inline-block;
-            padding: 2px 8px;
+            padding: 2px 6px;
             border-radius: 4px;
-            font-size: 11px;
+            font-size: 10px;
             font-weight: 600;
             color: white;
         }
 
-        .region-badge.ap-southeast-1 { background: #3498db; }
-        .region-badge.eu-west-1 { background: #2ecc71; }
-        .region-badge.us-east-1 { background: #e74c3c; }
+        .region-badge.APAC { background: #3498db; }
+        .region-badge.EMEA { background: #2ecc71; }
+        .region-badge.Americas { background: #e74c3c; }
 
         .type-badge {
             display: inline-block;
-            padding: 2px 8px;
+            padding: 2px 6px;
             border-radius: 4px;
-            font-size: 11px;
+            font-size: 10px;
             background: #ecf0f1;
             color: #2c3e50;
+        }
+
+        .channel-badge {
+            display: inline-block;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 10px;
+            font-weight: 500;
+        }
+
+        .channel-badge.Online { background: #d4edda; color: #155724; }
+        .channel-badge.Offline { background: #cce5ff; color: #004085; }
+        .channel-badge.Trial { background: #fff3cd; color: #856404; }
+
+        .footer {
+            padding: 20px 30px;
+            background: #f8f9fa;
+            text-align: center;
+            color: #6c757d;
+            font-size: 13px;
+            border-top: 1px solid #e9ecef;
         }
 
         @media (max-width: 1200px) {
@@ -413,9 +474,8 @@
         }
 
         @media (max-width: 768px) {
-            .controls {
+            .filter-row {
                 flex-direction: column;
-                align-items: stretch;
             }
 
             .stats-bar {
@@ -429,74 +489,110 @@
     <div class="container">
         <div class="header">
             <h1>Omada License 销量分析仪表板</h1>
-            <p>TP-Link 商用网络解决方案 | 完整数据: 2021-2026 | 交互式数据可视化</p>
+            <p>TP-Link 商用网络解决方案 | 数据范围: 2024.10 - 2026.01 | 多维度交互式数据分析</p>
         </div>
 
-        <div class="controls">
-            <div class="control-group year-filter">
-                <label>Year Filter</label>
-                <div class="year-checkboxes" id="yearCheckboxes">
+        <div class="filter-section">
+            <!-- Row 1: Time & Year Filters -->
+            <div class="filter-row">
+                <div class="filter-group">
+                    <label>Year Filter</label>
+                    <div class="filter-checkboxes" id="yearCheckboxes"></div>
+                </div>
+
+                <div class="filter-group">
+                    <label>Time Dimension</label>
+                    <select id="timeSelect">
+                        <option value="monthly">Monthly</option>
+                        <option value="quarterly">Quarterly</option>
+                        <option value="yearly">Yearly</option>
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <label>Chart Type</label>
+                    <select id="chartTypeSelect">
+                        <option value="bar">Grouped Bar</option>
+                        <option value="stack-bar">Stacked Bar</option>
+                        <option value="line">Line</option>
+                        <option value="area">Stacked Area</option>
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <label>Group By</label>
+                    <select id="groupBySelect">
+                        <option value="region">Region</option>
+                        <option value="channel">Purchase Channel</option>
+                        <option value="licenseType">License Type</option>
+                        <option value="licenseYear">License Year</option>
+                        <option value="total">Total</option>
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <label>Metric</label>
+                    <select id="metricSelect">
+                        <option value="license_count">License Count</option>
+                        <option value="license_year_count">License Year Count</option>
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <label>Export</label>
+                    <button id="exportBtn">Export Chart</button>
                 </div>
             </div>
 
-            <div class="control-group">
-                <label>Time Dimension</label>
-                <select id="timeSelect">
-                    <option value="monthly">Monthly</option>
-                    <option value="quarterly">Quarterly</option>
-                    <option value="yearly">Yearly</option>
-                </select>
+            <!-- Row 2: Dimension Filters -->
+            <div class="filter-row">
+                <div class="filter-group">
+                    <label>Region Filter</label>
+                    <div class="filter-checkboxes" id="regionCheckboxes"></div>
+                </div>
+
+                <div class="filter-group">
+                    <label>Purchase Channel Filter</label>
+                    <div class="filter-checkboxes" id="channelCheckboxes"></div>
+                </div>
             </div>
 
-            <div class="control-group">
-                <label>Chart Type</label>
-                <select id="chartTypeSelect">
-                    <option value="bar">Grouped Bar</option>
-                    <option value="stack-bar">Stacked Bar</option>
-                    <option value="line">Line</option>
-                    <option value="area">Stacked Area</option>
-                </select>
+            <!-- Row 3: More Filters -->
+            <div class="filter-row">
+                <div class="filter-group">
+                    <label>License Type Filter</label>
+                    <div class="filter-checkboxes" id="licenseTypeCheckboxes"></div>
+                </div>
             </div>
 
-            <div class="control-group">
-                <label>Data View</label>
-                <select id="dataViewSelect">
-                    <option value="region">By Region</option>
-                    <option value="purchaseType">By Purchase Type</option>
-                    <option value="licenseYear">By License Year</option>
-                    <option value="total">Total</option>
-                </select>
-            </div>
+            <!-- Row 4: Quick Filters -->
+            <div class="filter-row">
+                <div class="filter-group">
+                    <label>Quick Analysis Presets</label>
+                    <div class="quick-filters">
+                        <button class="quick-filter-btn" data-preset="all">All Data</button>
+                        <button class="quick-filter-btn" data-preset="commercial">Commercial Only</button>
+                        <button class="quick-filter-btn" data-preset="trial">Trial Only</button>
+                        <button class="quick-filter-btn" data-preset="standard">Standard License</button>
+                        <button class="quick-filter-btn" data-preset="pro">Pro License</button>
+                        <button class="quick-filter-btn" data-preset="surveillance">Surveillance</button>
+                    </div>
+                </div>
 
-            <div class="control-group">
-                <label>Metric</label>
-                <select id="metricSelect">
-                    <option value="license_count">License Count</option>
-                    <option value="license_year_count">License Year Count</option>
-                </select>
-            </div>
-
-            <div class="control-group">
-                <label>Data Labels</label>
-                <select id="labelSelect">
-                    <option value="auto">Auto</option>
-                    <option value="show">Show All</option>
-                    <option value="hide">Hide</option>
-                </select>
-            </div>
-
-            <div class="control-group">
-                <label>Export</label>
-                <button id="exportBtn">Export Chart</button>
+                <div class="filter-group">
+                    <label>Actions</label>
+                    <div style="display: flex; gap: 8px;">
+                        <button id="resetFiltersBtn" class="secondary">Reset All Filters</button>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <div class="stats-bar" id="statsBar">
-        </div>
+        <div class="stats-bar" id="statsBar"></div>
 
         <div class="charts-container">
             <div class="chart-wrapper main">
-                <div class="chart-title">Sales Trend</div>
+                <div class="chart-title">Sales Trend Analysis</div>
                 <div id="mainChart"></div>
             </div>
 
@@ -509,7 +605,7 @@
         <!-- Data Table Section -->
         <div class="data-table-section">
             <div class="table-header">
-                <div class="table-title">Raw Data Table</div>
+                <div class="table-title">Raw Data Table (Filtered)</div>
                 <div class="table-controls">
                     <input type="text" id="tableSearch" placeholder="Search...">
                     <button id="selectAllBtn" class="primary">Select All</button>
@@ -517,9 +613,7 @@
                     <button id="invertSelectionBtn">Invert Selection</button>
                 </div>
             </div>
-            <div class="table-info" id="tableInfo">
-                <!-- Dynamic info will be inserted here -->
-            </div>
+            <div class="table-info" id="tableInfo"></div>
             <div class="table-container">
                 <table class="data-table" id="dataTable">
                     <thead>
@@ -528,812 +622,63 @@
                             <th>#</th>
                             <th>Month</th>
                             <th>Region</th>
-                            <th>Purchase Type</th>
-                            <th>License Year</th>
-                            <th>License Count</th>
-                            <th>License Year Count</th>
+                            <th>Channel</th>
+                            <th>License Type</th>
+                            <th>Year</th>
+                            <th>Count</th>
+                            <th>Year Count</th>
                         </tr>
                     </thead>
-                    <tbody id="tableBody">
-                        <!-- Dynamic rows will be inserted here -->
-                    </tbody>
+                    <tbody id="tableBody"></tbody>
                 </table>
             </div>
         </div>
 
         <div class="footer">
-            <p>TP-Link Omada Business Unit | Data Range: 2021.03 - 2026.01 | Product Owner: Lucien Chen</p>
+            <p>TP-Link Omada Business Unit | Data Range: 2024.10 - 2026.01 | Product Owner: Lucien Chen</p>
         </div>
     </div>
 
     <script>
-        // Raw CSV data
-        const csvRawData = `month,region,purchase_type,license_year,license_count,license_year_count
-2026-01-01,us-east-1,Commercial_Advanced,1,667,667
-2026-01-01,eu-west-1,Commercial_Advanced,5,479,2395
-2026-01-01,eu-west-1,Commercial_Advanced,1,376,376
-2026-01-01,ap-southeast-1,Commercial_Advanced,5,320,1600
-2026-01-01,ap-southeast-1,Commercial_Advanced,1,161,161
-2026-01-01,us-east-1,Commercial_CBC_Pro,5,66,330
-2026-01-01,ap-southeast-1,Commercial_CBC_Pro,3,51,153
-2026-01-01,us-east-1,Internal_Promotion,1,46,46
-2026-01-01,us-east-1,Commercial_Advanced,2,39,78
-2026-01-01,ap-southeast-1,Internal_Promotion,1,30,30
-2026-01-01,us-east-1,Commercial_Advanced,3,26,78
-2026-01-01,eu-west-1,Commercial_Advanced,3,23,69
-2026-01-01,eu-west-1,Commercial_Advanced,2,18,36
-2026-01-01,us-east-1,Commercial_Advanced,5,17,85
-2026-01-01,ap-southeast-1,Commercial_Advanced,2,16,32
-2026-01-01,eu-west-1,Surveillance_IPC,1,13,13
-2026-01-01,ap-southeast-1,Commercial_Advanced,3,9,27
-2026-01-01,ap-southeast-1,Surveillance_IPC,5,5,25
-2026-01-01,ap-southeast-1,Surveillance_IPC,1,4,4
-2026-01-01,ap-southeast-1,Commercial_CBC_Pro,5,3,15
-2026-01-01,eu-west-1,Commercial_Advanced,4,1,4
-2026-01-01,us-east-1,Surveillance_IPC,1,1,1
-2025-12-01,us-east-1,Commercial_Advanced,1,3461,3461
-2025-12-01,eu-west-1,Commercial_Advanced,1,627,627
-2025-12-01,eu-west-1,Commercial_Advanced,5,478,2390
-2025-12-01,eu-west-1,Commercial_Advanced,3,424,1272
-2025-12-01,ap-southeast-1,Commercial_Advanced,1,411,411
-2025-12-01,us-east-1,Commercial_Advanced,5,277,1385
-2025-12-01,us-east-1,Commercial_Advanced,3,133,399
-2025-12-01,ap-southeast-1,Commercial_Advanced,3,115,345
-2025-12-01,ap-southeast-1,Commercial_Advanced,5,97,485
-2025-12-01,us-east-1,Commercial_Advanced,2,40,80
-2025-12-01,eu-west-1,Surveillance_IPC,1,29,29
-2025-12-01,ap-southeast-1,Surveillance_IPC,1,29,29
-2025-12-01,ap-southeast-1,Commercial_Advanced,2,24,48
-2025-12-01,ap-southeast-1,Commercial_CBC_Pro,3,20,60
-2025-12-01,us-east-1,Commercial_CBC_Pro,1,10,10
-2025-12-01,ap-southeast-1,Internal_Promotion,1,8,8
-2025-12-01,us-east-1,Commercial_CBC_Pro,5,7,35
-2025-12-01,eu-west-1,Commercial_Advanced,2,6,12
-2025-12-01,eu-west-1,Surveillance_IPC,5,6,30
-2025-12-01,ap-southeast-1,Surveillance_IPC,5,5,25
-2025-12-01,us-east-1,Commercial_CBC_Pro,3,2,6
-2025-12-01,us-east-1,Commercial_Advanced,4,1,4
-2025-11-01,ap-southeast-1,Commercial_Advanced,5,10743,53715
-2025-11-01,us-east-1,Commercial_Advanced,1,2763,2763
-2025-11-01,eu-west-1,Commercial_Advanced,1,1459,1459
-2025-11-01,ap-southeast-1,Commercial_Advanced,3,884,2652
-2025-11-01,eu-west-1,Commercial_Advanced,5,791,3955
-2025-11-01,ap-southeast-1,Commercial_Advanced,1,526,526
-2025-11-01,us-east-1,Commercial_Advanced,5,505,2525
-2025-11-01,eu-west-1,Commercial_Advanced,3,312,936
-2025-11-01,us-east-1,Commercial_Advanced,3,129,387
-2025-11-01,us-east-1,Commercial_Advanced,2,70,140
-2025-11-01,ap-southeast-1,Internal_Promotion,1,60,60
-2025-11-01,us-east-1,Commercial_CBC_Pro,3,34,102
-2025-11-01,eu-west-1,Commercial_Advanced,2,14,28
-2025-11-01,ap-southeast-1,Surveillance_IPC,1,8,8
-2025-11-01,ap-southeast-1,Surveillance_IPC,5,5,25
-2025-11-01,ap-southeast-1,Commercial_Advanced,2,4,8
-2025-11-01,eu-west-1,Surveillance_IPC,1,3,3
-2025-11-01,us-east-1,Surveillance_IPC,1,2,2
-2025-11-01,ap-southeast-1,Commercial_CBC_Pro,5,1,5
-2025-11-01,us-east-1,Surveillance_IPC,3,1,3
-2025-11-01,us-east-1,Commercial_Advanced,4,1,4
-2025-10-01,ap-southeast-1,Commercial_Advanced,1,10173,10173
-2025-10-01,us-east-1,Commercial_Advanced,3,4486,13458
-2025-10-01,us-east-1,Commercial_Advanced,1,1859,1859
-2025-10-01,ap-southeast-1,Commercial_Advanced,5,1226,6130
-2025-10-01,eu-west-1,Commercial_Advanced,1,478,478
-2025-10-01,eu-west-1,Commercial_Advanced,3,468,1404
-2025-10-01,eu-west-1,Commercial_Advanced,5,423,2115
-2025-10-01,ap-southeast-1,Trial,9,380,3420
-2025-10-01,ap-southeast-1,Commercial_Advanced,3,351,1053
-2025-10-01,eu-west-1,Trial,9,285,2565
-2025-10-01,ap-southeast-1,Trial,1,200,200
-2025-10-01,us-east-1,Commercial_Advanced,5,194,970
-2025-10-01,us-east-1,Trial,9,190,1710
-2025-10-01,us-east-1,Commercial_CBC_Pro,5,175,875
-2025-10-01,us-east-1,Commercial_CBC_Pro,1,143,143
-2025-10-01,us-east-1,Commercial_Advanced,2,69,138
-2025-10-01,ap-southeast-1,Commercial_CBC_Pro,3,53,159
-2025-10-01,eu-west-1,Commercial_Advanced,2,33,66
-2025-10-01,ap-southeast-1,Commercial_Advanced,2,17,34
-2025-10-01,eu-west-1,Surveillance_IPC,1,14,14
-2025-10-01,ap-southeast-1,Surveillance_IPC,1,7,7
-2025-10-01,ap-southeast-1,Internal_Promotion,1,4,4
-2025-10-01,eu-west-1,Surveillance_IPC,5,3,15
-2025-10-01,us-east-1,Surveillance_IPC,5,3,15
-2025-10-01,us-east-1,Surveillance_IPC,1,2,2
-2025-10-01,us-east-1,Commercial_Advanced,4,1,4
-2025-09-01,ap-southeast-1,Commercial_Advanced,1,12998,12998
-2025-09-01,us-east-1,Commercial_Advanced,1,7730,7730
-2025-09-01,ap-southeast-1,Commercial_Advanced,5,1207,6035
-2025-09-01,eu-west-1,Commercial_Advanced,5,732,3660
-2025-09-01,eu-west-1,Commercial_Advanced,3,579,1737
-2025-09-01,ap-southeast-1,Commercial_Advanced,3,489,1467
-2025-09-01,eu-west-1,Commercial_Advanced,1,441,441
-2025-09-01,us-east-1,Commercial_CBC_Pro,5,405,2025
-2025-09-01,us-east-1,Commercial_Advanced,3,277,831
-2025-09-01,us-east-1,Commercial_Advanced,5,107,535
-2025-09-01,ap-southeast-1,Commercial_CBC_Pro,1,105,105
-2025-09-01,us-east-1,Commercial_CBC_Pro,1,66,66
-2025-09-01,eu-west-1,Commercial_Advanced,2,56,112
-2025-09-01,us-east-1,Commercial_Advanced,2,54,108
-2025-09-01,eu-west-1,Surveillance_IPC,5,50,250
-2025-09-01,eu-west-1,Commercial_CBC_Pro,1,50,50
-2025-09-01,ap-southeast-1,Commercial_Advanced,2,7,14
-2025-09-01,ap-southeast-1,Surveillance_IPC,1,5,5
-2025-09-01,us-east-1,Surveillance_IPC,5,5,25
-2025-09-01,us-east-1,Commercial_CBC_Pro,3,5,15
-2025-09-01,us-east-1,Commercial_Advanced,4,3,12
-2025-09-01,us-east-1,Surveillance_IPC,1,3,3
-2025-09-01,ap-southeast-1,Commercial_CBC_Pro,5,2,10
-2025-09-01,eu-west-1,Commercial_CBC_Pro,5,2,10
-2025-09-01,eu-west-1,Commercial_Advanced,4,2,8
-2025-09-01,eu-west-1,Surveillance_IPC,1,2,2
-2025-09-01,ap-southeast-1,Commercial_Advanced,4,1,4
-2025-08-01,us-east-1,Commercial_Advanced,1,7056,7056
-2025-08-01,ap-southeast-1,Commercial_Advanced,1,973,973
-2025-08-01,eu-west-1,Commercial_Advanced,5,446,2230
-2025-08-01,eu-west-1,Commercial_Advanced,1,380,380
-2025-08-01,eu-west-1,Commercial_Advanced,3,236,708
-2025-08-01,us-east-1,Commercial_Advanced,5,105,525
-2025-08-01,eu-west-1,Surveillance_IPC,1,57,57
-2025-08-01,us-east-1,Commercial_Advanced,3,56,168
-2025-08-01,ap-southeast-1,Commercial_Advanced,5,54,270
-2025-08-01,ap-southeast-1,Commercial_Advanced,2,45,90
-2025-08-01,ap-southeast-1,Commercial_Advanced,3,44,132
-2025-08-01,us-east-1,Commercial_Advanced,2,34,68
-2025-08-01,us-east-1,Commercial_CBC_Pro,1,31,31
-2025-08-01,eu-west-1,Surveillance_IPC,5,19,95
-2025-08-01,ap-southeast-1,Commercial_CBC_Pro,3,15,45
-2025-08-01,eu-west-1,Commercial_Advanced,2,11,22
-2025-08-01,ap-southeast-1,Surveillance_IPC,1,3,3
-2025-08-01,eu-west-1,Commercial_CBC_Pro,1,3,3
-2025-08-01,us-east-1,Surveillance_IPC,2,1,2
-2025-08-01,eu-west-1,Surveillance_IPC,3,1,3
-2025-08-01,us-east-1,Commercial_CBC_Pro,5,1,5
-2025-08-01,eu-west-1,Commercial_Advanced,4,1,4
-2025-07-01,ap-southeast-1,Commercial_Advanced,1,4920,4920
-2025-07-01,us-east-1,Commercial_Advanced,1,2527,2527
-2025-07-01,eu-west-1,Commercial_Advanced,1,2348,2348
-2025-07-01,ap-southeast-1,Commercial_Advanced,3,1423,4269
-2025-07-01,eu-west-1,Commercial_Advanced,5,677,3385
-2025-07-01,eu-west-1,Commercial_Advanced,3,284,852
-2025-07-01,us-east-1,Commercial_CBC_Pro,5,189,945
-2025-07-01,ap-southeast-1,Commercial_Advanced,5,151,755
-2025-07-01,us-east-1,Commercial_CBC_Pro,1,151,151
-2025-07-01,us-east-1,Commercial_Advanced,5,143,715
-2025-07-01,ap-southeast-1,Commercial_CBC_Pro,5,129,645
-2025-07-01,us-east-1,Commercial_Advanced,3,101,303
-2025-07-01,us-east-1,Commercial_Advanced,2,60,120
-2025-07-01,us-east-1,Surveillance_IPC,7,30,210
-2025-07-01,ap-southeast-1,Commercial_Advanced,2,27,54
-2025-07-01,us-east-1,Commercial_Advanced,7,26,182
-2025-07-01,eu-west-1,Commercial_CBC_Pro,5,17,85
-2025-07-01,eu-west-1,Surveillance_IPC,1,13,13
-2025-07-01,ap-southeast-1,Surveillance_IPC,1,13,13
-2025-07-01,ap-southeast-1,Commercial_CBC_Pro,3,12,36
-2025-07-01,eu-west-1,Commercial_Advanced,2,11,22
-2025-07-01,eu-west-1,Surveillance_IPC,3,10,30
-2025-07-01,ap-southeast-1,Commercial_Advanced,7,4,28
-2025-07-01,eu-west-1,Commercial_Advanced,4,2,8
-2025-07-01,us-east-1,Commercial_Advanced,4,1,4
-2025-07-01,eu-west-1,Commercial_CBC_Pro,3,1,3
-2025-07-01,us-east-1,Surveillance_IPC,1,1,1
-2025-06-01,us-east-1,Commercial_Advanced,1,2579,2579
-2025-06-01,ap-southeast-1,Commercial_Advanced,1,896,896
-2025-06-01,eu-west-1,Commercial_Advanced,1,634,634
-2025-06-01,eu-west-1,Commercial_Advanced,5,554,2770
-2025-06-01,ap-southeast-1,Commercial_Advanced,3,525,1575
-2025-06-01,eu-west-1,Commercial_Advanced,3,229,687
-2025-06-01,us-east-1,Commercial_Advanced,3,195,585
-2025-06-01,ap-southeast-1,Commercial_Advanced,5,192,960
-2025-06-01,us-east-1,Commercial_CBC_Pro,1,77,77
-2025-06-01,us-east-1,Internal_Promotion,1,75,75
-2025-06-01,us-east-1,Commercial_Advanced,5,73,365
-2025-06-01,us-east-1,Commercial_Advanced,2,72,144
-2025-06-01,eu-west-1,Internal_Promotion,1,60,60
-2025-06-01,ap-southeast-1,Internal_Promotion,1,60,60
-2025-06-01,eu-west-1,Surveillance_IPC,1,47,47
-2025-06-01,us-east-1,Surveillance_IPC,1,32,32
-2025-06-01,ap-southeast-1,Commercial_CBC_Pro,3,21,63
-2025-06-01,us-east-1,Commercial_Advanced,4,14,56
-2025-06-01,ap-southeast-1,Commercial_CBC_Pro,1,14,14
-2025-06-01,eu-west-1,Surveillance_IPC,5,12,60
-2025-06-01,ap-southeast-1,Surveillance_IPC,1,6,6
-2025-06-01,eu-west-1,Surveillance_IPC,3,2,6
-2025-06-01,us-east-1,Surveillance_IPC,5,2,10
-2025-06-01,us-east-1,Surveillance_IPC,3,2,6
-2025-06-01,ap-southeast-1,Commercial_Advanced,2,1,2
-2025-06-01,ap-southeast-1,Commercial_Advanced,4,1,4
-2025-06-01,eu-west-1,Commercial_Advanced,2,1,2
-2025-05-01,ap-southeast-1,Commercial_Advanced,5,8870,44350
-2025-05-01,eu-west-1,Commercial_Advanced,1,2498,2498
-2025-05-01,us-east-1,Commercial_Advanced,1,1938,1938
-2025-05-01,ap-southeast-1,Commercial_Advanced,1,1532,1532
-2025-05-01,eu-west-1,Commercial_Advanced,3,1133,3399
-2025-05-01,eu-west-1,Commercial_Advanced,5,738,3690
-2025-05-01,ap-southeast-1,Commercial_Advanced,3,317,951
-2025-05-01,ap-southeast-1,Commercial_CBC_Pro,1,226,226
-2025-05-01,us-east-1,Commercial_Advanced,3,171,513
-2025-05-01,us-east-1,Commercial_Advanced,5,146,730
-2025-05-01,ap-southeast-1,Commercial_CBC_Pro,3,64,192
-2025-05-01,ap-southeast-1,Trial,1,60,60
-2025-05-01,ap-southeast-1,Internal_Promotion,1,56,56
-2025-05-01,us-east-1,Commercial_CBC_Pro,1,49,49
-2025-05-01,ap-southeast-1,Surveillance_IPC,1,40,40
-2025-05-01,us-east-1,Internal_Promotion,1,30,30
-2025-05-01,us-east-1,Commercial_Advanced,2,29,58
-2025-05-01,us-east-1,Commercial_CBC_Pro,5,18,90
-2025-05-01,us-east-1,Surveillance_IPC,1,9,9
-2025-05-01,eu-west-1,Commercial_Advanced,2,8,16
-2025-05-01,eu-west-1,Commercial_Advanced,4,2,8
-2025-05-01,ap-southeast-1,Commercial_Advanced,2,2,4
-2025-05-01,eu-west-1,Surveillance_IPC,1,1,1
-2025-04-01,us-east-1,Surveillance_IPC,5,2010,10050
-2025-04-01,us-east-1,Commercial_Advanced,1,1693,1693
-2025-04-01,ap-southeast-1,Commercial_Advanced,1,1569,1569
-2025-04-01,ap-southeast-1,Commercial_Advanced,5,1226,6130
-2025-04-01,us-east-1,Surveillance_IPC,3,1200,3600
-2025-04-01,ap-southeast-1,Surveillance_IPC,5,1010,5050
-2025-04-01,eu-west-1,Surveillance_IPC,5,980,4900
-2025-04-01,eu-west-1,Commercial_Advanced,1,791,791
-2025-04-01,ap-southeast-1,Surveillance_IPC,3,701,2103
-2025-04-01,eu-west-1,Surveillance_IPC,3,499,1497
-2025-04-01,us-east-1,Surveillance_IPC,1,400,400
-2025-04-01,eu-west-1,Commercial_Advanced,5,385,1925
-2025-04-01,eu-west-1,Commercial_Advanced,3,297,891
-2025-04-01,ap-southeast-1,Surveillance_IPC,1,213,213
-2025-04-01,eu-west-1,Surveillance_IPC,1,187,187
-2025-04-01,ap-southeast-1,Commercial_Advanced,3,171,513
-2025-04-01,us-east-1,Commercial_Advanced,3,151,453
-2025-04-01,us-east-1,Commercial_Advanced,5,90,450
-2025-04-01,ap-southeast-1,Commercial_Advanced,2,64,128
-2025-04-01,us-east-1,Commercial_Advanced,2,60,120
-2025-04-01,us-east-1,Commercial_CBC_Pro,1,51,51
-2025-04-01,ap-southeast-1,Commercial_CBC_Pro,5,13,65
-2025-04-01,eu-west-1,Commercial_CBC_Pro,1,6,6
-2025-04-01,us-east-1,Commercial_CBC_Pro,5,4,20
-2025-04-01,us-east-1,Commercial_CBC_Pro,3,3,9
-2025-04-01,eu-west-1,Commercial_Advanced,2,3,6
-2025-03-01,ap-southeast-1,Commercial_Advanced,5,2995,14975
-2025-03-01,ap-southeast-1,Commercial_Advanced,1,2662,2662
-2025-03-01,us-east-1,Commercial_Advanced,1,2069,2069
-2025-03-01,eu-west-1,Commercial_Advanced,1,772,772
-2025-03-01,eu-west-1,Commercial_Advanced,3,555,1665
-2025-03-01,ap-southeast-1,Surveillance_IPC,5,500,2500
-2025-03-01,us-east-1,Surveillance_IPC,5,500,2500
-2025-03-01,us-east-1,Commercial_CBC_Pro,5,326,1630
-2025-03-01,ap-southeast-1,Surveillance_IPC,3,300,900
-2025-03-01,us-east-1,Surveillance_IPC,3,300,900
-2025-03-01,eu-west-1,Commercial_Advanced,5,220,1100
-2025-03-01,us-east-1,Commercial_Advanced,2,121,242
-2025-03-01,us-east-1,Commercial_Advanced,5,102,510
-2025-03-01,ap-southeast-1,Surveillance_IPC,1,100,100
-2025-03-01,us-east-1,Surveillance_IPC,1,100,100
-2025-03-01,us-east-1,Commercial_Advanced,3,66,198
-2025-03-01,ap-southeast-1,Commercial_Advanced,3,49,147
-2025-03-01,us-east-1,Commercial_CBC_Pro,1,16,16
-2025-03-01,eu-west-1,Commercial_Advanced,2,15,30
-2025-03-01,us-east-1,Commercial_Advanced,4,10,40
-2025-03-01,ap-southeast-1,Commercial_Advanced,2,9,18
-2025-03-01,ap-southeast-1,Commercial_CBC_Pro,1,6,6
-2025-03-01,eu-west-1,Commercial_CBC_Pro,1,1,1
-2025-02-01,us-east-1,Commercial_Advanced,1,83923,83923
-2025-02-01,eu-west-1,Commercial_Advanced,1,2457,2457
-2025-02-01,ap-southeast-1,Commercial_Advanced,1,2432,2432
-2025-02-01,ap-southeast-1,Commercial_Advanced,5,2149,10745
-2025-02-01,ap-southeast-1,Trial,3,1235,3705
-2025-02-01,us-east-1,Trial,3,665,1995
-2025-02-01,eu-west-1,Trial,3,248,744
-2025-02-01,eu-west-1,Commercial_Advanced,5,248,1240
-2025-02-01,ap-southeast-1,Internal_Promotion,1,220,220
-2025-02-01,eu-west-1,Commercial_Advanced,3,207,621
-2025-02-01,us-east-1,Commercial_CBC_Pro,1,176,176
-2025-02-01,us-east-1,Commercial_Advanced,5,118,590
-2025-02-01,us-east-1,Commercial_Advanced,3,74,222
-2025-02-01,ap-southeast-1,Commercial_CBC_Pro,5,58,290
-2025-02-01,ap-southeast-1,Commercial_Advanced,3,53,159
-2025-02-01,eu-west-1,Commercial_CBC_Pro,1,50,50
-2025-02-01,us-east-1,Commercial_Advanced,2,30,60
-2025-02-01,ap-southeast-1,Commercial_CBC_Pro,3,21,63
-2025-02-01,eu-west-1,Commercial_Advanced,2,15,30
-2025-02-01,us-east-1,Commercial_CBC_Pro,5,11,55
-2025-02-01,ap-southeast-1,Commercial_Advanced,2,10,20
-2025-02-01,us-east-1,Commercial_Advanced,4,6,24
-2025-02-01,us-east-1,Commercial_CBC_Pro,3,3,9
-2025-02-01,eu-west-1,Commercial_CBC_Pro,5,2,10
-2025-01-01,us-east-1,Commercial_Advanced,1,1573,1573
-2025-01-01,ap-southeast-1,Commercial_Advanced,1,1065,1065
-2025-01-01,eu-west-1,Commercial_Advanced,1,542,542
-2025-01-01,eu-west-1,Commercial_Advanced,5,210,1050
-2025-01-01,eu-west-1,Commercial_Advanced,3,166,498
-2025-01-01,us-east-1,Commercial_Advanced,5,127,635
-2025-01-01,us-east-1,Commercial_CBC_Pro,3,110,330
-2025-01-01,us-east-1,Commercial_Advanced,3,109,327
-2025-01-01,ap-southeast-1,Commercial_Advanced,5,105,525
-2025-01-01,us-east-1,Commercial_CBC_Pro,1,88,88
-2025-01-01,us-east-1,Commercial_Advanced,2,66,132
-2025-01-01,ap-southeast-1,Commercial_Advanced,3,30,90
-2025-01-01,ap-southeast-1,Internal_Promotion,1,30,30
-2025-01-01,ap-southeast-1,Commercial_Advanced,2,17,34
-2025-01-01,us-east-1,Commercial_CBC_Pro,5,12,60
-2025-01-01,eu-west-1,Commercial_CBC_Pro,1,10,10
-2025-01-01,ap-southeast-1,Commercial_CBC_Pro,5,9,45
-2025-01-01,eu-west-1,Commercial_Advanced,2,2,4
-2025-01-01,us-east-1,Commercial_Advanced,4,2,8
-2025-01-01,ap-southeast-1,Commercial_CBC_Pro,1,1,1
-2024-12-01,ap-southeast-1,Commercial_Advanced,1,2794,2794
-2024-12-01,us-east-1,Commercial_Advanced,1,2121,2121
-2024-12-01,ap-southeast-1,Commercial_Advanced,3,269,807
-2024-12-01,eu-west-1,Commercial_Advanced,1,215,215
-2024-12-01,eu-west-1,Commercial_Advanced,5,154,770
-2024-12-01,eu-west-1,Commercial_Advanced,3,120,360
-2024-12-01,us-east-1,Commercial_Advanced,5,101,505
-2024-12-01,us-east-1,Commercial_Advanced,3,76,228
-2024-12-01,ap-southeast-1,Commercial_Advanced,5,62,310
-2024-12-01,us-east-1,Internal_Promotion,1,60,60
-2024-12-01,us-east-1,Commercial_Advanced,2,55,110
-2024-12-01,us-east-1,Commercial_CBC_Pro,1,35,35
-2024-12-01,ap-southeast-1,Internal_Promotion,1,30,30
-2024-12-01,us-east-1,Commercial_CBC_Pro,3,29,87
-2024-12-01,eu-west-1,Commercial_Advanced,2,10,20
-2024-12-01,eu-west-1,Commercial_CBC_Pro,5,10,50
-2024-12-01,us-east-1,Commercial_CBC_Pro,5,8,40
-2024-12-01,ap-southeast-1,Commercial_CBC_Pro,1,5,5
-2024-12-01,ap-southeast-1,Trial,3,3,9
-2024-12-01,ap-southeast-1,Commercial_Advanced,2,3,6
-2024-12-01,ap-southeast-1,Commercial_CBC_Pro,3,3,9
-2024-12-01,us-east-1,Trial,3,1,3
-2024-11-01,eu-west-1,Commercial_Advanced,1,2305,2305
-2024-11-01,us-east-1,Commercial_Advanced,1,1794,1794
-2024-11-01,ap-southeast-1,Commercial_Advanced,1,1695,1695
-2024-11-01,eu-west-1,Commercial_Advanced,5,254,1270
-2024-11-01,eu-west-1,Commercial_Advanced,3,187,561
-2024-11-01,ap-southeast-1,Commercial_Advanced,3,146,438
-2024-11-01,us-east-1,Commercial_CBC_Pro,3,122,366
-2024-11-01,us-east-1,Commercial_Advanced,5,97,485
-2024-11-01,us-east-1,Commercial_Advanced,2,95,190
-2024-11-01,ap-southeast-1,Internal_Promotion,1,75,75
-2024-11-01,ap-southeast-1,Commercial_Advanced,5,49,245
-2024-11-01,us-east-1,Commercial_Advanced,3,41,123
-2024-11-01,us-east-1,Commercial_CBC_Pro,5,30,150
-2024-11-01,us-east-1,Internal_Promotion,1,30,30
-2024-11-01,eu-west-1,Internal_Promotion,1,30,30
-2024-11-01,us-east-1,Commercial_CBC_Pro,1,8,8
-2024-11-01,ap-southeast-1,Commercial_CBC_Pro,1,6,6
-2024-11-01,eu-west-1,Commercial_Advanced,2,6,12
-2024-11-01,ap-southeast-1,Commercial_Advanced,2,2,4
-2024-10-01,ap-southeast-1,Commercial_Advanced,5,5005,25025
-2024-10-01,us-east-1,Commercial_Advanced,1,1555,1555
-2024-10-01,ap-southeast-1,Commercial_Advanced,1,1044,1044
-2024-10-01,eu-west-1,Commercial_Advanced,1,629,629
-2024-10-01,eu-west-1,Commercial_Advanced,3,548,1644
-2024-10-01,us-east-1,Commercial_Advanced,3,422,1266
-2024-10-01,ap-southeast-1,Commercial_Advanced,3,373,1119
-2024-10-01,us-east-1,Commercial_Advanced,5,149,745
-2024-10-01,eu-west-1,Commercial_Advanced,5,78,390
-2024-10-01,us-east-1,Commercial_CBC_Pro,1,56,56
-2024-10-01,us-east-1,Commercial_Advanced,2,44,88
-2024-10-01,eu-west-1,Commercial_CBC_Pro,3,26,78
-2024-10-01,ap-southeast-1,Commercial_CBC_Pro,1,16,16
-2024-10-01,ap-southeast-1,Commercial_CBC_Pro,3,16,48
-2024-10-01,us-east-1,Commercial_CBC_Pro,3,8,24
-2024-10-01,ap-southeast-1,Commercial_Advanced,2,5,10
-2024-10-01,eu-west-1,Commercial_Advanced,2,4,8
-2024-10-01,us-east-1,Commercial_Advanced,4,1,4
-2024-09-01,ap-southeast-1,Commercial_Advanced,1,11152,11152
-2024-09-01,ap-southeast-1,Commercial_Advanced,5,5031,25155
-2024-09-01,us-east-1,Commercial_Advanced,1,1358,1358
-2024-09-01,eu-west-1,Commercial_Advanced,1,456,456
-2024-09-01,eu-west-1,Commercial_Advanced,3,221,663
-2024-09-01,eu-west-1,Commercial_Advanced,5,149,745
-2024-09-01,ap-southeast-1,Commercial_Advanced,3,96,288
-2024-09-01,us-east-1,Commercial_Advanced,5,62,310
-2024-09-01,us-east-1,Commercial_Advanced,2,60,120
-2024-09-01,us-east-1,Commercial_CBC_Pro,1,54,54
-2024-09-01,us-east-1,Commercial_CBC_Pro,3,30,90
-2024-09-01,us-east-1,Commercial_Advanced,3,26,78
-2024-09-01,eu-west-1,Commercial_Advanced,2,14,28
-2024-09-01,ap-southeast-1,Commercial_CBC_Pro,1,10,10
-2024-09-01,ap-southeast-1,Commercial_Advanced,2,7,14
-2024-09-01,us-east-1,Commercial_Advanced,4,1,4
-2024-08-01,ap-southeast-1,Commercial_Advanced,1,2108,2108
-2024-08-01,us-east-1,Commercial_Advanced,1,1167,1167
-2024-08-01,eu-west-1,Commercial_Advanced,1,421,421
-2024-08-01,us-east-1,Commercial_CBC_Pro,5,398,1990
-2024-08-01,us-east-1,Commercial_Advanced,5,127,635
-2024-08-01,eu-west-1,Commercial_Advanced,3,125,375
-2024-08-01,us-east-1,Commercial_Advanced,3,107,321
-2024-08-01,ap-southeast-1,Commercial_Advanced,3,95,285
-2024-08-01,us-east-1,Commercial_Advanced,2,69,138
-2024-08-01,us-east-1,Commercial_CBC_Pro,1,55,55
-2024-08-01,eu-west-1,Commercial_Advanced,5,32,160
-2024-08-01,us-east-1,Commercial_Advanced,4,4,16
-2024-08-01,ap-southeast-1,Commercial_CBC_Pro,3,4,12
-2024-08-01,eu-west-1,Commercial_CBC_Pro,1,3,3
-2024-08-01,ap-southeast-1,Commercial_Advanced,5,3,15
-2024-08-01,ap-southeast-1,Commercial_Advanced,4,2,8
-2024-08-01,eu-west-1,Commercial_Advanced,2,2,4
-2024-08-01,us-east-1,Commercial_CBC_Pro,3,2,6
-2024-08-01,ap-southeast-1,Commercial_Advanced,2,1,2
-2024-07-01,ap-southeast-1,Commercial_Advanced,1,4574,4574
-2024-07-01,eu-west-1,Commercial_Advanced,1,2621,2621
-2024-07-01,us-east-1,Commercial_Advanced,1,1660,1660
-2024-07-01,eu-west-1,Commercial_Advanced,5,491,2455
-2024-07-01,eu-west-1,Commercial_Advanced,3,199,597
-2024-07-01,us-east-1,Commercial_Advanced,5,142,710
-2024-07-01,us-east-1,Commercial_Advanced,3,118,354
-2024-07-01,us-east-1,Commercial_Advanced,2,83,166
-2024-07-01,us-east-1,Commercial_CBC_Pro,3,56,168
-2024-07-01,ap-southeast-1,Commercial_Advanced,3,36,108
-2024-07-01,ap-southeast-1,Commercial_Advanced,5,28,140
-2024-07-01,eu-west-1,Commercial_Advanced,2,19,38
-2024-07-01,ap-southeast-1,Commercial_CBC_Pro,1,10,10
-2024-07-01,us-east-1,Commercial_CBC_Pro,1,5,5
-2024-07-01,us-east-1,Commercial_Advanced,4,4,16
-2024-07-01,ap-southeast-1,Commercial_Advanced,2,1,2
-2024-06-01,us-east-1,Commercial_Advanced,1,1675,1675
-2024-06-01,ap-southeast-1,Commercial_Advanced,1,632,632
-2024-06-01,ap-southeast-1,Commercial_Advanced,5,500,2500
-2024-06-01,eu-west-1,Commercial_Advanced,3,312,936
-2024-06-01,eu-west-1,Commercial_Advanced,1,284,284
-2024-06-01,us-east-1,Commercial_Advanced,5,131,655
-2024-06-01,us-east-1,Commercial_Advanced,3,95,285
-2024-06-01,us-east-1,Commercial_Advanced,2,66,132
-2024-06-01,ap-southeast-1,Commercial_CBC_Pro,1,54,54
-2024-06-01,eu-west-1,Commercial_Advanced,5,33,165
-2024-06-01,ap-southeast-1,Commercial_Advanced,3,16,48
-2024-06-01,us-east-1,Commercial_CBC_Pro,1,15,15
-2024-06-01,ap-southeast-1,Commercial_Advanced,2,6,12
-2024-06-01,eu-west-1,Commercial_Advanced,4,4,16
-2024-06-01,eu-west-1,Commercial_CBC_Pro,1,2,2
-2024-06-01,ap-southeast-1,Commercial_CBC_Pro,3,1,3
-2024-06-01,us-east-1,Commercial_Advanced,4,1,4
-2024-05-01,us-east-1,Commercial_Advanced,1,988,988
-2024-05-01,ap-southeast-1,Commercial_Advanced,1,884,884
-2024-05-01,ap-southeast-1,Commercial_Advanced,5,426,2130
-2024-05-01,eu-west-1,Commercial_Advanced,1,316,316
-2024-05-01,ap-southeast-1,Commercial_Advanced,3,220,660
-2024-05-01,us-east-1,Commercial_Advanced,3,187,561
-2024-05-01,us-east-1,Commercial_Advanced,5,152,760
-2024-05-01,eu-west-1,Commercial_Advanced,3,131,393
-2024-05-01,us-east-1,Commercial_Advanced,2,69,138
-2024-05-01,eu-west-1,Commercial_Advanced,5,54,270
-2024-05-01,us-east-1,Commercial_CBC_Pro,1,46,46
-2024-05-01,ap-southeast-1,Commercial_CBC_Pro,1,32,32
-2024-05-01,ap-southeast-1,Commercial_Advanced,2,7,14
-2024-05-01,eu-west-1,Commercial_Advanced,2,5,10
-2024-05-01,eu-west-1,Commercial_CBC_Pro,3,1,3
-2024-04-01,eu-west-1,Commercial_Advanced,1,2394,2394
-2024-04-01,ap-southeast-1,Commercial_Advanced,1,1395,1395
-2024-04-01,us-east-1,Commercial_Advanced,1,1122,1122
-2024-04-01,eu-west-1,Commercial_Advanced,3,1076,3228
-2024-04-01,ap-southeast-1,Commercial_Advanced,3,536,1608
-2024-04-01,eu-west-1,Surveillance_IPC,1,230,230
-2024-04-01,eu-west-1,Commercial_Advanced,5,206,1030
-2024-04-01,ap-southeast-1,Surveillance_IPC,1,135,135
-2024-04-01,us-east-1,Commercial_Advanced,5,80,400
-2024-04-01,us-east-1,Commercial_Advanced,2,45,90
-2024-04-01,ap-southeast-1,Commercial_CBC_Pro,5,38,190
-2024-04-01,us-east-1,Commercial_Advanced,3,22,66
-2024-04-01,eu-west-1,Commercial_Advanced,2,22,44
-2024-04-01,us-east-1,Commercial_CBC_Pro,1,19,19
-2024-04-01,ap-southeast-1,Commercial_Advanced,5,18,90
-2024-04-01,ap-southeast-1,Commercial_CBC_Pro,1,10,10
-2024-04-01,ap-southeast-1,Trial,1,10,10
-2024-04-01,ap-southeast-1,Surveillance_IPC,3,5,15
-2024-04-01,eu-west-1,Commercial_CBC_Pro,1,5,5
-2024-04-01,ap-southeast-1,Surveillance_IPC,5,5,25
-2024-04-01,eu-west-1,Commercial_Advanced,4,3,12
-2024-04-01,us-east-1,Commercial_Advanced,4,1,4
-2024-03-01,ap-southeast-1,Commercial_Advanced,1,1213,1213
-2024-03-01,us-east-1,Commercial_Advanced,1,888,888
-2024-03-01,eu-west-1,Commercial_Advanced,1,601,601
-2024-03-01,eu-west-1,Commercial_Advanced,3,230,690
-2024-03-01,eu-west-1,Commercial_Advanced,5,202,1010
-2024-03-01,ap-southeast-1,Commercial_Advanced,3,150,450
-2024-03-01,us-east-1,Commercial_CBC_Pro,5,80,400
-2024-03-01,us-east-1,Commercial_Advanced,3,75,225
-2024-03-01,us-east-1,Commercial_Advanced,2,52,104
-2024-03-01,us-east-1,Commercial_CBC_Pro,3,38,114
-2024-03-01,us-east-1,Commercial_Advanced,5,37,185
-2024-03-01,eu-west-1,Commercial_Advanced,2,13,26
-2024-03-01,ap-southeast-1,Commercial_Advanced,5,10,50
-2024-03-01,ap-southeast-1,Commercial_Advanced,2,6,12
-2024-02-01,ap-southeast-1,Commercial_Advanced,1,8796,8796
-2024-02-01,ap-southeast-1,Commercial_Advanced,5,5451,27255
-2024-02-01,eu-west-1,Commercial_Advanced,1,1283,1283
-2024-02-01,us-east-1,Commercial_Advanced,1,1160,1160
-2024-02-01,ap-southeast-1,Commercial_Advanced,3,409,1227
-2024-02-01,eu-west-1,Commercial_Advanced,3,201,603
-2024-02-01,us-east-1,Commercial_Advanced,3,148,444
-2024-02-01,eu-west-1,Commercial_Advanced,5,116,580
-2024-02-01,us-east-1,Commercial_CBC_Pro,1,81,81
-2024-02-01,us-east-1,Commercial_Advanced,5,73,365
-2024-02-01,us-east-1,Commercial_Advanced,2,52,104
-2024-02-01,eu-west-1,Commercial_Advanced,2,14,28
-2024-02-01,ap-southeast-1,Commercial_Advanced,2,3,6
-2024-01-01,ap-southeast-1,Commercial_Advanced,1,6353,6353
-2024-01-01,us-east-1,Commercial_Advanced,1,806,806
-2024-01-01,eu-west-1,Commercial_Advanced,1,213,213
-2024-01-01,ap-southeast-1,Commercial_Advanced,3,140,420
-2024-01-01,ap-southeast-1,Trial,5,130,650
-2024-01-01,us-east-1,Commercial_CBC_Pro,3,107,321
-2024-01-01,eu-west-1,Commercial_Advanced,3,93,279
-2024-01-01,eu-west-1,Commercial_Advanced,5,71,355
-2024-01-01,us-east-1,Commercial_Advanced,5,53,265
-2024-01-01,us-east-1,Commercial_Advanced,3,41,123
-2024-01-01,us-east-1,Commercial_Advanced,2,34,68
-2024-01-01,eu-west-1,Commercial_Advanced,2,15,30
-2024-01-01,ap-southeast-1,Commercial_CBC_Pro,5,11,55
-2024-01-01,eu-west-1,Commercial_CBC_Pro,3,10,30
-2024-01-01,us-east-1,Trial,1,10,10
-2024-01-01,ap-southeast-1,Commercial_Advanced,5,9,45
-2024-01-01,us-east-1,Commercial_CBC_Pro,1,8,8
-2024-01-01,ap-southeast-1,Commercial_Advanced,2,7,14
-2023-12-01,ap-southeast-1,Commercial_Advanced,1,8107,8107
-2023-12-01,us-east-1,Commercial_Advanced,1,719,719
-2023-12-01,eu-west-1,Commercial_Advanced,3,279,837
-2023-12-01,eu-west-1,Commercial_Advanced,1,151,151
-2023-12-01,us-east-1,Commercial_Advanced,5,116,580
-2023-12-01,us-east-1,Commercial_Advanced,3,79,237
-2023-12-01,eu-west-1,Commercial_Advanced,5,72,360
-2023-12-01,ap-southeast-1,Commercial_Advanced,3,53,159
-2023-12-01,us-east-1,Commercial_Advanced,2,32,64
-2023-12-01,ap-southeast-1,Commercial_Advanced,5,12,60
-2023-12-01,eu-west-1,Commercial_Advanced,2,10,20
-2023-12-01,us-east-1,Trial,1,10,10
-2023-12-01,ap-southeast-1,Commercial_Advanced,2,5,10
-2023-12-01,us-east-1,Commercial_Advanced,4,3,12
-2023-12-01,eu-west-1,Commercial_CBC_Pro,5,2,10
-2023-11-01,ap-southeast-1,Commercial_Advanced,1,18566,18566
-2023-11-01,eu-west-1,Commercial_Advanced,1,1193,1193
-2023-11-01,us-east-1,Commercial_Advanced,1,1049,1049
-2023-11-01,eu-west-1,Commercial_Advanced,3,205,615
-2023-11-01,ap-southeast-1,Commercial_Advanced,3,142,426
-2023-11-01,us-east-1,Commercial_Advanced,5,133,665
-2023-11-01,eu-west-1,Commercial_Advanced,5,73,365
-2023-11-01,us-east-1,Commercial_Advanced,2,51,102
-2023-11-01,us-east-1,Commercial_Advanced,3,45,135
-2023-11-01,ap-southeast-1,Trial,1,20,20
-2023-11-01,ap-southeast-1,Commercial_Advanced,5,15,75
-2023-11-01,ap-southeast-1,Commercial_Advanced,4,6,24
-2023-11-01,eu-west-1,Commercial_Advanced,2,3,6
-2023-11-01,ap-southeast-1,Commercial_Advanced,2,2,4
-2023-10-01,eu-west-1,Commercial_Advanced,3,1037,3111
-2023-10-01,us-east-1,Commercial_Advanced,1,999,999
-2023-10-01,ap-southeast-1,Commercial_Advanced,3,362,1086
-2023-10-01,eu-west-1,Commercial_Advanced,5,326,1630
-2023-10-01,eu-west-1,Commercial_Advanced,1,282,282
-2023-10-01,ap-southeast-1,Commercial_Advanced,1,235,235
-2023-10-01,us-east-1,Commercial_Advanced,5,171,855
-2023-10-01,us-east-1,Commercial_Advanced,3,39,117
-2023-10-01,us-east-1,Commercial_Advanced,2,38,76
-2023-10-01,eu-west-1,Commercial_Advanced,2,9,18
-2023-10-01,us-east-1,Commercial_Advanced,4,7,28
-2023-10-01,ap-southeast-1,Commercial_Advanced,5,3,15
-2023-10-01,ap-southeast-1,Commercial_Advanced,2,2,4
-2023-09-01,ap-southeast-1,Commercial_Advanced,1,10476,10476
-2023-09-01,ap-southeast-1,Commercial_Advanced,5,8531,42655
-2023-09-01,us-east-1,Commercial_Advanced,1,728,728
-2023-09-01,eu-west-1,Commercial_Advanced,3,266,798
-2023-09-01,eu-west-1,Commercial_Advanced,5,164,820
-2023-09-01,us-east-1,Commercial_Advanced,3,147,441
-2023-09-01,eu-west-1,Commercial_Advanced,1,134,134
-2023-09-01,us-east-1,Commercial_Advanced,5,109,545
-2023-09-01,us-east-1,Commercial_CBC_Pro,1,30,30
-2023-09-01,eu-west-1,Trial,1,30,30
-2023-09-01,us-east-1,Commercial_Advanced,2,30,60
-2023-09-01,ap-southeast-1,Commercial_Advanced,3,19,57
-2023-09-01,eu-west-1,Commercial_Advanced,2,6,12
-2023-09-01,ap-southeast-1,Commercial_Advanced,2,6,12
-2023-08-01,us-east-1,Commercial_Advanced,1,556,556
-2023-08-01,eu-west-1,Commercial_Advanced,1,399,399
-2023-08-01,ap-southeast-1,Commercial_Advanced,1,297,297
-2023-08-01,eu-west-1,Commercial_Advanced,5,160,800
-2023-08-01,eu-west-1,Commercial_Advanced,3,113,339
-2023-08-01,us-east-1,Commercial_Advanced,3,97,291
-2023-08-01,ap-southeast-1,Commercial_Advanced,3,72,216
-2023-08-01,us-east-1,Commercial_Advanced,5,61,305
-2023-08-01,ap-southeast-1,Commercial_Advanced,5,52,260
-2023-08-01,us-east-1,Commercial_Advanced,2,34,68
-2023-08-01,ap-southeast-1,Commercial_Advanced,2,30,60
-2023-08-01,eu-west-1,Trial,1,11,11
-2023-08-01,eu-west-1,Commercial_Advanced,2,2,4
-2023-07-01,ap-southeast-1,Commercial_Advanced,5,5914,29570
-2023-07-01,ap-southeast-1,Commercial_Advanced,1,1573,1573
-2023-07-01,us-east-1,Commercial_Advanced,1,506,506
-2023-07-01,us-east-1,Trial,5,320,1600
-2023-07-01,eu-west-1,Commercial_Advanced,1,191,191
-2023-07-01,eu-west-1,Commercial_Advanced,5,184,920
-2023-07-01,eu-west-1,Commercial_Advanced,3,88,264
-2023-07-01,us-east-1,Commercial_Advanced,5,57,285
-2023-07-01,us-east-1,Commercial_Advanced,3,45,135
-2023-07-01,us-east-1,Commercial_Advanced,2,33,66
-2023-07-01,eu-west-1,Commercial_Advanced,2,13,26
-2023-07-01,ap-southeast-1,Commercial_Advanced,3,10,30
-2023-07-01,ap-southeast-1,Trial,1,5,5
-2023-07-01,us-east-1,Commercial_Advanced,4,4,16
-2023-07-01,eu-west-1,Commercial_Advanced,4,4,16
-2023-06-01,ap-southeast-1,Commercial_Advanced,5,5010,25050
-2023-06-01,us-east-1,Commercial_Advanced,1,1199,1199
-2023-06-01,us-east-1,Commercial_CBC_Pro,1,450,450
-2023-06-01,ap-southeast-1,Commercial_Advanced,1,317,317
-2023-06-01,ap-southeast-1,Trial,1,215,215
-2023-06-01,eu-west-1,Commercial_Advanced,1,192,192
-2023-06-01,eu-west-1,Commercial_Advanced,3,163,489
-2023-06-01,us-east-1,Trial,5,100,500
-2023-06-01,ap-southeast-1,Trial,5,80,400
-2023-06-01,us-east-1,Commercial_Advanced,5,70,350
-2023-06-01,us-east-1,Trial,1,67,67
-2023-06-01,us-east-1,Commercial_Advanced,3,47,141
-2023-06-01,eu-west-1,Commercial_Advanced,5,27,135
-2023-06-01,us-east-1,Commercial_Advanced,2,17,34
-2023-06-01,ap-southeast-1,Others,1,15,15
-2023-06-01,us-east-1,Commercial_Advanced,4,10,40
-2023-06-01,ap-southeast-1,Commercial_Advanced,3,3,9
-2023-06-01,eu-west-1,Commercial_Advanced,2,3,6
-2023-06-01,ap-southeast-1,Commercial_Advanced,4,1,4
-2023-05-01,us-east-1,Commercial_Advanced,1,559,559
-2023-05-01,eu-west-1,Commercial_Advanced,5,270,1350
-2023-05-01,eu-west-1,Commercial_Advanced,1,199,199
-2023-05-01,ap-southeast-1,Commercial_Advanced,1,186,186
-2023-05-01,ap-southeast-1,Commercial_Advanced,3,119,357
-2023-05-01,us-east-1,Commercial_Advanced,5,71,355
-2023-05-01,eu-west-1,Commercial_Advanced,3,62,186
-2023-05-01,us-east-1,Commercial_Advanced,2,31,62
-2023-05-01,us-east-1,Commercial_Advanced,3,18,54
-2023-05-01,ap-southeast-1,Commercial_Advanced,5,8,40
-2023-05-01,ap-southeast-1,Trial,1,5,5
-2023-05-01,us-east-1,Commercial_Advanced,4,4,16
-2023-05-01,ap-southeast-1,Commercial_Advanced,2,4,8
-2023-04-01,ap-southeast-1,Commercial_Advanced,5,3139,15695
-2023-04-01,eu-west-1,Commercial_Advanced,1,1160,1160
-2023-04-01,us-east-1,Commercial_Advanced,3,539,1617
-2023-04-01,us-east-1,Commercial_Advanced,1,476,476
-2023-04-01,ap-southeast-1,Commercial_Advanced,1,238,238
-2023-04-01,eu-west-1,Commercial_Advanced,3,167,501
-2023-04-01,us-east-1,Commercial_Advanced,2,65,130
-2023-04-01,us-east-1,Commercial_Advanced,5,31,155
-2023-04-01,eu-west-1,Commercial_Advanced,5,24,120
-2023-04-01,ap-southeast-1,Commercial_Advanced,2,8,16
-2023-04-01,eu-west-1,Commercial_Advanced,2,8,16
-2023-04-01,us-east-1,Commercial_Advanced,4,6,24
-2023-04-01,ap-southeast-1,Commercial_Advanced,3,1,3
-2023-03-01,us-east-1,Commercial_Advanced,1,981,981
-2023-03-01,eu-west-1,Commercial_Advanced,1,962,962
-2023-03-01,ap-southeast-1,Commercial_Advanced,1,721,721
-2023-03-01,us-east-1,Commercial_Advanced,5,65,325
-2023-03-01,us-east-1,Commercial_Advanced,3,63,189
-2023-03-01,ap-southeast-1,Commercial_Advanced,5,17,85
-2023-03-01,us-east-1,Commercial_Advanced,2,16,32
-2023-03-01,eu-west-1,Commercial_Advanced,3,12,36
-2023-03-01,eu-west-1,Commercial_Advanced,5,5,25
-2023-03-01,ap-southeast-1,Trial,1,5,5
-2023-03-01,ap-southeast-1,Commercial_Advanced,3,2,6
-2023-03-01,ap-southeast-1,Commercial_Advanced,2,1,2
-2023-02-01,us-east-1,Commercial_Advanced,1,494,494
-2023-02-01,ap-southeast-1,Commercial_Advanced,1,465,465
-2023-02-01,eu-west-1,Commercial_Advanced,1,64,64
-2023-02-01,eu-west-1,Commercial_Advanced,3,38,114
-2023-02-01,us-east-1,Commercial_Advanced,5,33,165
-2023-02-01,us-east-1,Commercial_Advanced,2,22,44
-2023-02-01,us-east-1,Commercial_Advanced,3,20,60
-2023-02-01,ap-southeast-1,Commercial_Advanced,3,1,3
-2023-02-01,ap-southeast-1,Commercial_Advanced,5,1,5
-2023-02-01,eu-west-1,Commercial_Advanced,2,1,2
-2023-01-01,ap-southeast-1,Commercial_Advanced,5,9318,46590
-2023-01-01,us-east-1,Commercial_Advanced,1,370,370
-2023-01-01,eu-west-1,Commercial_Advanced,1,273,273
-2023-01-01,us-east-1,Commercial_Advanced,5,60,300
-2023-01-01,us-east-1,Commercial_Advanced,3,37,111
-2023-01-01,eu-west-1,Commercial_Advanced,5,33,165
-2023-01-01,eu-west-1,Commercial_Advanced,3,32,96
-2023-01-01,us-east-1,Commercial_Advanced,2,20,40
-2023-01-01,ap-southeast-1,Commercial_Advanced,1,13,13
-2023-01-01,ap-southeast-1,Commercial_Advanced,3,4,12
-2022-12-01,ap-southeast-1,Commercial_Advanced,5,2182,10910
-2022-12-01,us-east-1,Commercial_Advanced,1,307,307
-2022-12-01,ap-southeast-1,Commercial_Advanced,1,144,144
-2022-12-01,eu-west-1,Commercial_Advanced,1,75,75
-2022-12-01,us-east-1,Commercial_Advanced,5,43,215
-2022-12-01,us-east-1,Commercial_Advanced,2,29,58
-2022-12-01,eu-west-1,Commercial_Advanced,5,25,125
-2022-12-01,eu-west-1,Commercial_Advanced,3,8,24
-2022-12-01,eu-west-1,Commercial_Advanced,2,4,8
-2022-12-01,ap-southeast-1,Commercial_Advanced,3,3,9
-2022-12-01,us-east-1,Commercial_Advanced,3,2,6
-2022-11-01,eu-west-1,Commercial_Advanced,1,530,530
-2022-11-01,eu-west-1,Commercial_Advanced,3,468,1404
-2022-11-01,us-east-1,Commercial_Advanced,1,421,421
-2022-11-01,us-east-1,Commercial_Advanced,3,154,462
-2022-11-01,ap-southeast-1,Commercial_Advanced,1,114,114
-2022-11-01,ap-southeast-1,Commercial_Advanced,5,69,345
-2022-11-01,us-east-1,Commercial_Advanced,5,43,215
-2022-11-01,eu-west-1,Commercial_Advanced,5,20,100
-2022-11-01,us-east-1,Commercial_Advanced,2,10,20
-2022-11-01,ap-southeast-1,Trial,1,10,10
-2022-11-01,eu-west-1,Commercial_Advanced,2,10,20
-2022-11-01,ap-southeast-1,Commercial_Advanced,3,3,9
-2022-11-01,us-east-1,Commercial_Advanced,4,1,4
-2022-10-01,us-east-1,Commercial_Advanced,1,545,545
-2022-10-01,eu-west-1,Commercial_Advanced,3,160,480
-2022-10-01,us-east-1,Trial,1,97,97
-2022-10-01,us-east-1,Commercial_Advanced,5,85,425
-2022-10-01,ap-southeast-1,Commercial_Advanced,1,76,76
-2022-10-01,eu-west-1,Commercial_Advanced,5,31,155
-2022-10-01,ap-southeast-1,Commercial_Advanced,5,25,125
-2022-10-01,ap-southeast-1,Commercial_Advanced,3,23,69
-2022-10-01,us-east-1,Commercial_Advanced,3,10,30
-2022-10-01,us-east-1,Commercial_Advanced,2,8,16
-2022-09-01,ap-southeast-1,Commercial_Advanced,1,10013,10013
-2022-09-01,us-east-1,Commercial_Advanced,1,361,361
-2022-09-01,us-east-1,Commercial_Advanced,5,109,545
-2022-09-01,us-east-1,Commercial_Advanced,3,76,228
-2022-09-01,us-east-1,Commercial_Advanced,2,14,28
-2022-09-01,eu-west-1,Trial,1,10,10
-2022-09-01,ap-southeast-1,Trial,1,10,10
-2022-09-01,us-east-1,Trial,1,10,10
-2022-09-01,us-east-1,Commercial_Advanced,4,4,16
-2022-09-01,eu-west-1,Commercial_Advanced,5,3,15
-2022-08-01,us-east-1,Commercial_Advanced,1,374,374
-2022-08-01,ap-southeast-1,Commercial_Advanced,1,167,167
-2022-08-01,ap-southeast-1,Commercial_Advanced,3,125,375
-2022-08-01,eu-west-1,Trial,1,40,40
-2022-08-01,us-east-1,Commercial_Advanced,5,22,110
-2022-08-01,ap-southeast-1,Trial,3,10,30
-2022-08-01,us-east-1,Commercial_Advanced,2,5,10
-2022-08-01,ap-southeast-1,Trial,1,5,5
-2022-08-01,eu-west-1,Commercial_Advanced,1,3,3
-2022-08-01,us-east-1,Commercial_Advanced,3,2,6
-2022-08-01,eu-west-1,Commercial_Advanced,5,2,10
-2022-07-01,eu-west-1,Commercial_Advanced,3,250,750
-2022-07-01,us-east-1,Commercial_Advanced,1,17,17
-2022-06-01,eu-west-1,Commercial_Advanced,3,50,150
-2022-06-01,us-east-1,Trial,1,22,22
-2022-05-01,ap-southeast-1,Trial,1,90,90
-2022-05-01,us-east-1,Commercial_Advanced,5,12,60
-2022-05-01,eu-west-1,Commercial_Advanced,1,8,8
-2022-05-01,us-east-1,Commercial_Advanced,1,7,7
-2022-05-01,ap-southeast-1,Commercial_Advanced,1,2,2
-2022-04-01,ap-southeast-1,Trial,1,20,20
-2022-04-01,us-east-1,Commercial_Advanced,1,12,12
-2022-04-01,eu-west-1,Trial,1,10,10
-2022-04-01,eu-west-1,Commercial_Advanced,1,7,7
-2022-04-01,us-east-1,Commercial_Advanced,2,4,8
-2022-04-01,ap-southeast-1,Commercial_Advanced,1,3,3
-2022-03-01,eu-west-1,Trial,1,20,20
-2022-03-01,us-east-1,Trial,1,10,10
-2022-03-01,ap-southeast-1,Trial,1,10,10
-2022-02-01,eu-west-1,Trial,1,270,270
-2022-02-01,ap-southeast-1,Trial,1,220,220
-2022-02-01,us-east-1,Trial,1,40,40
-2022-01-01,ap-southeast-1,Trial,1,270,270
-2022-01-01,eu-west-1,Trial,1,190,190
-2022-01-01,us-east-1,Trial,1,120,120
-2022-01-01,us-east-1,Commercial_Advanced,1,5,5
-2022-01-01,eu-west-1,Commercial_Advanced,1,2,2
-2022-01-01,us-east-1,Commercial_Advanced,3,1,3
-2022-01-01,eu-west-1,Commercial_Advanced,5,1,5
-2021-12-01,ap-southeast-1,Commercial_Advanced,1,3,3
-2021-12-01,eu-west-1,Commercial_Advanced,4,1,4
-2021-12-01,ap-southeast-1,Commercial_Advanced,3,1,3
-2021-09-01,us-east-1,Commercial_Advanced,1,2,2
-2021-08-01,us-east-1,Commercial_Advanced,1,4,4
-2021-08-01,us-east-1,Commercial_Advanced,2,1,2
-2021-07-01,ap-southeast-1,Commercial_Advanced,1,1300,1300
-2021-07-01,eu-west-1,Commercial_Advanced,1,3,3
-2021-07-01,us-east-1,Commercial_Advanced,2,2,4
-2021-06-01,us-east-1,Commercial_Advanced,1,1,1
-2021-06-01,ap-southeast-1,Commercial_Advanced,1,1,1
-2021-05-01,ap-southeast-1,Commercial_Advanced,1,20,20
-2021-05-01,us-east-1,Commercial_Advanced,2,7,14
-2021-05-01,us-east-1,Commercial_Advanced,1,4,4
-2021-04-01,ap-southeast-1,Commercial_Advanced,1,80,80
-2021-04-01,us-east-1,Commercial_Advanced,1,1,1
-2021-03-01,ap-southeast-1,Commercial_Advanced,1,755,755
-2021-03-01,eu-west-1,Commercial_Advanced,1,371,371
-2021-03-01,us-east-1,Commercial_Advanced,1,350,350
-2021-03-01,ap-southeast-1,Commercial_Advanced,2,1,2`;
+        // CSV file to load - update this file to refresh data
+        const CSV_FILE = 'license-data.csv';
 
-        // Parse CSV data
+        // Global variables that will be set after loading
+        let parsedData = [];
+        let selectedRows = new Set();
+        let allMonths = [];
+        let allRegions = [];
+        let allChannels = [];
+        let allLicenseTypes = [];
+        let allYears = [];
+        let allLicenseYearCategories = [];
+        let selectedYears = new Set();
+        let selectedRegions = new Set();
+        let selectedChannels = new Set();
+        let selectedLicenseTypes = new Set();
+        let mainChart, pieChart;
+        let searchFilter = '';
+        let currentSort = { field: 'month', order: 'desc' };
+
+        // Load CSV file
+        async function loadCSVData() {
+            try {
+                const response = await fetch(CSV_FILE);
+                if (!response.ok) {
+                    throw new Error(`Failed to load ${CSV_FILE}: ${response.status}`);
+                }
+                return await response.text();
+            } catch (error) {
+                console.error('Error loading CSV:', error);
+                document.body.innerHTML = `<div style="padding: 50px; text-align: center; color: red;">
+                    <h2>数据加载失败</h2>
+                    <p>无法加载 ${CSV_FILE}</p>
+                    <p>${error.message}</p>
+                </div>`;
+                throw error;
+            }
+        }
+        // Parse CSV
         function parseCSV(csvString) {
             const lines = csvString.trim().split('\n');
             const headers = lines[0].split(',');
@@ -1345,153 +690,238 @@
                 headers.forEach((header, index) => {
                     row[header.trim()] = values[index] ? values[index].trim() : '';
                 });
-                // Convert numeric fields
-                row.license_year = parseInt(row.license_year) || 0;
-                row.license_count = parseInt(row.license_count) || 0;
-                row.license_year_count = parseInt(row.license_year_count) || 0;
-                // Convert date to YYYY-MM format
+                // Map business_region to region for compatibility
+                row.region = row.business_region || row.region;
+                row.license_year = parseFloat(row.license_year) || 0;
+                row.license_count = parseFloat(row.license_count) || 0;
+                row.license_year_count = parseFloat(row.license_year_count) || 0;
                 row.month = row.month.substring(0, 7);
+                // Categorize license year for grouping
+                row.license_year_category = categorizeLicenseYear(row.license_year);
                 data.push(row);
             }
             return data;
         }
 
-        const parsedData = parseCSV(csvRawData);
+        // Categorize license year for display
+        function categorizeLicenseYear(year) {
+            if (year < 0.1) return 'Trial (<30d)';
+            if (year < 0.3) return 'Trial (~90d)';
+            if (year < 0.6) return 'Trial (~180d)';
+            if (year >= 0.9 && year < 1.5) return '1 Year';
+            if (year >= 2 && year < 4) return '2-3 Years';
+            if (year >= 4 && year < 6) return '5 Years';
+            if (year >= 8 && year < 10) return '9 Years';
+            return year.toFixed(1) + ' Year';
+        }
 
-        // Track selected rows (all selected by default)
-        let selectedRows = new Set(parsedData.map((_, index) => index));
+        // Initialize data (will be called after loading CSV)
+        function initializeData(csvRawData) {
+            parsedData = parseCSV(csvRawData);
 
-        // Get unique values
-        const allMonths = [...new Set(parsedData.map(d => d.month))].sort();
-        const allRegions = [...new Set(parsedData.map(d => d.region))].sort();
-        const allPurchaseTypes = [...new Set(parsedData.map(d => d.purchase_type))].sort();
-        const allLicenseYears = [...new Set(parsedData.map(d => d.license_year))].sort((a, b) => a - b);
-        const allYears = [...new Set(allMonths.map(m => m.substring(0, 4)))].sort();
+            // Track selected rows
+            selectedRows = new Set(parsedData.map((_, index) => index));
+
+            // Get unique values
+            allMonths = [...new Set(parsedData.map(d => d.month))].sort();
+            allRegions = [...new Set(parsedData.map(d => d.region))].sort();
+            allChannels = [...new Set(parsedData.map(d => d.purchase_type))].sort();
+            allLicenseTypes = [...new Set(parsedData.map(d => d.license_type))].sort();
+            allYears = [...new Set(allMonths.map(m => m.substring(0, 4)))].sort();
+            allLicenseYearCategories = [...new Set(parsedData.map(d => d.license_year_category))];
+
+            // Filters
+            selectedYears = new Set(allYears);
+            selectedRegions = new Set(allRegions);
+            selectedChannels = new Set(allChannels);
+            selectedLicenseTypes = new Set(allLicenseTypes);
+        }
 
         // Color schemes
         const regionColors = {
-            'ap-southeast-1': '#3498db',
-            'eu-west-1': '#2ecc71',
-            'us-east-1': '#e74c3c'
+            'APAC': '#3498db',
+            'EMEA': '#2ecc71',
+            'Americas': '#e74c3c'
         };
 
-        const purchaseTypeColors = {
-            'Commercial_Advanced': '#3498db',
-            'Commercial_CBC_Pro': '#9b59b6',
-            'Internal_Promotion': '#f39c12',
-            'Surveillance_IPC': '#e74c3c',
-            'Trial': '#1abc9c',
-            'Others': '#95a5a6'
+        const channelColors = {
+            'Online': '#27ae60',
+            'Offline': '#3498db',
+            'Trial': '#f39c12'
+        };
+
+        const licenseTypeColors = {
+            'Standard': '#3498db',
+            'Pro': '#9b59b6',
+            'Surveillance': '#e67e22',
+            'Trial': '#f39c12'
         };
 
         const licenseYearColors = {
-            1: '#3498db',
-            2: '#2ecc71',
-            3: '#f39c12',
-            4: '#e74c3c',
-            5: '#9b59b6',
-            7: '#1abc9c',
-            9: '#34495e'
+            'Trial (<30d)': '#ff6b6b',
+            'Trial (~90d)': '#ffa502',
+            'Trial (~180d)': '#ffd93d',
+            '1 Year': '#6bcb77',
+            '2-3 Years': '#4d96ff',
+            '5 Years': '#9b59b6',
+            '9 Years': '#2c3e50'
         };
+
+        // Generate stable color from string (for fallback)
+        function stringToColor(str) {
+            let hash = 0;
+            for (let i = 0; i < str.length; i++) {
+                hash = str.charCodeAt(i) + ((hash << 5) - hash);
+            }
+            const colors = ['#3498db', '#e74c3c', '#2ecc71', '#f39c12', '#9b59b6', '#1abc9c', '#e67e22', '#34495e'];
+            return colors[Math.abs(hash) % colors.length];
+        }
 
         const regionNames = {
-            'ap-southeast-1': 'AP-Southeast',
-            'eu-west-1': 'EU-West',
-            'us-east-1': 'US-East'
+            'APAC': 'APAC',
+            'EMEA': 'EMEA',
+            'Americas': 'Americas'
         };
 
-        const purchaseTypeNames = {
-            'Commercial_Advanced': 'Commercial Advanced',
-            'Commercial_CBC_Pro': 'Commercial CBC Pro',
-            'Internal_Promotion': 'Internal Promotion',
-            'Surveillance_IPC': 'Surveillance IPC',
-            'Trial': 'Trial',
-            'Others': 'Others'
+        const channelNames = {
+            'Online': 'Online',
+            'Offline': 'Offline',
+            'Trial': 'Trial'
         };
 
-        // Initialize charts
-        const mainChart = echarts.init(document.getElementById('mainChart'));
-        const pieChart = echarts.init(document.getElementById('pieChart'));
+        // Initialize charts (will be called in init function)
+        function initializeCharts() {
+            mainChart = echarts.init(document.getElementById('mainChart'));
+            pieChart = echarts.init(document.getElementById('pieChart'));
+        }
 
-        // Selected years
-        let selectedYears = new Set(allYears);
-
-        // Initialize year checkboxes
-        function initYearCheckboxes() {
-            const container = document.getElementById('yearCheckboxes');
-
+        // Initialize filter checkboxes
+        function initFilterCheckboxes() {
+            // Year checkboxes
+            const yearContainer = document.getElementById('yearCheckboxes');
             allYears.forEach(year => {
-                const item = document.createElement('div');
-                item.className = 'year-checkbox-item';
+                const item = createCheckboxItem(year, year, true, handleYearChange);
+                yearContainer.appendChild(item);
+            });
 
-                const checkbox = document.createElement('input');
-                checkbox.type = 'checkbox';
-                checkbox.id = `year-${year}`;
-                checkbox.value = year;
-                checkbox.checked = true;
-                checkbox.addEventListener('change', handleYearChange);
+            // Region checkboxes
+            const regionContainer = document.getElementById('regionCheckboxes');
+            allRegions.forEach(region => {
+                const item = createCheckboxItem(region, regionNames[region] || region, true, handleRegionChange);
+                regionContainer.appendChild(item);
+            });
 
-                const label = document.createElement('span');
-                label.textContent = year;
-                label.addEventListener('click', () => checkbox.click());
+            // Channel checkboxes
+            const channelContainer = document.getElementById('channelCheckboxes');
+            allChannels.forEach(channel => {
+                const item = createCheckboxItem(channel, channelNames[channel] || channel, true, handleChannelChange);
+                channelContainer.appendChild(item);
+            });
 
-                item.appendChild(checkbox);
-                item.appendChild(label);
-                container.appendChild(item);
+            // License type checkboxes
+            const licenseTypeContainer = document.getElementById('licenseTypeCheckboxes');
+            allLicenseTypes.forEach(type => {
+                const item = createCheckboxItem(type, type, true, handleLicenseTypeChange);
+                licenseTypeContainer.appendChild(item);
             });
         }
 
-        function handleYearChange(e) {
-            const year = e.target.value;
-            if (e.target.checked) {
-                selectedYears.add(year);
-            } else {
-                selectedYears.delete(year);
-            }
+        function createCheckboxItem(value, label, checked, handler) {
+            const item = document.createElement('div');
+            item.className = 'filter-checkbox-item';
 
-            if (selectedYears.size === 0) {
-                e.target.checked = true;
-                selectedYears.add(year);
-                alert('At least one year must be selected');
-                return;
-            }
+            const checkbox = document.createElement('input');
+            checkbox.type = 'checkbox';
+            checkbox.id = `filter-${value}`;
+            checkbox.value = value;
+            checkbox.checked = checked;
+            checkbox.addEventListener('change', handler);
 
-            renderMainChart();
+            const span = document.createElement('span');
+            span.textContent = label;
+            span.addEventListener('click', () => checkbox.click());
+
+            item.appendChild(checkbox);
+            item.appendChild(span);
+            return item;
         }
 
-        // Get time categories based on dimension
-        function getTimeCategories(dimension) {
+        function handleYearChange(e) {
+            updateFilterSet(e, selectedYears);
+            updateChartsAndTable();
+        }
+
+        function handleRegionChange(e) {
+            updateFilterSet(e, selectedRegions);
+            updateChartsAndTable();
+        }
+
+        function handleChannelChange(e) {
+            updateFilterSet(e, selectedChannels);
+            updateChartsAndTable();
+        }
+
+        function handleLicenseTypeChange(e) {
+            updateFilterSet(e, selectedLicenseTypes);
+            updateChartsAndTable();
+        }
+
+        function updateFilterSet(e, filterSet) {
+            const value = e.target.value;
+            if (e.target.checked) {
+                filterSet.add(value);
+            } else {
+                filterSet.delete(value);
+            }
+        }
+
+        // Filter data based on selections
+        function getFilteredData() {
+            return parsedData.filter((row, index) => {
+                if (!selectedRows.has(index)) return false;
+                const year = row.month.substring(0, 4);
+                return selectedYears.has(year) &&
+                       selectedRegions.has(row.region) &&
+                       selectedChannels.has(row.purchase_type) &&
+                       selectedLicenseTypes.has(row.license_type);
+            });
+        }
+
+        // Get time categories
+        function getTimeCategories(dimension, filteredData) {
+            const months = [...new Set(filteredData.map(d => d.month))].sort();
+
             if (dimension === 'monthly') {
-                return allMonths.filter(m => selectedYears.has(m.substring(0, 4)));
+                return months;
             } else if (dimension === 'quarterly') {
                 const quarters = new Set();
-                allMonths.forEach(m => {
+                months.forEach(m => {
                     const year = m.substring(0, 4);
-                    if (selectedYears.has(year)) {
-                        const month = parseInt(m.substring(5, 7));
-                        const quarter = Math.ceil(month / 3);
-                        quarters.add(`${year}Q${quarter}`);
-                    }
+                    const month = parseInt(m.substring(5, 7));
+                    const quarter = Math.ceil(month / 3);
+                    quarters.add(`${year}Q${quarter}`);
                 });
                 return [...quarters].sort();
             } else {
-                return [...selectedYears].sort();
+                return [...new Set(months.map(m => m.substring(0, 4)))].sort();
             }
         }
 
         // Aggregate data
         function aggregateData(dimension, groupBy, metric) {
-            const categories = getTimeCategories(dimension);
+            const filteredData = getFilteredData();
+            const categories = getTimeCategories(dimension, filteredData);
             const result = {};
 
-            // Initialize result structure
             let groups = [];
             if (groupBy === 'region') {
-                groups = allRegions;
-            } else if (groupBy === 'purchaseType') {
-                groups = allPurchaseTypes;
+                groups = [...selectedRegions];
+            } else if (groupBy === 'channel') {
+                groups = [...selectedChannels];
+            } else if (groupBy === 'licenseType') {
+                groups = [...selectedLicenseTypes];
             } else if (groupBy === 'licenseYear') {
-                groups = allLicenseYears.map(y => y.toString());
+                groups = [...new Set(filteredData.map(d => d.license_year_category))];
             } else {
                 groups = ['Total'];
             }
@@ -1503,44 +933,36 @@
                 });
             });
 
-            // Aggregate - only use selected rows
-            parsedData.forEach((row, index) => {
-                // Skip unselected rows
-                if (!selectedRows.has(index)) return;
-
-                const year = row.month.substring(0, 4);
-                if (!selectedYears.has(year)) return;
-
+            filteredData.forEach(row => {
                 let timeKey;
                 if (dimension === 'monthly') {
                     timeKey = row.month;
                 } else if (dimension === 'quarterly') {
+                    const year = row.month.substring(0, 4);
                     const month = parseInt(row.month.substring(5, 7));
                     const quarter = Math.ceil(month / 3);
                     timeKey = `${year}Q${quarter}`;
                 } else {
-                    timeKey = year;
+                    timeKey = row.month.substring(0, 4);
                 }
 
                 const value = metric === 'license_count' ? row.license_count : row.license_year_count;
 
+                let groupKey;
                 if (groupBy === 'region') {
-                    if (result[row.region] && result[row.region][timeKey] !== undefined) {
-                        result[row.region][timeKey] += value;
-                    }
-                } else if (groupBy === 'purchaseType') {
-                    if (result[row.purchase_type] && result[row.purchase_type][timeKey] !== undefined) {
-                        result[row.purchase_type][timeKey] += value;
-                    }
+                    groupKey = row.region;
+                } else if (groupBy === 'channel') {
+                    groupKey = row.purchase_type;
+                } else if (groupBy === 'licenseType') {
+                    groupKey = row.license_type;
                 } else if (groupBy === 'licenseYear') {
-                    const lyKey = row.license_year.toString();
-                    if (result[lyKey] && result[lyKey][timeKey] !== undefined) {
-                        result[lyKey][timeKey] += value;
-                    }
+                    groupKey = row.license_year_category;
                 } else {
-                    if (result['Total'][timeKey] !== undefined) {
-                        result['Total'][timeKey] += value;
-                    }
+                    groupKey = 'Total';
+                }
+
+                if (result[groupKey] && result[groupKey][timeKey] !== undefined) {
+                    result[groupKey][timeKey] += value;
                 }
             });
 
@@ -1563,65 +985,77 @@
 
             let html = `
                 <div class="stat-item">
-                    <div class="stat-value">${grandTotal.toLocaleString()}</div>
+                    <div class="stat-value">${formatNumber(grandTotal)}</div>
                     <div class="stat-label">Total</div>
                 </div>
             `;
 
-            if (groupBy === 'region') {
-                allRegions.forEach(region => {
-                    const percentage = grandTotal > 0 ? ((groupTotals[region] / grandTotal) * 100).toFixed(1) : 0;
-                    html += `
-                        <div class="stat-item">
-                            <div class="stat-value" style="color: ${regionColors[region]}">${groupTotals[region].toLocaleString()}</div>
-                            <div class="stat-label">${regionNames[region]} (${percentage}%)</div>
-                        </div>
-                    `;
-                });
-            } else if (groupBy === 'purchaseType') {
-                const topTypes = Object.entries(groupTotals)
-                    .sort((a, b) => b[1] - a[1])
-                    .slice(0, 4);
-                topTypes.forEach(([type, total]) => {
-                    const percentage = grandTotal > 0 ? ((total / grandTotal) * 100).toFixed(1) : 0;
-                    html += `
-                        <div class="stat-item">
-                            <div class="stat-value" style="color: ${purchaseTypeColors[type] || '#666'}">${total.toLocaleString()}</div>
-                            <div class="stat-label">${purchaseTypeNames[type] || type} (${percentage}%)</div>
-                        </div>
-                    `;
-                });
-            }
+            const getColor = (key) => {
+                if (groupBy === 'region') return regionColors[key];
+                if (groupBy === 'channel') return channelColors[key];
+                if (groupBy === 'licenseType') return licenseTypeColors[key];
+                return '#667eea';
+            };
+
+            const getName = (key) => {
+                if (groupBy === 'region') return regionNames[key] || key;
+                if (groupBy === 'channel') return channelNames[key] || key;
+                return key;
+            };
+
+            const topItems = Object.entries(groupTotals)
+                .sort((a, b) => b[1] - a[1])
+                .slice(0, 5);
+
+            topItems.forEach(([key, total]) => {
+                const percentage = grandTotal > 0 ? ((total / grandTotal) * 100).toFixed(1) : 0;
+                html += `
+                    <div class="stat-item">
+                        <div class="stat-value" style="color: ${getColor(key) || '#667eea'}">${formatNumber(total)}</div>
+                        <div class="stat-label">${getName(key)} (${percentage}%)</div>
+                    </div>
+                `;
+            });
 
             statsBar.innerHTML = html;
         }
 
-        // Update pie chart
+        function formatNumber(num) {
+            if (num >= 1000000) return (num / 1000000).toFixed(1) + 'M';
+            if (num >= 1000) return (num / 1000).toFixed(1) + 'K';
+            return Math.round(num).toLocaleString();
+        }
+
+        // Update pie chart - inherit colors from main chart
         function updatePieChart(aggregated, groupBy, timeIndex) {
             const timeLabel = aggregated.categories[timeIndex];
             const pieData = [];
 
+            // Get color map from main chart's series
+            const mainOption = mainChart.getOption();
+            const colorMap = {};
+            if (mainOption && mainOption.series) {
+                mainOption.series.forEach(s => {
+                    if (s.name && s.itemStyle && s.itemStyle.color) {
+                        colorMap[s.name] = s.itemStyle.color;
+                    }
+                });
+            }
+
+            const getName = (key) => {
+                if (groupBy === 'region') return regionNames[key] || key;
+                if (groupBy === 'channel') return channelNames[key] || key;
+                return key;
+            };
+
             aggregated.groups.forEach(g => {
                 const value = aggregated.data[g][timeLabel];
                 if (value > 0) {
-                    let color, name;
-                    if (groupBy === 'region') {
-                        color = regionColors[g];
-                        name = regionNames[g];
-                    } else if (groupBy === 'purchaseType') {
-                        color = purchaseTypeColors[g] || '#666';
-                        name = purchaseTypeNames[g] || g;
-                    } else if (groupBy === 'licenseYear') {
-                        color = licenseYearColors[parseInt(g)] || '#666';
-                        name = `${g} Year`;
-                    } else {
-                        color = '#667eea';
-                        name = g;
-                    }
+                    const name = getName(g);
                     pieData.push({
                         name: name,
-                        value: value,
-                        itemStyle: { color: color }
+                        value: Math.round(value),
+                        itemStyle: { color: colorMap[name] || stringToColor(g) }
                     });
                 }
             });
@@ -1631,59 +1065,39 @@
             const pieOption = {
                 title: {
                     text: timeLabel,
-                    subtext: `Total: ${total.toLocaleString()}`,
+                    subtext: `Total: ${formatNumber(total)}`,
                     left: 'center',
                     top: 10,
-                    textStyle: {
-                        fontSize: 18,
-                        fontWeight: 'bold',
-                        color: '#2c3e50'
-                    },
-                    subtextStyle: {
-                        fontSize: 14,
-                        color: '#7f8c8d'
-                    }
+                    textStyle: { fontSize: 16, fontWeight: 'bold', color: '#2c3e50' },
+                    subtextStyle: { fontSize: 13, color: '#7f8c8d' }
                 },
                 tooltip: {
                     trigger: 'item',
-                    formatter: function(params) {
+                    formatter: (params) => {
                         const percentage = total > 0 ? ((params.value / total) * 100).toFixed(1) : 0;
                         return `<strong>${params.name}</strong><br/>
                                 Count: <strong>${params.value.toLocaleString()}</strong><br/>
                                 Share: <strong>${percentage}%</strong>`;
                     }
                 },
-                legend: {
-                    orient: 'horizontal',
-                    bottom: 10,
-                    textStyle: { fontSize: 11 }
-                },
+                legend: { orient: 'horizontal', bottom: 10, textStyle: { fontSize: 10 } },
                 series: [{
                     type: 'pie',
-                    radius: ['40%', '65%'],
+                    radius: ['35%', '60%'],
                     center: ['50%', '50%'],
                     avoidLabelOverlap: true,
-                    itemStyle: {
-                        borderRadius: 8,
-                        borderColor: '#fff',
-                        borderWidth: 3
-                    },
+                    itemStyle: { borderRadius: 6, borderColor: '#fff', borderWidth: 2 },
                     label: {
                         show: true,
-                        formatter: function(params) {
+                        formatter: (params) => {
                             const percentage = total > 0 ? ((params.value / total) * 100).toFixed(1) : 0;
                             return `${percentage}%`;
                         },
-                        fontSize: 12,
-                        fontWeight: 'bold'
+                        fontSize: 11
                     },
                     emphasis: {
-                        label: { show: true, fontSize: 14, fontWeight: 'bold' },
-                        itemStyle: {
-                            shadowBlur: 10,
-                            shadowOffsetX: 0,
-                            shadowColor: 'rgba(0, 0, 0, 0.5)'
-                        }
+                        label: { show: true, fontSize: 13, fontWeight: 'bold' },
+                        itemStyle: { shadowBlur: 10, shadowOffsetX: 0, shadowColor: 'rgba(0, 0, 0, 0.5)' }
                     },
                     data: pieData
                 }]
@@ -1696,17 +1110,16 @@
         function renderMainChart() {
             const timeDimension = document.getElementById('timeSelect').value;
             const chartType = document.getElementById('chartTypeSelect').value;
-            const dataView = document.getElementById('dataViewSelect').value;
+            const groupBy = document.getElementById('groupBySelect').value;
             const metric = document.getElementById('metricSelect').value;
-            const labelOption = document.getElementById('labelSelect').value;
 
-            const aggregated = aggregateData(timeDimension, dataView, metric);
+            const aggregated = aggregateData(timeDimension, groupBy, metric);
 
             if (aggregated.categories.length === 0) {
                 mainChart.clear();
                 mainChart.setOption({
                     title: {
-                        text: 'Please select at least one year',
+                        text: 'No data with current filters',
                         left: 'center',
                         top: 'middle',
                         textStyle: { fontSize: 16, color: '#95a5a6' }
@@ -1718,26 +1131,24 @@
             const series = [];
             const legendData = [];
 
-            aggregated.groups.forEach(g => {
-                const seriesData = aggregated.categories.map(c => aggregated.data[g][c]);
+            const getColor = (key) => {
+                if (groupBy === 'region') return regionColors[key];
+                if (groupBy === 'channel') return channelColors[key];
+                if (groupBy === 'licenseType') return licenseTypeColors[key];
+                if (groupBy === 'licenseYear') return licenseYearColors[key];
+                return null;
+            };
 
-                let color, name;
-                if (dataView === 'region') {
-                    color = regionColors[g];
-                    name = regionNames[g];
-                } else if (dataView === 'purchaseType') {
-                    color = purchaseTypeColors[g] || '#666';
-                    name = purchaseTypeNames[g] || g;
-                } else if (dataView === 'licenseYear') {
-                    color = licenseYearColors[parseInt(g)] || '#666';
-                    name = `${g} Year`;
-                } else {
-                    color = new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-                        { offset: 0, color: '#667eea' },
-                        { offset: 1, color: '#764ba2' }
-                    ]);
-                    name = 'Total';
-                }
+            const getName = (key) => {
+                if (groupBy === 'region') return regionNames[key] || key;
+                if (groupBy === 'channel') return channelNames[key] || key;
+                return key;
+            };
+
+            aggregated.groups.forEach((g, idx) => {
+                const seriesData = aggregated.categories.map(c => Math.round(aggregated.data[g][c]));
+                const name = getName(g);
+                const color = getColor(g) || stringToColor(g);
 
                 const config = {
                     name: name,
@@ -1745,15 +1156,15 @@
                     data: seriesData,
                     itemStyle: { color: color },
                     label: {
-                        show: labelOption === 'show' || (labelOption === 'auto' && timeDimension === 'yearly'),
+                        show: timeDimension === 'yearly',
                         position: 'top',
-                        formatter: (params) => params.value > 1000 ? (params.value / 1000).toFixed(1) + 'K' : params.value
+                        formatter: (params) => formatNumber(params.value)
                     }
                 };
 
                 if (chartType === 'stack-bar' || chartType === 'area') config.stack = 'total';
                 if (chartType === 'area') { config.areaStyle = { opacity: 0.7 }; config.smooth = true; }
-                if (chartType.includes('line')) { config.smooth = true; config.symbol = 'circle'; config.symbolSize = 6; }
+                if (chartType.includes('line')) { config.smooth = true; config.symbol = 'circle'; config.symbolSize = 5; }
 
                 series.push(config);
                 legendData.push(name);
@@ -1763,39 +1174,32 @@
                 tooltip: {
                     trigger: 'axis',
                     axisPointer: { type: 'shadow' },
-                    formatter: function(params) {
+                    formatter: (params) => {
                         let result = `<strong>${params[0].axisValue}</strong><br/>`;
                         let total = 0;
                         params.forEach(item => {
                             result += `${item.marker} ${item.seriesName}: <strong>${item.value.toLocaleString()}</strong><br/>`;
                             total += item.value;
                         });
-                        if (dataView !== 'total' && params.length > 1) {
+                        if (groupBy !== 'total' && params.length > 1) {
                             result += `<hr style="margin: 5px 0"/>Total: <strong>${total.toLocaleString()}</strong>`;
                         }
                         return result;
                     }
                 },
-                legend: {
-                    data: legendData,
-                    top: 10,
-                    textStyle: { fontSize: 11 }
-                },
+                legend: { data: legendData, top: 10, textStyle: { fontSize: 11 } },
                 grid: {
                     left: '3%',
                     right: '4%',
                     bottom: timeDimension === 'monthly' ? '18%' : '10%',
-                    top: '12%',
+                    top: '15%',
                     containLabel: true
                 },
                 toolbox: {
                     feature: {
-                        dataZoom: { yAxisIndex: 'none', title: { zoom: 'Zoom', back: 'Reset' } },
-                        restore: { title: 'Restore' },
-                        saveAsImage: {
-                            title: 'Save as Image',
-                            name: `Omada_License_${timeDimension}_${new Date().getTime()}`
-                        }
+                        dataZoom: { yAxisIndex: 'none' },
+                        restore: {},
+                        saveAsImage: { name: `Omada_License_${new Date().getTime()}` }
                     },
                     right: 20,
                     top: 10
@@ -1811,95 +1215,151 @@
                 xAxis: {
                     type: 'category',
                     data: aggregated.categories,
-                    axisLabel: {
-                        rotate: timeDimension === 'monthly' ? 45 : 0,
-                        fontSize: 11
-                    },
+                    axisLabel: { rotate: timeDimension === 'monthly' ? 45 : 0, fontSize: 11 },
                     axisLine: { lineStyle: { color: '#95a5a6' } }
                 },
                 yAxis: {
                     type: 'value',
                     name: metric === 'license_count' ? 'License Count' : 'License Year Count',
-                    nameTextStyle: { fontSize: 12, fontWeight: 'bold' },
-                    axisLabel: {
-                        formatter: (value) => value >= 1000 ? (value / 1000) + 'K' : value
-                    },
+                    nameTextStyle: { fontSize: 11, fontWeight: 'bold' },
+                    axisLabel: { formatter: (value) => formatNumber(value) },
                     splitLine: { lineStyle: { type: 'dashed', opacity: 0.3 } }
                 },
                 series: series
             };
 
             mainChart.setOption(option, true);
-            updateStats(aggregated, dataView);
+            updateStats(aggregated, groupBy);
 
-            // Update pie chart
-            if (dataView !== 'total' && aggregated.categories.length > 0) {
-                updatePieChart(aggregated, dataView, aggregated.categories.length - 1);
+            if (groupBy !== 'total' && aggregated.categories.length > 0) {
+                updatePieChart(aggregated, groupBy, aggregated.categories.length - 1);
             } else {
                 pieChart.clear();
                 pieChart.setOption({
                     title: {
-                        text: 'Switch to other view for distribution',
+                        text: 'Select a grouping for distribution',
                         left: 'center',
                         top: 'middle',
-                        textStyle: { fontSize: 16, color: '#95a5a6' }
+                        textStyle: { fontSize: 14, color: '#95a5a6' }
                     }
                 });
             }
         }
 
-        // Mouse hover event for pie chart sync
-        mainChart.on('mouseover', function(params) {
-            const dataView = document.getElementById('dataViewSelect').value;
-            const timeDimension = document.getElementById('timeSelect').value;
-            const metric = document.getElementById('metricSelect').value;
+        // Mouse hover for pie sync (will be called after charts are initialized)
+        function setupChartEvents() {
+            mainChart.on('mouseover', function(params) {
+                const groupBy = document.getElementById('groupBySelect').value;
+                const timeDimension = document.getElementById('timeSelect').value;
+                const metric = document.getElementById('metricSelect').value;
 
-            if (dataView !== 'total' && params.componentType === 'series') {
-                const aggregated = aggregateData(timeDimension, dataView, metric);
-                updatePieChart(aggregated, dataView, params.dataIndex);
-            }
-        });
-
-        // Event listeners
-        document.getElementById('timeSelect').addEventListener('change', renderMainChart);
-        document.getElementById('chartTypeSelect').addEventListener('change', renderMainChart);
-        document.getElementById('dataViewSelect').addEventListener('change', renderMainChart);
-        document.getElementById('metricSelect').addEventListener('change', renderMainChart);
-        document.getElementById('labelSelect').addEventListener('change', renderMainChart);
-
-        document.getElementById('exportBtn').addEventListener('click', function() {
-            const url = mainChart.getDataURL({
-                type: 'png',
-                pixelRatio: 2,
-                backgroundColor: '#fff'
+                if (groupBy !== 'total' && params.componentType === 'series') {
+                    const aggregated = aggregateData(timeDimension, groupBy, metric);
+                    if (params.dataIndex < aggregated.categories.length) {
+                        updatePieChart(aggregated, groupBy, params.dataIndex);
+                    }
+                }
             });
-            const link = document.createElement('a');
-            link.download = `Omada_License_${new Date().getTime()}.png`;
-            link.href = url;
-            link.click();
-        });
+        }
 
-        // Responsive
-        window.addEventListener('resize', function() {
-            mainChart.resize();
-            pieChart.resize();
-        });
+        // Quick filter presets
+        function applyPreset(preset) {
+            // Reset all filters first
+            selectedRegions = new Set(allRegions);
+            selectedChannels = new Set(allChannels);
+            selectedLicenseTypes = new Set(allLicenseTypes);
 
-        // Data Table Functions
-        let searchFilter = '';
+            switch(preset) {
+                case 'commercial':
+                    selectedChannels = new Set(['Online', 'Offline']);
+                    break;
+                case 'trial':
+                    selectedChannels = new Set(['Trial']);
+                    break;
+                case 'standard':
+                    selectedLicenseTypes = new Set(['Standard']);
+                    break;
+                case 'pro':
+                    selectedLicenseTypes = new Set(['Pro']);
+                    break;
+                case 'surveillance':
+                    selectedLicenseTypes = new Set(['Surveillance']);
+                    break;
+            }
 
-        function getFilteredIndices() {
-            if (!searchFilter) return parsedData.map((_, i) => i);
-            const lowerSearch = searchFilter.toLowerCase();
-            return parsedData.map((row, i) => {
-                const searchStr = `${row.month} ${row.region} ${row.purchase_type} ${row.license_year} ${row.license_count} ${row.license_year_count}`.toLowerCase();
-                return searchStr.includes(lowerSearch) ? i : -1;
+            // Update checkboxes
+            updateCheckboxStates();
+            updateChartsAndTable();
+
+            // Update active button state
+            document.querySelectorAll('.quick-filter-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.preset === preset);
+            });
+        }
+
+        function updateCheckboxStates() {
+            // Update region checkboxes
+            document.querySelectorAll('#regionCheckboxes input[type="checkbox"]').forEach(cb => {
+                cb.checked = selectedRegions.has(cb.value);
+            });
+            // Update channel checkboxes
+            document.querySelectorAll('#channelCheckboxes input[type="checkbox"]').forEach(cb => {
+                cb.checked = selectedChannels.has(cb.value);
+            });
+            // Update license type checkboxes
+            document.querySelectorAll('#licenseTypeCheckboxes input[type="checkbox"]').forEach(cb => {
+                cb.checked = selectedLicenseTypes.has(cb.value);
+            });
+        }
+
+        function resetAllFilters() {
+            selectedYears = new Set(allYears);
+            selectedRegions = new Set(allRegions);
+            selectedChannels = new Set(allChannels);
+            selectedLicenseTypes = new Set(allLicenseTypes);
+            selectedRows = new Set(parsedData.map((_, i) => i));
+
+            // Update all checkboxes
+            document.querySelectorAll('.filter-checkboxes input[type="checkbox"]').forEach(cb => {
+                cb.checked = true;
+            });
+
+            document.querySelectorAll('.quick-filter-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+
+            updateChartsAndTable();
+        }
+
+        function updateChartsAndTable() {
+            renderMainChart();
+            renderDataTable();
+        }
+
+        // Data Table
+        function getTableFilteredIndices() {
+            const filteredByFilters = parsedData.map((row, i) => {
+                const year = row.month.substring(0, 4);
+                const passesFilters = selectedYears.has(year) &&
+                    selectedRegions.has(row.region) &&
+                    selectedChannels.has(row.purchase_type) &&
+                    selectedLicenseTypes.has(row.license_type);
+                return passesFilters ? i : -1;
             }).filter(i => i !== -1);
+
+            if (!searchFilter) return filteredByFilters;
+
+            const lowerSearch = searchFilter.toLowerCase();
+            return filteredByFilters.filter(i => {
+                const row = parsedData[i];
+                const searchStr = `${row.month} ${row.region} ${row.purchase_type} ${row.license_type} ${row.license_year}`.toLowerCase();
+                return searchStr.includes(lowerSearch);
+            });
         }
 
         function renderDataTable() {
             const tbody = document.getElementById('tableBody');
-            const filteredIndices = getFilteredIndices();
+            const filteredIndices = getTableFilteredIndices();
 
             let html = '';
             filteredIndices.forEach((dataIndex, displayIndex) => {
@@ -1913,10 +1373,11 @@
                         <td>${displayIndex + 1}</td>
                         <td>${row.month}</td>
                         <td><span class="region-badge ${row.region}">${regionNames[row.region] || row.region}</span></td>
-                        <td><span class="type-badge">${purchaseTypeNames[row.purchase_type] || row.purchase_type}</span></td>
-                        <td class="number-cell">${row.license_year}</td>
-                        <td class="number-cell">${row.license_count.toLocaleString()}</td>
-                        <td class="number-cell">${row.license_year_count.toLocaleString()}</td>
+                        <td><span class="channel-badge ${row.purchase_type}">${channelNames[row.purchase_type] || row.purchase_type}</span></td>
+                        <td><span class="type-badge">${row.license_type}</span></td>
+                        <td class="number-cell">${row.license_year.toFixed(2)}</td>
+                        <td class="number-cell">${Math.round(row.license_count).toLocaleString()}</td>
+                        <td class="number-cell">${Math.round(row.license_year_count).toLocaleString()}</td>
                     </tr>
                 `;
             });
@@ -1927,30 +1388,29 @@
         }
 
         function updateTableInfo() {
-            const filteredIndices = getFilteredIndices();
+            const filteredIndices = getTableFilteredIndices();
             const selectedInFiltered = filteredIndices.filter(i => selectedRows.has(i)).length;
-            const totalSelected = selectedRows.size;
-            const totalRows = parsedData.length;
 
-            // Calculate totals for selected rows
             let totalLicenseCount = 0;
             let totalLicenseYearCount = 0;
-            selectedRows.forEach(index => {
-                totalLicenseCount += parsedData[index].license_count;
-                totalLicenseYearCount += parsedData[index].license_year_count;
+            filteredIndices.forEach(index => {
+                if (selectedRows.has(index)) {
+                    totalLicenseCount += parsedData[index].license_count;
+                    totalLicenseYearCount += parsedData[index].license_year_count;
+                }
             });
 
             const infoHtml = `
-                Selected: <strong>${totalSelected}</strong> / ${totalRows} rows |
-                ${searchFilter ? `Showing: <strong>${filteredIndices.length}</strong> rows (filtered) | ` : ''}
-                Total License Count: <strong>${totalLicenseCount.toLocaleString()}</strong> |
-                Total License Year Count: <strong>${totalLicenseYearCount.toLocaleString()}</strong>
+                Showing: <strong>${filteredIndices.length}</strong> rows |
+                Selected: <strong>${selectedInFiltered}</strong> |
+                License Count: <strong>${formatNumber(totalLicenseCount)}</strong> |
+                Year Count: <strong>${formatNumber(totalLicenseYearCount)}</strong>
             `;
             document.getElementById('tableInfo').innerHTML = infoHtml;
         }
 
         function updateHeaderCheckbox() {
-            const filteredIndices = getFilteredIndices();
+            const filteredIndices = getTableFilteredIndices();
             const allSelected = filteredIndices.every(i => selectedRows.has(i));
             const someSelected = filteredIndices.some(i => selectedRows.has(i));
 
@@ -1977,32 +1437,32 @@
         }
 
         function handleHeaderCheckboxChange(e) {
-            const filteredIndices = getFilteredIndices();
-
+            const filteredIndices = getTableFilteredIndices();
             if (e.target.checked) {
                 filteredIndices.forEach(i => selectedRows.add(i));
             } else {
                 filteredIndices.forEach(i => selectedRows.delete(i));
             }
-
             renderDataTable();
             renderMainChart();
         }
 
         function selectAll() {
-            parsedData.forEach((_, i) => selectedRows.add(i));
+            const filteredIndices = getTableFilteredIndices();
+            filteredIndices.forEach(i => selectedRows.add(i));
             renderDataTable();
             renderMainChart();
         }
 
         function deselectAll() {
-            selectedRows.clear();
+            const filteredIndices = getTableFilteredIndices();
+            filteredIndices.forEach(i => selectedRows.delete(i));
             renderDataTable();
             renderMainChart();
         }
 
         function invertSelection() {
-            const filteredIndices = getFilteredIndices();
+            const filteredIndices = getTableFilteredIndices();
             filteredIndices.forEach(i => {
                 if (selectedRows.has(i)) {
                     selectedRows.delete(i);
@@ -2014,12 +1474,26 @@
             renderMainChart();
         }
 
-        function handleSearch(e) {
-            searchFilter = e.target.value;
-            renderDataTable();
-        }
+        // Event listeners
+        document.getElementById('timeSelect').addEventListener('change', renderMainChart);
+        document.getElementById('chartTypeSelect').addEventListener('change', renderMainChart);
+        document.getElementById('groupBySelect').addEventListener('change', renderMainChart);
+        document.getElementById('metricSelect').addEventListener('change', renderMainChart);
 
-        // Table event listeners
+        document.getElementById('exportBtn').addEventListener('click', function() {
+            const url = mainChart.getDataURL({ type: 'png', pixelRatio: 2, backgroundColor: '#fff' });
+            const link = document.createElement('a');
+            link.download = `Omada_License_${new Date().getTime()}.png`;
+            link.href = url;
+            link.click();
+        });
+
+        document.getElementById('resetFiltersBtn').addEventListener('click', resetAllFilters);
+
+        document.querySelectorAll('.quick-filter-btn').forEach(btn => {
+            btn.addEventListener('click', () => applyPreset(btn.dataset.preset));
+        });
+
         document.getElementById('tableBody').addEventListener('change', function(e) {
             if (e.target.classList.contains('row-checkbox')) {
                 handleRowCheckboxChange(e);
@@ -2030,12 +1504,48 @@
         document.getElementById('selectAllBtn').addEventListener('click', selectAll);
         document.getElementById('deselectAllBtn').addEventListener('click', deselectAll);
         document.getElementById('invertSelectionBtn').addEventListener('click', invertSelection);
-        document.getElementById('tableSearch').addEventListener('input', handleSearch);
+        document.getElementById('tableSearch').addEventListener('input', (e) => {
+            searchFilter = e.target.value;
+            renderDataTable();
+        });
 
-        // Initialize
-        initYearCheckboxes();
-        renderDataTable();
-        renderMainChart();
+        window.addEventListener('resize', function() {
+            mainChart.resize();
+            pieChart.resize();
+        });
+
+        // Main initialization
+        async function init() {
+            try {
+                // Show loading state
+                document.querySelector('.container').style.opacity = '0.5';
+
+                // Load CSV data
+                const csvRawData = await loadCSVData();
+
+                // Initialize data from CSV
+                initializeData(csvRawData);
+
+                // Initialize charts
+                initializeCharts();
+
+                // Setup chart events
+                setupChartEvents();
+
+                // Initialize UI
+                initFilterCheckboxes();
+                renderDataTable();
+                renderMainChart();
+
+                // Restore opacity
+                document.querySelector('.container').style.opacity = '1';
+            } catch (error) {
+                console.error('Initialization failed:', error);
+            }
+        }
+
+        // Start the application
+        init();
     </script>
 </body>
 </html>
