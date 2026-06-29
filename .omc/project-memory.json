@@ -1,0 +1,72 @@
+{
+  "version": "1.0.0",
+  "lastScanned": 1776121431251,
+  "projectRoot": "/Users/chenyuanquan/Documents/chenyqthu.github.io",
+  "techStack": {
+    "languages": [],
+    "frameworks": [],
+    "packageManager": null,
+    "runtime": null
+  },
+  "build": {
+    "buildCommand": null,
+    "testCommand": null,
+    "lintCommand": null,
+    "devCommand": null,
+    "scripts": {}
+  },
+  "conventions": {
+    "namingStyle": null,
+    "importStyle": null,
+    "testPattern": null,
+    "fileOrganization": null
+  },
+  "structure": {
+    "isMonorepo": false,
+    "workspaces": [],
+    "mainDirectories": [
+      "assets",
+      "scripts"
+    ],
+    "gitBranches": {
+      "defaultBranch": "master",
+      "branchingStrategy": null
+    }
+  },
+  "customNotes": [],
+  "directoryMap": {
+    "assets": {
+      "path": "assets",
+      "purpose": "Static assets",
+      "fileCount": 10,
+      "lastAccessed": 1776121431237,
+      "keyFiles": [
+        "2.js",
+        "authflow_en.png",
+        "authflow_zh.png",
+        "dragon.mp4",
+        "future.png"
+      ]
+    },
+    "scripts": {
+      "path": "scripts",
+      "purpose": "Build/utility scripts",
+      "fileCount": 3,
+      "lastAccessed": 1776121431238,
+      "keyFiles": [
+        "modal.js",
+        "qr-api.js",
+        "url-params.js"
+      ]
+    }
+  },
+  "hotPaths": [
+    {
+      "path": "license.html",
+      "accessCount": 2,
+      "lastAccessed": 1776121525273,
+      "type": "file"
+    }
+  ],
+  "userDirectives": []
+}
