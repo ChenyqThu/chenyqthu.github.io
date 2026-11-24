@@ -1780,7 +1780,7 @@
           <div class="ed-eyebrow"><span class="ed-num">02 /</span><span>LOCKED ASSETS &amp; REMAINING TASKS</span></div>
           <h2 class="ed-title">已锁大件明细与剩余待办（住宿 · 密码 · 订位）</h2>
           <p class="ed-desc" id="sec2LeadDesc">
-            <strong>截至 11/23 最新状态：</strong>去程改为熟人司机送机（11/24 提前确认）；Fairbanks Airbnb（确认码 <button type="button" class="vault-lock-chip btn-press" id="sec2AirbnbUnlockChip" data-open-vault="1" style="vertical-align:baseline; padding:2px 8px; font-size:12px;">🔒 解锁后显示</button>，门锁与 Wi-Fi 密码待房东发送）、返程达美机票（ANC→SEA→ONT）均已出票锁单！出发前仅余<strong>去程行李加购（源泉&amp;小凤各需1件额）</strong>、<strong>安克雷奇 2 晚住宿</strong>、<strong>返程 ONT 接机</strong>及餐厅订位/免责签署。
+            <strong>截至 11/24 最新状态：</strong>费尔班克斯木屋（确认码 <button type="button" class="vault-lock-chip btn-press" id="sec2AirbnbUnlockChip" data-open-vault="1" style="vertical-align:baseline; padding:2px 8px; font-size:12px;">🔒 解锁后显示</button>）、安克雷奇 2 晚民宿 Cozy Pink House（$301.56 · 确认码 <button type="button" class="vault-lock-chip btn-press" id="sec2AncAirbnbUnlockChip" data-open-vault="1" style="vertical-align:baseline; padding:2px 8px; font-size:12px;">🔒 解锁后显示</button> · 11/28 15:00 前免费退）、返程达美机票（ANC→SEA→ONT）均已锁单！出发前仅余<strong>去程行李加购（源泉&amp;小凤 1 件额）</strong>、<strong>返程 ONT 接机</strong>及餐厅订位/免责签署。
           </p>
         </div>
       </div>
@@ -1799,8 +1799,8 @@
         </div>
         <div style="display:flex; flex-wrap:wrap; gap:8px;" id="bookingFilterPills">
           <button type="button" class="pill-btn pill-btn--fjord btn-press" data-filter="all">全部 (13)</button>
-          <button type="button" class="pill-btn btn-press" data-filter="confirmed">已锁单 / 免预约 (10)</button>
-          <button type="button" class="pill-btn btn-press" data-filter="pending">待预订 / 待购 (3)</button>
+          <button type="button" class="pill-btn btn-press" data-filter="confirmed">已锁单 / 免预约 (11)</button>
+          <button type="button" class="pill-btn btn-press" data-filter="pending">待预订 / 待购 (2)</button>
         </div>
       </div>
 
@@ -2019,6 +2019,9 @@
       "[[AIRBNB_PHONE]]": "",
       "[[AIRBNB_PHONE_DASH]]": "🔒 解锁后显示房东电话",
       "[[AIRBNB_TEL]]": "",
+      "[[ANC_AIRBNB_CODE]]": "🔒 解锁后显示",
+      "[[ANC_AIRBNB_ADDR]]": "Anchorage South Addition（Westchester Lagoon 旁，解锁显示确址）",
+      "[[ANC_AIRBNB_ADDR_SHORT]]": "South Addition · Cozy Pink House（解锁显示确址）",
       "[[ENT_CODE]]": "🔒 解锁后显示",
       "[[ALA_CODE]]": "🔒 解锁后显示",
       "[[SLED_CODE]]": "🔒 解锁后显示",
@@ -2165,13 +2168,13 @@
           phone: "(907) 745-5121", mapDest: "61.812722,-147.498497"
         },
         {
-          id: "bk-9", module: "南段住宿 (2晚)", time: "11/29 入住 → 12/01 退房",
-          detail: "推荐：安克雷奇连住 2 晚不搬行李（Staybridge Suites 两室套房 或 市中心酒店 2 间）",
-          codes: [], status: "pending", statusText: "⏳ 待预订",
-          defaultCost: null, costSplit: "shared", costTag: "待预订 · 3人均摊",
-          costHint: "订完后填入 2 晚含税总价（参考约 $500–$750）",
-          note: "11/30 探冰后开回安克雷奇，途经 Palmer 晚饭；Sheep Mountain 木屋仅作备选（7天内取消收全额）",
-          phone: "(907) 644-6000", mapDest: "200 Calais Dr, Anchorage, AK 99503"
+          id: "bk-9", module: "南段住宿 (2晚)", time: "11/29 15:00 入住 → 12/01 11:00 退房",
+          detail: "Airbnb：Cozy Pink House: Forest Views（[[ANC_AIRBNB_ADDR_SHORT]] · 2 卧 3 床 · 房东 Anda）",
+          codes: ["[[ANC_AIRBNB_CODE]]"], status: "confirmed", statusText: "✅ 已预订 (11/28前免费退)",
+          defaultCost: 301.56, costSplit: "shared", costTag: "已预订 · 3人均摊",
+          costHint: "2 晚总价 $301.56（人均 $100.52；11/28 15:00 前可免费取消）",
+          note: "4.97★ 热门房源，South Addition 安全静区紧邻 Westchester Lagoon & New Sagaya 超市，停车方便；11/28 15:00 前免费取消，门锁与 Wi-Fi 入住前查 Airbnb 消息",
+          phone: "", mapDest: "[[ANC_AIRBNB_ADDR]]"
         },
         {
           id: "bk-10", module: "返程机票", time: "12/01 (周二) 14:21 → 22:59",
@@ -2241,45 +2244,41 @@
         },
         {
           id: "ov-2",
-          kind: "pending",
-          badge: "⏳ 仅余 1 项待预订 + 行前确认",
-          title: "安克雷奇 2 晚住宿（11/29 – 12/01）& 行前必办",
-          subtitle: "推荐连住安克雷奇 2 晚不搬行李 · 12/01 上午逛博物馆",
-          options: [
-            {
-              id: "p2-staybridge",
-              name: "首选 A — Staybridge Suites Anchorage（两室套房）",
-              tag: "含热早 / 泳池 / 热水池",
-              desc: "连住两晚不搬行李，可对比 IHG 会员价与积分房；11/30 15:30 探冰结束立刻发车，1.5h 到 Palmer 吃晚饭，19:30 前后回城。",
-              address: "200 Calais Dr, Anchorage, AK 99503",
-              phone: "(907) 644-6000"
-            },
-            {
-              id: "p2-downtown",
-              name: "首选 B — 市中心酒店 2 间（Four Points / Wildbirch）",
-              tag: "若套房 >$360/晚更划算 · 2 独立卫浴",
-              desc: "步行直达海鲜餐厅！Four Points by Sheraton Downtown (325 W 8th Ave) 或 The Wildbirch Hotel (239 W 4th Ave)。Sheep Mountain 木屋仅作备选（7 天内取消收全额且当晚仅 Kp 2）。",
-              address: "239 W 4th Ave, Anchorage, AK 99501",
-              phone: "(907) 793-5555"
-            }
+          kind: "locked",
+          badge: "✅ 已预订 · 安克雷奇 2 晚（11/28 15:00 前免费退）",
+          title: "Airbnb「Cozy Pink House: Forest Views」（11/29 – 12/01）",
+          subtitle: "[[ANC_AIRBNB_ADDR]] · 房东 Anda · 4.97★ 2 卧 3 床",
+          codes: [
+            { label: "Airbnb 确认码", val: "[[ANC_AIRBNB_CODE]]" }
           ],
+          accessFields: [
+            { id: "ov-2-keypad", label: "入住门锁 / 单元指引", placeholder: "房东 Anda 发出后在此输入保存" },
+            { id: "ov-2-wifi", label: "屋内 Wi-Fi 密码", placeholder: "入住后在此输入保存" }
+          ],
+          bullets: [
+            "<strong>准确位置：</strong><span class=\"mono\">[[ANC_AIRBNB_ADDR]]</span>，位于安克雷奇口碑最好的 <strong>South Addition 安静住宅区</strong>，紧邻 Westchester Lagoon 与海岸步道，开车约 5 分钟到市中心海鲜餐厅/博物馆、10–12 分钟到 ANC 机场、步行 2 街区到 New Sagaya 超市。",
+            "<strong>房型与性价比：</strong>1950 年代公寓 <strong>2 室（共 3 张床，可住 5 人）</strong>+ 完整厨房 + 便利停车位；总价 <strong>$301.56（人均 $100.52）</strong>，比两间酒店省下 $200–$450，且 <strong>11/28 15:00 AKST 前可免费取消</strong>。",
+            "<strong>实用提醒：</strong>公寓单元大概率需走楼梯（带最必需随身箱上楼，多余行李锁车内遮盖好）；无免费酒店早餐，可去 2 街区外 New Sagaya City Market 或市区 Snow City Cafe 买热早；夜停锁车不留显眼相机包，泻湖边傍晚留意驼鹿。"
+          ],
+          mapDest: "[[ANC_AIRBNB_ADDR]]",
+          phone: "",
           preTripChecks: [
             { id: "pre-1", text: "致电 Pike's Landing (907) 479-6500 抢 11/26 感恩节自助 3 人位 + 核实 The Bakery 与 Fred Meyer 营业", phone: "(907) 479-6500" },
             { id: "pre-2", text: "致电 Turtle Club (907) 457-3883 预订 11/28 周六晚餐", phone: "(907) 457-3883" },
             { id: "pre-3", text: "OpenTable 预订 11/29 安克雷奇海鲜餐厅 (Glacier Brewhouse / Simon & Seafort's)" },
-            { id: "pre-4", text: "明天 11/24 提前联系小凤熟人司机确认 11/25 15:10 送机 + 全员签狗拉雪橇 Waivers ([[SLED_CODE]])" },
-            { id: "pre-5", text: "【明天 11/24 20:00 PST】提前 24 小时办理去程 [[OUT_FLT]] 线上值机选座；源泉与小凤顺手在 App 加购 1 件托运行李额（约 $35）" }
+            { id: "pre-4", text: "今天 11/24 提前联系小凤熟人司机确认 11/25 15:10 送机 + 全员签狗拉雪橇 Waivers ([[SLED_CODE]])" },
+            { id: "pre-5", text: "【今晚 11/24 20:00 PST】提前 24 小时办理去程 [[OUT_FLT]] 线上值机选座；源泉与小凤顺手在 App 加购 1 件托运行李额（约 $35）" }
           ],
           phrases: [
             {
-              tag: "安克雷奇酒店入住",
-              zh: "办理两晚入住，确认要安静楼层/两间相邻房间及免费停车位置：",
-              en: "Hi, I have a reservation for 2 nights under [[NAME_EN]]. Could we have rooms close to each other on a quiet floor? Also, where should we park our rental SUV, and what time is breakfast served?"
+              tag: "发 Airbnb 确认入住指引与停车位",
+              zh: "礼貌联系房东 Anda（确认码 [[ANC_AIRBNB_CODE]]），确认 11/29 15:00 后入住门锁、具体停车位及是否走楼梯：",
+              en: "Hi Anda! We are your 3 guests for Cozy Pink House from Nov 29 to Dec 1 (Confirmation: [[ANC_AIRBNB_CODE]]). We plan to arrive in the late afternoon on Nov 29. Could you share the self check-in instructions, door code, and where we should park our rental SUV? Thank you!"
             },
             {
-              tag: "退房寄存 / 索要账单",
-              zh: "若退房后还想先去博物馆或索取完整美元账单用于记账：",
-              en: "We are checking out now. Could I get a printed itemized receipt for my records, please? Thank you!"
+              tag: "12/01 11:00 前退房致谢",
+              zh: "退房关门锁好后发给房东简短留言：",
+              en: "Hi Anda, we just checked out before 11:00 AM and locked up. Thank you for the lovely and cozy stay in Anchorage!"
             }
           ]
         },
@@ -2873,9 +2872,9 @@
               ]
             },
             {
-              id: "d5-t5", time: "18:00 之后", title: "安克雷奇海鲜大餐 & 入住市区酒店",
-              badge: "OpenTable 订座", tone: "fjord",
-              summary: "推荐前往 Downtown 的 Glacier Brewhouse 或海景餐厅 Simon & Seafort's 品尝阿拉斯加帝王蟹腿、大比目鱼（Halibut）与三文鱼（建议提前在 OpenTable 免费订座）。当晚早点休息，为次日冰川进山养精蓄锐。",
+              id: "d5-t5", time: "18:00 之后", title: "安克雷奇海鲜大餐 & 入住 Cozy Pink House 民宿",
+              badge: "OpenTable 订座 · [[ANC_AIRBNB_CODE]]", tone: "fjord", confirmCode: "[[ANC_AIRBNB_CODE]]",
+              summary: "推荐前往 Downtown 的 Glacier Brewhouse 或海景餐厅 Simon & Seafort's 品尝阿拉斯加帝王蟹腿、大比目鱼（Halibut）与三文鱼（建议提前在 OpenTable 免费订座）。晚饭后开 5 分钟前往 South Addition 的 Airbnb 民宿「Cozy Pink House: Forest Views」（[[ANC_AIRBNB_ADDR]]，15:00 起自助入住，确认码 [[ANC_AIRBNB_CODE]]）。锁好车门，相机包/无人机箱与随身贵重物品全部拿进屋，早点休息为次日冰川进山养精蓄锐。",
               pois: [
                 {
                   name: "Glacier Brewhouse",
@@ -2892,6 +2891,12 @@
                   note: "库克湾海景餐厅 · 大比目鱼 & 牛排",
                   mapQuery: "420 L St, Anchorage, AK 99501",
                   phone: "(907) 274-3502"
+                },
+                {
+                  name: "Cozy Pink House: Forest Views (安克雷奇 2 晚民宿)",
+                  address: "[[ANC_AIRBNB_ADDR]]",
+                  note: "确认码 [[ANC_AIRBNB_CODE]] · 房东 Anda · 15:00 起入住 · 贵重物品随身拿进屋",
+                  mapQuery: "[[ANC_AIRBNB_ADDR]]"
                 }
               ]
             }
@@ -2911,7 +2916,7 @@
             { id: "d6-c2", text: "Palmer 补满油并买三明治/能量棒/热饮，报到前在车内吃饱防探冰跨午低血糖失温", tag: "必垫饱", tone: "amber", mapDest: "Palmer, AK 99645" },
             { id: "d6-c3", text: "穿防风衣裤 + 硬底防水鞋 + 偏光墨镜；11:45–12:00 报到称重 ([[HELI_CODE1]])", tag: "硬报到点", tone: "rose", phone: "(907) 745-5121" },
             { id: "d6-c4", text: "【关键动作】15:30 下冰川通过王总 Xlink（或营地 Wi-Fi / 回 Palmer）立刻用 Delta App 值机明天的 [[RET_FLT1]] ([[DELTA_PNR]])！", tag: "24h值机·Xlink", tone: "pine" },
-            { id: "d6-c5", text: "1.5h 抵 Palmer 吃晚饭，19:30 回安克雷奇酒店；顺手用 Uber Reserve (XL) 预约明晚 ONT 接机", tag: "返程/约车", tone: "fjord" }
+            { id: "d6-c5", text: "1.5h 抵 Palmer 吃晚饭，19:30 回安克雷奇民宿 (Cozy Pink House)；顺手用 Uber Reserve (XL) 预约明晚 ONT 接机", tag: "返程/约车", tone: "fjord" }
           ],
           timeline: [
             {
@@ -2981,7 +2986,7 @@
             {
               id: "d6-t4", time: "15:30 之后", title: "【关键】下冰川立刻办 Delta 值机 & 返城 Palmer 晚饭",
               badge: "[[DELTA_PNR]] 值机 + Uber Reserve", tone: "warn", confirmCode: "[[DELTA_PNR]]",
-              summary: "探冰约 15:30 结束，此时接近日落（约 15:50）。【关键动作】下冰川立刻连王总带的 Xlink 全程网络（或 Sheep Mountain Lodge Wi-Fi / 回 Palmer），第一时间打开 Delta App 为次日 14:21 返程航班（确认码 [[DELTA_PNR]]）办理值机！收拾好立刻出发趁暮光开出山区，开启四驱控速慢行、保持双倍跟车距离并留意驼鹿。约 1.5 小时到 Palmer 吃晚饭，19:30 前后回到安克雷奇酒店；当晚可顺手用 Uber Reserve (XL) 填航班号预约 12/01 晚 ONT 接机。"
+              summary: "探冰约 15:30 结束，此时接近日落（约 15:50）。【关键动作】下冰川立刻连王总带的 Xlink 全程网络（或 Sheep Mountain Lodge Wi-Fi / 回 Palmer），第一时间打开 Delta App 为次日 14:21 返程航班（确认码 [[DELTA_PNR]]）办理值机！收拾好立刻出发趁暮光开出山区，开启四驱控速慢行、保持双倍跟车距离并留意驼鹿。约 1.5 小时到 Palmer 吃晚饭，19:30 前后回到安克雷奇民宿 (Cozy Pink House)；当晚可顺手用 Uber Reserve (XL) 填航班号预约 12/01 晚 ONT 接机。"
             }
           ]
         },
@@ -2989,7 +2994,7 @@
           id: "day-7", code: "D7", dateStr: "2026-12-01", shortDate: "12/01 周二",
           theme: "博物馆·Delta返ONT", cityIndex: 1, cover: "assets/alaska/anchorage-museum.jpg",
           title: "Day 7｜Anchorage Museum → 机场满油还车 → 14:21 达美飞返安大略 ONT → 深夜回尔湾",
-          routeLabel: "市区酒店 → Anchorage Museum (10:00) → 满油还车 (12:30前) → [[RET_FLT_SLASH]] → ONT T2 → Irvine",
+          routeLabel: "Cozy Pink House 民宿 → Anchorage Museum (10:00) → 满油还车 (12:30前) → [[RET_FLT_SLASH]] → ONT T2 → Irvine",
           sunWindow: "14:21 起飞 → 经 SEA 转 1h07m → 22:59 抵 ONT T2",
           tempHint: "建议 12:15–12:30 还车（严禁晚于 13:00）· 锂电池全放随身双肩包",
           baselineNote: "Delta Main Basic 最后登机，无人机锂电池/相机/充电宝切勿放 20 寸登机箱；返程大箱按实际件数柜台缴费（$45/件，源泉&小凤预计 1–2 件）。",
@@ -3004,7 +3009,7 @@
             {
               id: "d7-t1", time: "10:00 – 11:35 AM", title: "Anchorage Museum（阿拉斯加最大的博物馆）",
               badge: "周二开放 · $25/人", tone: "fjord",
-              summary: "睡到自然醒，吃完酒店早餐退房，行李放车上。博物馆冬季周二至周六 10:00–18:00 开放（周一闭馆），成人 $25，涵盖阿拉斯加的艺术、历史、原住民文化和科学。因返程航班 14:21 起飞，建议逛 1.5 小时左右，11:30–11:40 准时离场前往机场（Point Woronzof 视时间充裕度决定是否顺路停 10 分钟）。",
+              summary: "睡到自然醒，11:00 前退房（可顺路去 2 街区外 New Sagaya City Market 或 Snow City Cafe 买热早），行李放车上。博物馆冬季周二至周六 10:00–18:00 开放（周一闭馆），成人 $25，涵盖阿拉斯加的艺术、历史、原住民文化和科学。因返程航班 14:21 起飞，建议逛 1.5 小时左右，11:30–11:40 准时离场前往机场（Point Woronzof 视时间充裕度决定是否顺路停 10 分钟）。",
               pois: [
                 {
                   name: "Anchorage Museum",
@@ -3095,7 +3100,7 @@
             { id: "g-2", text: "Costco 会员卡（实体卡或手机 App 电子卡，提车必验）" },
             { id: "g-3", text: "登机用身份证件（REAL ID 驾照或护照）" },
             { id: "g-4", text: "Delta / Alaska App 提前绑定各自会员号与确认码 [[DELTA_PNR]]（机上连免费 Wi-Fi）" },
-            { id: "g-5", text: "各项确认号（Airbnb [[AIRBNB_CODE]] 等）与狗拉雪橇免责回执截图存手机相册，离线也能调出" },
+            { id: "g-5", text: "各项确认号（FAI Airbnb [[AIRBNB_CODE]]、ANC Airbnb [[ANC_AIRBNB_CODE]] 等）与狗拉雪橇免责回执截图存手机相册，离线也能调出" },
             { id: "g-5b", text: "实体信用卡（租车押金刷主驾名下）+ 少量美元现金（用于熟人司机、雪橇与直升机向导小费）" }
           ]
         },
@@ -3250,9 +3255,7 @@
         { name: "Thai House / Big Daddy's / Silver Gulch", note: "费城正餐 (Thai House 热线)", tel: "+19074526123", display: "(907) 452-6123" },
         { name: "Alaska Wildlife Conservation Center", note: "11/29 Mile 79 · 16:00 末入", tel: "+19077830058", display: "(907) 783-0058" },
         { name: "Anchorage Museum (12/01 上午)", note: "625 C St · 周二 10:00–18:00", tel: "+19079299200", display: "(907) 929-9200" },
-        { name: "Staybridge Suites Anchorage (备选)", note: "200 Calais Dr 两室两卫连住", tel: "+19076446000", display: "(907) 644-6000" },
-        { name: "Four Points by Sheraton Anchorage", note: "325 W 8th Ave 市中心", tel: "+19072741000", display: "(907) 274-1000" },
-        { name: "The Wildbirch Hotel Anchorage", note: "239 W 4th Ave 市中心", tel: "+19077935555", display: "(907) 793-5555" }
+        { name: "Airbnb 民宿 · Cozy Pink House (房东 Anda)", note: "确认码 [[ANC_AIRBNB_CODE]] · [[ANC_AIRBNB_ADDR_SHORT]] · 11/28 15:00前免费退", tel: "", display: "Airbnb App 联系" }
       ]
     };
 
@@ -3286,6 +3289,15 @@
           airbnbToken.outerHTML = `<span class="mono" id="sec2AirbnbUnlockChip">${escapeHtml(hydrateString("[[AIRBNB_CODE]]"))}</span>`;
         } else {
           airbnbToken.outerHTML = `<button type="button" class="vault-lock-chip btn-press" id="sec2AirbnbUnlockChip" data-open-vault="1" style="vertical-align:baseline; padding:2px 8px; font-size:12px;">🔒 解锁后显示</button>`;
+        }
+      }
+
+      const ancAirbnbToken = document.getElementById("sec2AncAirbnbUnlockChip");
+      if (ancAirbnbToken) {
+        if (unlocked) {
+          ancAirbnbToken.outerHTML = `<span class="mono" id="sec2AncAirbnbUnlockChip">${escapeHtml(hydrateString("[[ANC_AIRBNB_CODE]]"))}</span>`;
+        } else {
+          ancAirbnbToken.outerHTML = `<button type="button" class="vault-lock-chip btn-press" id="sec2AncAirbnbUnlockChip" data-open-vault="1" style="vertical-align:baseline; padding:2px 8px; font-size:12px;">🔒 解锁后显示</button>`;
         }
       }
 
@@ -4095,6 +4107,25 @@
 
       grid.innerHTML = TRIP_DATA.overviewCards.map(card => {
         const noteVal = appState.notes[card.id] || "";
+        const preChecksHtml = card.preTripChecks ? `
+          <div style="margin-top:12px;">
+            <div style="font-size:12px; font-weight:700; color:var(--text-muted); margin-bottom:7px;">行前餐厅订位 &amp; 免责签署必办</div>
+            <div class="check-stack">
+              ${card.preTripChecks.map(pc => {
+                const done = !!appState.checks[pc.id];
+                return `
+                  <div class="chk-row ${done ? "is-done" : ""}" style="padding:8px 10px;">
+                    <button type="button" class="chk-box btn-press" data-toggle-pre="${pc.id}">${done ? ICONS.check : ""}</button>
+                    <div style="flex:1; min-width:0;">
+                      <span class="chk-text" style="font-size:12px;" data-toggle-pre="${pc.id}">${escapeHtml(pc.text)}</span>
+                      ${pc.phone ? `<div style="margin-top:4px;"><a class="tag tag-fjord" href="tel:${pc.phone.replace(/[^\d+]/g, "")}">${ICONS.phone} ${escapeHtml(pc.phone)}</a></div>` : ""}
+                    </div>
+                  </div>
+                `;
+              }).join("")}
+            </div>
+          </div>
+        ` : "";
         if (card.kind === "locked") {
           const codesHtml = card.codes && card.codes.length
             ? `<div style="display:flex; flex-wrap:wrap; gap:6px; margin-bottom:10px;">${card.codes.map(c => isLockedTokenVal(c.val)
@@ -4131,6 +4162,7 @@
                   ${card.mapDest ? `<a href="${googleMapsDirUrl(card.mapDest)}" target="_blank" rel="noopener" class="nav-btn btn-press">${ICONS.nav}<span>导航</span></a>` : ""}
                   ${card.phone ? `<a href="tel:${card.phone.replace(/[^\d+]/g, "")}" class="mini-act btn-press">${ICONS.phone}<span>${escapeHtml(card.phoneLabel || card.phone)}</span></a>` : (card.id === "ov-1" ? `<button type="button" class="mini-act btn-press" data-open-vault="1">${ICONS.lock}<span>解锁看房东电话</span></button>` : "")}
                 </div>
+                ${preChecksHtml}
                 ${renderPhraseDrawer("ph-" + card.id, `常用中英对照问句（默认收起 · ${card.phrases?.length || 0} 句）`, card.phrases)}
               </div>
               <input type="text" class="note-input" data-pend-note="${card.id}" value="${escapeHtml(noteVal)}" placeholder="补充房间分配 / 座位 / 备注（自动保存）" />
@@ -4159,26 +4191,6 @@
             </div>
           `;
         }).join("");
-
-        const preChecksHtml = card.preTripChecks ? `
-          <div style="margin-top:12px;">
-            <div style="font-size:12px; font-weight:700; color:var(--text-muted); margin-bottom:7px;">行前餐厅订位 &amp; 免责签署必办</div>
-            <div class="check-stack">
-              ${card.preTripChecks.map(pc => {
-                const done = !!appState.checks[pc.id];
-                return `
-                  <div class="chk-row ${done ? "is-done" : ""}" style="padding:8px 10px;">
-                    <button type="button" class="chk-box btn-press" data-toggle-pre="${pc.id}">${done ? ICONS.check : ""}</button>
-                    <div style="flex:1; min-width:0;">
-                      <span class="chk-text" style="font-size:12px;" data-toggle-pre="${pc.id}">${escapeHtml(pc.text)}</span>
-                      ${pc.phone ? `<div style="margin-top:4px;"><a class="tag tag-fjord" href="tel:${pc.phone.replace(/[^\d+]/g, "")}">${ICONS.phone} ${escapeHtml(pc.phone)}</a></div>` : ""}
-                    </div>
-                  </div>
-                `;
-              }).join("")}
-            </div>
-          </div>
-        ` : "";
 
         return `
           <div class="card pending-card">
@@ -4428,7 +4440,7 @@
         <div class="ledger-stat ledger-stat--highlight">
           <div class="ledger-stat-lbl">3 人公摊部分 &amp; 人均均摊</div>
           <div class="ledger-stat-val">${formatUsd(s.sharedTotal)} <span style="font-size:13px; font-weight:700;">(${formatUsd(s.perPersonShared)}/人)</span></div>
-          <div class="ledger-stat-sub">加去程($339)+内陆($260)各自机票后约 ${formatUsd(s.combinedPerPerson)}/人（不含未订两项）</div>
+          <div class="ledger-stat-sub">加去程($339)+内陆($260)各自机票后约 ${formatUsd(s.combinedPerPerson)}/人（仅不含返程 ONT 接机 UberXL）</div>
         </div>
         <div class="ledger-stat">
           <div class="ledger-stat-lbl">各自付款 / 额外行李专项</div>
@@ -4620,7 +4632,7 @@
             <div style="font-weight:700; font-size:13.5px;">${escapeHtml(p.name)}</div>
             <div style="font-size:12px; color:var(--text-muted);">${escapeHtml(p.note)}</div>
           </div>
-          ${p.tel ? `<a href="tel:${p.tel}" class="tel-pill btn-press">${ICONS.phone}<span>${escapeHtml(p.display)}</span></a>` : `<button type="button" class="vault-lock-chip btn-press" data-open-vault="1">${ICONS.lock}<span>解锁显示</span></button>`}
+          ${p.tel ? `<a href="tel:${p.tel}" class="tel-pill btn-press">${ICONS.phone}<span>${escapeHtml(p.display)}</span></a>` : (p.display ? `<span class="tel-pill" style="cursor:default;">${escapeHtml(p.display)}</span>` : `<button type="button" class="vault-lock-chip btn-press" data-open-vault="1">${ICONS.lock}<span>解锁显示</span></button>`)}
         </div>
       `).join("");
     }
@@ -4730,6 +4742,8 @@
 
       const savedKeypad = (appState.notes["ov-1-keypad"] || "").trim();
       const savedWifi = (appState.notes["ov-1-wifi"] || "").trim();
+      const savedAncKeypad = (appState.notes["ov-2-keypad"] || "").trim();
+      const savedAncWifi = (appState.notes["ov-2-wifi"] || "").trim();
       const ledgerStats = computeLedgerStats();
       const ledgerRowsHtml = TRIP_DATA.bookings.map(b => {
         const v = getBookingCost(b);
@@ -4816,6 +4830,7 @@
       <h3>关键确认码 &amp; 紧急电话速查</h3>
       <div class="kv-grid">
         <div><strong>FAI Airbnb (Chalet in the Hills)</strong> · <span class="mono">${escapeHtml(hydrateString("[[AIRBNB_CODE]]"))}</span> · ${escapeHtml(hydrateString("[[AIRBNB_DR]]"))} · ${hydrateString("[[AIRBNB_TEL]]") ? `房东 <a class="inline-a" href="tel:${escapeHtml(hydrateString("[[AIRBNB_TEL]]"))}">${escapeHtml(hydrateString("[[AIRBNB_PHONE]]"))}</a>` : "房东电话未解锁"} · Keypad: <span class="mono">${escapeHtml(savedKeypad || "待房东发")}</span> · Wi-Fi: <span class="mono">${escapeHtml(savedWifi || "待房东发")}</span></div>
+        <div><strong>ANC Airbnb (Cozy Pink House)</strong> · <span class="mono">${escapeHtml(hydrateString("[[ANC_AIRBNB_CODE]]"))}</span> · ${escapeHtml(hydrateString("[[ANC_AIRBNB_ADDR]]"))} · 房东 Anda · 门锁/指引: <span class="mono">${escapeHtml(savedAncKeypad || "待房东发")}</span> · Wi-Fi: <span class="mono">${escapeHtml(savedAncWifi || "入住后填")}</span></div>
         <div><strong>Enterprise / Alamo 租车</strong> · <span class="mono">${escapeHtml(hydrateString("[[ENT_CODE]]"))}</span> / <span class="mono">${escapeHtml(hydrateString("[[ALA_CODE]]"))}</span> · <a class="inline-a" href="tel:+19074524906">(907) 452-4906</a></div>
         <div><strong>Chena Outdoor 狗拉雪橇</strong> · <span class="mono">${escapeHtml(hydrateString("[[SLED_CODE]]"))}</span> · <a class="inline-a" href="tel:+19077994420">(907) 799-4420</a></div>
         <div><strong>Sheep Mountain 双冰洞</strong> · <span class="mono">${escapeHtml(hydrateString("[[HELI_CODE1]] / [[HELI_CODE2]]"))}</span> · <a class="inline-a" href="tel:+19077455121">(907) 745-5121</a></div>
