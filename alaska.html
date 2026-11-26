@@ -2411,49 +2411,56 @@
         {
           id: "day-2", code: "D2", dateStr: "2026-11-26", shortDate: "11/26 周四",
           theme: "感恩节·Kp5极光夜", cityIndex: 0, cover: "assets/alaska/aurora-cleary.jpg",
-          title: "Day 2｜The Bakery 热早 → 输油管道 → Pike's 自助 → 采购 → 17:00 入住木屋死守 Kp 5 极光！",
-          routeLabel: "FAI → The Bakery → 输油管道 → Pike's Landing → Fred Meyer → [[AIRBNB_SHORT]]",
-          sunWindow: "10:04 AM 日出 / 03:11 PM 日落（日照 ~5h07m）",
-          tempHint: "最新预报：晴朗少云 + Kp 5 (A=25) 整趟头号峰值极光夜！",
-          baselineNote: "白天省电留体力；提前跟房东 [[AIRBNB_PHONE]] 要门锁密码与 Wi-Fi；17:00 入住 [[AIRBNB_SHORT]] 暖车库立刻补觉，22:00 起床看极光！",
-          routeUrl: "https://www.google.com/maps/dir/?api=1&origin=6450+Airport+Way,+Fairbanks,+AK+99709&destination=[[AIRBNB_ADDR_ENC]]&waypoints=44+College+Rd,+Fairbanks,+AK+99701|1671+Steese+Hwy,+Fairbanks,+AK+99712|4438+Airport+Way,+Fairbanks,+AK+99709|3755+Airport+Way,+Fairbanks,+AK+99709&travelmode=driving",
+          title: "Day 2｜Murphy Dome 日出 → 输油管道 → 麝牛牧场 → Creamer's 雪林 → 驼鹿角拱门 → 采购 → UAF 日落 → 17:00 入住守 Kp 5",
+          routeLabel: "FAI → Murphy Dome → 输油管道 → LARS 麝牛 → Creamer's Field → 驼鹿角拱门 → Fred Meyer → UAF 西山脊 → [[AIRBNB_SHORT]]",
+          sunWindow: "10:04 AM 日出 / 03:12 PM 日落（日照 ~5h08m）",
+          tempHint: "白天晴朗静风 -21°C ~ -24°C；晚上 18–21 点 Kp 5 (G1)，17:00–19:30 云最少，21 点后转多云",
+          baselineNote: "顺时针环线不走回头路；红眼后源泉与王总轮流开、困了先砍 Murphy Dome；先采购再看日落，没时间可不吃午饭；17:00 入住后别急着睡，17:30–21:30 先守 Kp 5 峰值！",
+          routeUrl: "https://www.google.com/maps/dir/?api=1&origin=6450+Airport+Way,+Fairbanks,+AK+99709&destination=[[AIRBNB_ADDR_ENC]]&waypoints=64.9519,-148.3561|64.9448,-147.6594|2220+Yankovich+Rd,+Fairbanks,+AK+99709|1300+College+Rd,+Fairbanks,+AK+99701|101+Dunkel+St,+Fairbanks,+AK+99701|3755+Airport+Way,+Fairbanks,+AK+99709|1962+Yukon+Dr,+Fairbanks,+AK+99775&travelmode=driving",
           checklist: [
-            { id: "d2-c1", text: "致电确认 The Bakery 与 Pike's Landing (907) 479-6500 感恩节营业与 3 人自助位", tag: "餐厅确认", tone: "amber", phone: "(907) 479-6500" },
-            { id: "d2-c2", text: "13:30–15:00 尽早在 Fred Meyer West 买齐三天早晚餐食材，鸡蛋/绿叶菜/饮料放后座盖毯防冻裂", tag: "防冻采购", tone: "fjord", mapDest: "3755 Airport Way, Fairbanks, AK 99709" },
-            { id: "d2-c3", text: "17:00 准点自助入住 [[AIRBNB_DR]]（确认码 [[AIRBNB_CODE]]），如尚未收到 Keypad 与 Wi-Fi 密码立刻致电/短信房东 [[AIRBNB_PHONE]]", tag: "山顶入住·要密码", tone: "pine", phone: "[[AIRBNB_PHONE]]", mapDest: "[[AIRBNB_ADDR]]" },
-            { id: "d2-c4", text: "入住立刻补觉 3–4 小时！21:30–22:00 满血起床直接在屋外车道或屋后朝北死守 Kp 5 头号极光峰值", tag: "头号极光窗", tone: "pine" }
+            { id: "d2-k1", text: "07:45 取车时问柜台 Murphy Dome Rd 能否开；不行就跳过直接去输油管道", tag: "合同确认", tone: "rose" },
+            { id: "d2-k2", text: "早上先在 Fred Meyer App 查感恩节几点关门；13:45 前到店买齐三天早晚餐，生鲜放后座盖毯防冻", tag: "先采购", tone: "amber", mapDest: "3755 Airport Way, Fairbanks, AK 99709" },
+            { id: "d2-k3", text: "14:40–15:25 UAF 西山脊看 15:12 阿拉斯加山脉日落", tag: "雪山日落", tone: "pine" },
+            { id: "d2-k4", text: "17:00 准点自助入住 [[AIRBNB_DR]]（确认码 [[AIRBNB_CODE]]），还没收到 Keypad / Wi-Fi 密码就立刻联系房东 [[AIRBNB_PHONE]]", tag: "入住·要密码", tone: "pine", phone: "[[AIRBNB_PHONE]]", mapDest: "[[AIRBNB_ADDR]]" },
+            { id: "d2-k5", text: "入住后别急着睡：17:30–21:30 车道/屋后朝北守 Kp 5（18–21 点峰值），21 点后云变厚再睡", tag: "头号极光窗", tone: "pine" }
           ],
           timeline: [
             {
-              id: "d2-t1", time: "08:00 – 09:15 AM", title: "The Bakery Restaurant 热早餐缓红眼疲劳",
-              badge: "感恩节上午营业", tone: "fjord",
-              summary: "提车验完车后，开 10 分钟到 44 College Rd 的 The Bakery Restaurant（老牌美式早餐店，2025 年感恩节 8:00–15:00 营业）吃顿热早餐，喝咖啡缓一缓红眼航班。",
+              id: "d2-t1", time: "07:45 – 08:15 AM", title: "取车验车 → 加油站热饮早餐 → 出发",
+              badge: "先问路线 · 热饮垫肚", tone: "fjord",
+              summary: "按 Day 1 指引在 National 柜台办理 Alamo 取车（记得先确认 Murphy Dome Rd 能否开），验清车头 Block Heater 插电线与长柄除雪刷。出机场顺路在加油站买热饮和便携早餐垫肚子，由最清醒的司机先握方向盘，直接往西北出发。"
+            },
+            {
+              id: "d2-t2", time: "08:15 – 10:20 AM", title: "Murphy Dome 盘山看粉色朝霞与 10:04 日出",
+              badge: "10:04 日出", tone: "peak",
+              summary: "距机场约 1 小时，前半程天仍黑请减速慢行；越往高处挂满厚雪与雾凇的云杉林越密。山顶极空旷风大且近 -10°F，拍完粉色朝霞与 10:04 日出及远山即回车里暖和；停车只停硬实路面，切勿压进路肩深雪，如末段未铲雪果断调头折返。",
+              callout: { tone: "warn", text: "先在柜台确认 Murphy Dome Rd 合同允许（上段为压实雪/砂石路）；红眼后犯困就砍掉这一站，11/28 晚还能再来。" },
               phrases: [
                 {
-                  tag: "去前致电确认感恩节营业",
-                  zh: "出发去餐厅前打电话给 (907) 456-8600 确认当天是否开门与等位时间：",
-                  en: "Hi, are you open today for Thanksgiving breakfast, and what time do you close? Would we need a reservation for three people?"
+                  tag: "柜台确认 Murphy Dome Rd",
+                  zh: "取车时顺口跟 National/Alamo 柜台确认上 Murphy Dome 看日出是否符合租车合同：",
+                  en: "Is Murphy Dome Road OK under the rental agreement? We'd like to watch the sunrise up there."
                 }
               ],
               pois: [
                 {
-                  name: "The Bakery Restaurant",
-                  address: "44 College Rd, Fairbanks, AK 99701",
-                  note: "老牌美式热早餐 · 建议去前致电确认今年感恩节时段",
-                  mapQuery: "44 College Rd, Fairbanks, AK 99701",
-                  phone: "(907) 456-8600"
+                  name: "Murphy Dome（日出点）",
+                  address: "Murphy Dome Rd · GPS: 64.9519, -148.3561",
+                  note: "海拔约 887 m · 末段视铲雪情况",
+                  photo: "assets/alaska/aurora-murphy.jpg",
+                  mapQuery: "64.9519,-148.3561"
                 }
               ]
             },
             {
-              id: "d2-t2", time: "09:30 – 10:45 AM", title: "打卡纵贯阿拉斯加输油管道 (Alaska Pipeline)",
-              badge: "10:04日出后最佳", tone: "fjord",
-              summary: "感恩节不受影响的户外地标（Steese Hwy Mile 8.4，24 小时免费开放）。10:04 日出后光线最好，在白桦雪林与银色输油管前拍照 25 分钟即可。",
+              id: "d2-t3", time: "10:20 – 11:35 AM", title: "下山走 Goldstream Rd 东切 → 输油管道观景点",
+              badge: "24h 免费 · Fox 以南", tone: "fjord",
+              summary: "下山不回市区，走 Goldstream Rd 向东横切至 Steese Hwy（约 30–35 分钟）直达输油管道观景点，停 15 分钟拍雪地工业风管道与清理器（Pig）。此处位于 Fox 以南、Alamo 合同完全允许；拍完照请原路/Farmers Loop 往南走，切勿继续往北开过 Fox。",
               pois: [
                 {
                   name: "Trans-Alaska Pipeline Viewing Point",
                   address: "1671 Steese Hwy, Fairbanks, AK 99712 (64.9448,-147.6594)",
-                  note: "Steese Hwy Mile 8.4 · 24h 免费开放",
+                  note: "Steese Hwy Mile 8.4（Fox 以南合同允许）· 24h 免费",
                   photo: "assets/alaska/pipeline.jpg",
                   mapQuery: "64.9448,-147.6594",
                   xhs: "阿拉斯加输油管道", ig: "transalaskapipeline"
@@ -2461,35 +2468,48 @@
               ]
             },
             {
-              id: "d2-t3", time: "11:30 – 13:30", title: "Pike's Landing 感恩节自助午餐（需预约）",
-              badge: "必提前致电订位", tone: "warn",
-              summary: "4438 Airport Way，奇纳河畔的老牌餐厅。2025 年感恩节 11:00–17:00 供应自助餐、只接受预约，请尽早拨 (907) 479-6500 订 3 人位。订不到备选：住处山脚 Red Fox Bar & Grill（398 Old Chena Pump Rd）或 Airport Way Family Restaurant（1704 Airport Way）。",
-              phrases: [
-                {
-                  tag: "致电预订感恩节自助 3 人位",
-                  zh: "拨打 (907) 479-6500 预订 11/26 上午/中午 3 人感恩节自助餐位：",
-                  en: "Hi, I'd like to make a Thanksgiving buffet reservation for three people on Thursday, November 26th, around 11:30 AM or 12:00 PM under [[NAME_EN]]. Do you have availability?"
-                },
-                {
-                  tag: "到店报名字入座",
-                  zh: "到餐厅门口报预约名字与人数：",
-                  en: "Hi, we have a reservation for three under [[NAME_EN]]."
-                }
-              ],
+              id: "d2-t4", time: "11:50 – 12:10", title: "Large Animal Research Station：路边隔围栏看麝牛与驯鹿",
+              badge: "顺路免费停看", tone: "fjord",
+              summary: "经 Farmers Loop Rd 转 Yankovich Rd 约 15–20 分钟到牧场旁。冬季无园区导览，把车停在路边指定区域即可隔着围栏远看毛茸茸的极地麝牛与驯鹿（动物是否靠近路边看运气，严禁翻进围栏或投喂）。",
               pois: [
                 {
-                  name: "Pike's Landing (奇纳河畔感恩节自助)",
-                  address: "4438 Airport Way, Fairbanks, AK 99709",
-                  note: "只接受预约 · 订不到备选 Red Fox (398 Old Chena Pump Rd)",
-                  mapQuery: "4438 Airport Way, Fairbanks, AK 99709",
-                  phone: "(907) 479-6500"
+                  name: "Large Animal Research Station (UAF)",
+                  address: "2220 Yankovich Rd, Fairbanks, AK 99709",
+                  note: "冬季无导览 · 路边指定区域停车隔围栏看",
+                  mapQuery: "2220 Yankovich Rd, Fairbanks, AK 99709"
                 }
               ]
             },
             {
-              id: "d2-t4", time: "13:30 – 15:00", title: "Fred Meyer West 提早采购（防提前清场）",
-              badge: "食材放后座盖毯", tone: "warn",
-              summary: "午饭后立刻前往 Fred Meyer West（3755 Airport Way，离住处最近）买齐三天早晚餐食材与饮用水，避免感恩节当天 15:00–16:00 提早清场。买完距 17:00 入住尚有空档，鸡蛋、绿叶菜与饮料请放车厢后座并用毯子盖好防冻裂。（25 美分硬币建议出发前就在加州备好 12–16 枚。）",
+              id: "d2-t5", time: "12:20 – 13:00", title: "Creamer's Field 正午光影雪林步道",
+              badge: "正午采光最佳", tone: "pine",
+              summary: "感恩节游客中心闭馆，但室外保护区与雪林步道全年免费开放。正午低角度阳光通透、白桦林与云杉林平缓好走不费体力；穿防滑雪地靴，部分小径可能需踩雪通行。",
+              pois: [
+                {
+                  name: "Creamer's Field Migratory Waterfowl Refuge",
+                  address: "1300 College Rd, Fairbanks, AK 99701",
+                  note: "保护区与雪林步道全年免费开放",
+                  mapQuery: "1300 College Rd, Fairbanks, AK 99701"
+                }
+              ]
+            },
+            {
+              id: "d2-t6", time: "13:10 – 13:35", title: "市区驼鹿角拱门 + 冰封 Chena River",
+              badge: "24h 免费地标", tone: "fjord",
+              summary: "开进市中心 Morris Thompson Cultural & Visitors Center 旁，打卡由上百支驼鹿角与驯鹿角搭成的地标拱门（24 小时开放），顺手拍旁边冰封的契纳河，15 分钟即可前往采购。",
+              pois: [
+                {
+                  name: "Moose Antler Arch（Morris Thompson Center 旁）",
+                  address: "101 Dunkel St, Fairbanks, AK 99701",
+                  note: "河畔鹿角拱门地标 · 24h 开放",
+                  mapQuery: "101 Dunkel St, Fairbanks, AK 99701"
+                }
+              ]
+            },
+            {
+              id: "d2-t7", time: "13:45 – 14:35", title: "Fred Meyer West 采购（顺手买熟食当午饭）",
+              badge: "感恩节或提早关门", tone: "warn",
+              summary: "日落前先来离木屋最近的 Fred Meyer West 买齐三天早晚餐食材与饮用水；熟食柜台顺手买热食在车里当午饭，时间紧可以直接略过堂食午餐。鸡蛋、绿叶菜与饮料放后座并盖毯防冻；若赶上感恩节当天提早歇业，改为 11/27 上午补采。",
               pois: [
                 {
                   name: "Fred Meyer West (离山顶木屋最近超市)",
@@ -2501,9 +2521,23 @@
               ]
             },
             {
-              id: "d2-t5", time: "15:00 之后", title: "可选雪原日落 → 17:00 入住木屋 → 屋外死守 Kp 5 极光峰值夜",
-              badge: "整趟最强极光窗 · Kp 5", tone: "peak", confirmCode: "[[AIRBNB_CODE]]",
-              summary: "若精力尚可，可顺路去 Creamer's Field（1300 College Rd）拍 15:11 雪原日落；红眼后若疲惫直接砍掉，车内轮流小憩。17:00 准点自助入住 [[AIRBNB_ADDR_NOZIP]]（Chalet in the Hills，确认码 [[AIRBNB_CODE]]；房东电话 [[AIRBNB_PHONE_DASH]]，如尚未发 Keypad 与 Wi-Fi 密码请提前短信/致电索取）。车开入暖车库，立刻补觉 3–4 小时！最新预报均指向今晚（晴朗少云 + Kp 5）为整趟最强极光窗：21:30–22:00 起床，直接在车道或屋后朝北守候，无需开车。",
+              id: "d2-t8", time: "14:40 – 15:25", title: "UAF 北方极地博物馆西山脊：阿拉斯加山脉日落",
+              badge: "15:12 日落", tone: "peak",
+              summary: "博物馆内部感恩节闭馆，但西山脊室外观景平台免费开放，正对南边连绵的阿拉斯加山脉。今日日落 15:12，14:40–15:25 粉金色雪山暮光最好看，带长焦拍完回暖回车。",
+              pois: [
+                {
+                  name: "University of Alaska Museum of the North (西山脊观景点)",
+                  address: "1962 Yukon Dr, Fairbanks, AK 99775",
+                  note: "感恩节闭馆 · 室外西山脊观景免费",
+                  photo: "assets/alaska/museum-north.jpg",
+                  mapQuery: "1962 Yukon Dr, Fairbanks, AK 99775"
+                }
+              ]
+            },
+            {
+              id: "d2-t9", time: "15:30 – 17:00", title: "可选热饭 / 休整 → 17:00 自助入住木屋",
+              badge: "17:00 准点入住", tone: "fjord", confirmCode: "[[AIRBNB_CODE]]",
+              summary: "日落后到入住前有约 1.5 小时缓冲：如果想先吃顿热饭，可去木屋山脚的 Red Fox Bar & Grill（2025 年感恩节 11:00–24:00 营业、12–18 点供应火鸡晚餐，去前先打电话确认）或回市区简餐；想省事就车内休息直接等 17:00。17:00 准点自助入住 [[AIRBNB_ADDR_NOZIP]]（Chalet in the Hills，确认码 [[AIRBNB_CODE]]；房东 [[AIRBNB_PHONE_DASH]]），车开入暖车库。",
               phrases: [
                 {
                   tag: "短信联系房东 [[AIRBNB_PHONE]] 索取密码",
@@ -2527,12 +2561,17 @@
                   xhs: "费尔班克斯 极光 木屋", ig: "fairbanksaurora"
                 },
                 {
-                  name: "Creamer's Field (15:11 日落备选点)",
-                  address: "1300 College Rd, Fairbanks, AK 99701",
-                  note: "开阔雪原与老农场建筑 · 视体力决定去否",
-                  mapQuery: "1300 College Rd, Fairbanks, AK 99701"
+                  name: "Red Fox Bar & Grill（山脚备选热饭）",
+                  address: "398 Old Chena Pump Rd, Fairbanks, AK 99709",
+                  note: "2025 感恩节 11:00–24:00 · 去前先打电话确认",
+                  mapQuery: "398 Old Chena Pump Rd, Fairbanks, AK 99709"
                 }
               ]
+            },
+            {
+              id: "d2-t10", time: "17:30 – 21:30", title: "屋外死守 Kp 5 (G1) 极光峰值 → 云变厚再睡",
+              badge: "整趟最强极光窗 · Kp 5", tone: "peak",
+              summary: "17:29 航海暮光结束天色全黑，最新预报 18:00–21:00 正好迎来 Kp 5 (G1) 地磁暴主高峰，且 17:00–19:30 是全晚云最少最通透的窗口。安顿好行李立刻在木屋车道或屋后朝北守候，不用开车也能看满天极光；强爆发可直达头顶。手机/相机架三脚架，ISO 1600–3200、3–8 秒曝光；等 21 点后云量升高再安心睡觉。"
             }
           ]
         },
@@ -3205,7 +3244,7 @@
             { name: "Chena Hot Springs Rd Mile 27–58", desc: "11/27 温泉返程顺路经过，沿途多个无光污染停车湾。", mapQuery: "7435 Chena Hot Springs Rd, Fairbanks, AK 99712" }
           ],
           nights: [
-            { night: "11/26 周四晚 · Kp 5 (G1) A=25 · 晴朗少云 ★★★★★", text: "整趟头号窗口！最巅峰地磁撞上干冷晴空。17:00 入住立刻补觉，22:00 后直接在住处车道或屋后死守，不用开车。" },
+            { night: "11/26 周四晚 · Kp 5 (G1) A=25 · 晴朗少云 ★★★★★", text: "整趟头号窗口！最新预报 18:00–21:00 Kp 5 (G1) 峰值，17:00–19:30 云最少。17:00 入住后别补觉，17:30 起直接在车道或屋后朝北守，21 点后转多云再睡。" },
             { night: "11/27 周五晚 · Kp 5 (G1) A=20 · 多云间晴 ★★★★☆", text: "温泉返程沿 Chena Hot Springs Rd 停车湾盯 Windy 云图抓开窗缝隙，回家后继续屋外看。" },
             { night: "11/28 周六晚 · Kp 3 A=8 · 大部多云偶小雪 ★★☆☆☆", text: "Turtle Club 晚饭后看云图，晴则去 Murphy Dome 守 1–2h（Cleary Summit 属 Alamo 禁行路段不去），阴则直接早睡赶次日早班机。" },
             { night: "11/30 冰川段参考 & 月光参数", text: "Palmer/冰川区预报多云微风 (~4 mph) 降雪仅 10% 利于飞直升机。22:00–02:00 最易爆发；月面照明 89%→71% 可打亮雪地前景，相机用最大光圈 ISO 1600–3200、5–10s（月光亮可微降 ISO）。" }
